@@ -3,12 +3,15 @@ package DBDAO;
 import Beans.Customer;
 import DAO.CustomerDAO;
 import sql.ConnectionPool;
+import sql.DBUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CustomersDBDAO implements CustomerDAO {
@@ -34,24 +37,14 @@ public class CustomersDBDAO implements CustomerDAO {
     }
 
     @Override
-    public boolean addCustomer(Customer customer) {
+    public void addCustomer(Customer customer) {
         Map<Integer,Object> parmas = new HashMap<>();
-        try {
-            connection = ConnectionPool.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(ADD_CUSTOMER);
+
             parmas.put(1,customer.getFirstName());
             parmas.put(2,customer.getLastName());
             parmas.put(3,customer.getEmail());
             parmas.put(4,customer.getPassword());
-        } catch (InterruptedException | SQLException err) {
-            System.out.printf(err.getMessage());
-            isOK = false;
-        }
-        finally {
-            ConnectionPool.getInstance().returnConnection(connection);
-        }
-        return isOK;
-
+        DBUtils.runUpdateQuery(ADD_CUSTOMER,parmas);
     }
 
     @Override
@@ -60,8 +53,25 @@ public class CustomersDBDAO implements CustomerDAO {
     }
 
     @Override
-    public ArrayList<Customer> getAllCompanies() {
-        return null;
+    public ArrayList<Customer> getAllCustomers() {
+        List<Customer> customers = new ArrayList<Customer>();
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_CUSTOMERS);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Customer customer =Customer.builder()
+                        .firstName(resultSet.getString("first_name"))
+                        .lastName(resultSet.getString("last_name"))
+                        .email(resultSet.getString("email"))
+                        .password(resultSet.getString("password"))
+                        .build();
+                customers.add(customer);
+            }
+        } catch (InterruptedException | SQLException err) {
+            System.out.println(err.getMessage());
+        }
+        return (ArrayList<Customer>) customers;
     }
 
     @Override
