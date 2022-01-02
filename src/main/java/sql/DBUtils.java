@@ -15,8 +15,7 @@ public class DBUtils {
             //run statement
             statement.execute();
         } catch (InterruptedException | SQLException err) {
-//            System.out.println(err.getMessage());
-            err.printStackTrace();
+            System.out.println(err.getMessage());
         }
         finally {
             ConnectionPool.getInstance().returnConnection(connection);
