@@ -2,14 +2,20 @@ package DBDAO;
 
 import Beans.Coupon;
 import DAO.CouponDAO;
+import sql.DBUtils;
 
 import java.util.ArrayList;
 
 public class CouponsDBDAO implements CouponDAO {
 
+    private final String ADD_COUPON = "INSERT INTO `CouponMania`.`coupons` " +
+            "(`customer_id`,`category_id`, `title`, `description`, `start_date`,`end_date`,`amount`, `price`, `image`)   )" +
+            "VALUES (?,?,?,?,?,?,?,?,?);";
 
     @Override
     public void addCoupon(Coupon coupon) {
+        DBUtils.runQuery(ADD_COUPON);
+
 
     }
 
