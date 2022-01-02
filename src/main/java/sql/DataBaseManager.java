@@ -92,7 +92,6 @@ public class DataBaseManager {
     public static void initCategories() {
         Map<Integer, Object> params = new HashMap<>();
         for (Category item : Category.values()) {
-
             params.put(1, item.name());
             DBUtils.runUpdateQuery(ADD_CATEGORY, params);
         }
