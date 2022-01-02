@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBUtils {
+    public static final String SCHEMA_PATH = "`CouponMania`";
+
     public static void runQuery(String query){
         Connection connection = null;
         try {
