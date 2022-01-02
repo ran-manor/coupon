@@ -7,8 +7,13 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class DBUtils {
+
+    public static final String SCHEMA_PATH = "`CouponMania`";
+
     public static void runQuery(String query){
         Connection connection = null;
+
+
         try {
             connection = ConnectionPool.getInstance().getConnection();
 
@@ -26,6 +31,7 @@ public class DBUtils {
     }
 
     public static void runQuery(String query, Map<Integer, Object> params) throws SQLException {
+        Connection connection = null;
         try {
             //connection = ConnectionPool.getInstance().getConneciton();
             PreparedStatement statement = connection.prepareStatement(query);
