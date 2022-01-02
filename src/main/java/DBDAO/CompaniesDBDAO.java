@@ -12,7 +12,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     private final String ADD_COMPANY = "";
     private final String DELETE_COMPANY = "";
-    private final String GET_COMPANIES = "SELECT * FROM " + TABLE_PATH + " WHERE ";
+    private final String GET_COMPANIES_ALL = "SELECT * FROM " + TABLE_PATH;
+    private final String GET_COMPANIES_SPECIFY = " WHERE id=?";
 
     @Override
     public boolean isCompanyExists(String email, String password) {

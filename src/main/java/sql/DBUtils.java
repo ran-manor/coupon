@@ -1,9 +1,8 @@
 package sql;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import Beans.Category;
+
+import java.sql.*;
 import java.util.Map;
 
 public class DBUtils {
@@ -30,7 +29,7 @@ public class DBUtils {
 
     }
 
-    public static void runQuery(String query, Map<Integer, Object> params) throws SQLException {
+    public static ResultSet runQuery(String query, Map<Integer, Object> params){
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -53,11 +52,11 @@ public class DBUtils {
                 } catch (SQLException err) {
                     System.out.println(err.getMessage());
                 }
-
             });
-            statement.execute();
+            return statement.executeQuery();
         } catch (SQLException | InterruptedException err) {
             System.out.println(err.getMessage());
+            return null;
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
         }
