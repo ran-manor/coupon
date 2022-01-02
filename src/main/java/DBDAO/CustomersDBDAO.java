@@ -28,11 +28,25 @@ public class CustomersDBDAO implements CustomerDAO {
     private final String GET_ALL_CUSTOMERS = "SELECT * FROM `couponmania`.`customers`";
 
     private final String GET_ONE_CUSTOMER_BY_ID = "SELECT * FROM `couponmania`.`customers` WHERE id LIKE ?";
+    private final String IS_CUSTOMER_EXISITS = "SELECT * FROM `couponmania`.`customers` WHERE email=? AND password=?";
+
     private Connection connection;
     private boolean isOK;
 
     @Override
     public boolean isCustomerExists(String email, String password) {
+        boolean isExist = true;
+        Map<Integer,Object>parmas = new HashMap<>();
+        ResultSet resultSet =DBUtils.getResultSetQuery(IS_CUSTOMER_EXISITS,parmas);;
+        parmas.put(1,email);
+        parmas.put(2,parmas);
+        try {
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
