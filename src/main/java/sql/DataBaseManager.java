@@ -85,23 +85,24 @@ public class DataBaseManager {
         DBUtils.runUpdateQuery(CREATE_SCHEMA);
     }
 
-    public static void dropDataBase() throws SQLException{
+    public static void dropDataBase() throws SQLException {
         DBUtils.runUpdateQuery(DROP_SCHEMA);
     }
 
-    public static void initCategories(){
-        for (Category item : Category.values()){
-            Map<Integer,Object> params = new HashMap<>();
-            params.put(1,item);
-            DBUtils.runUpdateQuery(ADD_CATEGORY);
+    public static void initCategories() {
+        Map<Integer, Object> params = new HashMap<>();
+        for (Category item : Category.values()) {
+
+            params.put(1, item.name());
+            DBUtils.runUpdateQuery(ADD_CATEGORY, params);
         }
     }
 
-    public static void createTables() throws SQLException{
+    public static void createTables() throws SQLException {
         DBUtils.runUpdateQuery(CREATE_TABLE_COMPANIES);
         DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS);
         DBUtils.runUpdateQuery(CREATE_TABLE_CATEGORIES);
-       // initCategories();
+        initCategories();
         DBUtils.runUpdateQuery(CREATE_TABLE_COUPONS);
         DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS_COUPONS);
     }
