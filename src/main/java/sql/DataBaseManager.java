@@ -1,6 +1,10 @@
 package sql;
 
+import Beans.Category;
+
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataBaseManager {
     public static final String URL = "jdbc:mysql://localhost:3306/";
@@ -31,6 +35,11 @@ public class DataBaseManager {
             "  `id` INT NOT NULL AUTO_INCREMENT,\n" +
             "  `name` VARCHAR(45) NOT NULL,\n" +
             "  PRIMARY KEY (`id`))";
+
+    private static final String ADD_CATEGORY = "INSERT INTO `CouponMania`.`categories` " +
+            "(`name`)" +
+            "VALUES (?);";
+
     private static final String CREATE_TABLE_COUPONS = "CREATE TABLE IF NOT EXISTS `CouponMania`.`coupons` (\n" +
             "  `id` INT NOT NULL AUTO_INCREMENT,\n" +
             "  `company_id` INT NOT NULL,\n" +
@@ -80,10 +89,19 @@ public class DataBaseManager {
         DBUtils.runUpdateQuery(DROP_SCHEMA);
     }
 
+    public static void initCategories(){
+        for (Category item : Category.values()){
+            Map<Integer,Object> params = new HashMap<>();
+            params.put(1,item);
+            DBUtils.runUpdateQuery(ADD_CATEGORY);
+        }
+    }
+
     public static void createTables() throws SQLException{
         DBUtils.runUpdateQuery(CREATE_TABLE_COMPANIES);
         DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS);
         DBUtils.runUpdateQuery(CREATE_TABLE_CATEGORIES);
+        initCategories();
         DBUtils.runUpdateQuery(CREATE_TABLE_COUPONS);
         DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS_COUPONS);
     }
