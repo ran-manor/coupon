@@ -95,6 +95,7 @@ public class DataBaseManager {
             params.put(1, item.name());
             DBUtils.runUpdateQuery(ADD_CATEGORY, params);
         }
+
     }
 
     public static void createTables() throws SQLException {

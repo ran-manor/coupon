@@ -37,7 +37,7 @@ public class CustomersDBDAO implements CustomerDAO {
     public boolean isCustomerExists(String email, String password) {
         boolean isExist = true;
         Map<Integer,Object>parmas = new HashMap<>();
-        ResultSet resultSet =DBUtils.getResultSetQuery(GET_ALL_CUSTOMERS+IS_CUSTOMER_EXISITS,parmas);;
+        ResultSet resultSet =DBUtils.getResultSetQuery(IS_CUSTOMER_EXISITS,parmas);;
         parmas.put(1,email);
         parmas.put(2,parmas);
         try {
