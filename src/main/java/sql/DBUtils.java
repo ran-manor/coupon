@@ -33,7 +33,7 @@ public class DBUtils {
     public static void runQuery(String query, Map<Integer, Object> params) throws SQLException {
         Connection connection = null;
         try {
-            //connection = ConnectionPool.getInstance().getConneciton();
+            connection = ConnectionPool.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             params.forEach((key, value) -> {
                 try {
@@ -56,10 +56,10 @@ public class DBUtils {
 
             });
             statement.execute();
-        } catch (SQLException err) {
+        } catch (SQLException | InterruptedException err) {
             System.out.println(err.getMessage());
         } finally {
-            //ConnectionPool.getInstance().returnConnection(connection)
+            ConnectionPool.getInstance().returnConnection(connection);
         }
     }
 }
