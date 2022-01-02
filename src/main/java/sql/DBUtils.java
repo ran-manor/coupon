@@ -63,6 +63,21 @@ public class DBUtils {
             ConnectionPool.getInstance().returnConnection(connection);
         }
     }
+    public static boolean runUpdateQuery(String query){
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            return statement.execute();
+        } catch (InterruptedException | SQLException err) {
+            System.out.println(err.getMessage());
+            return false;
+        } finally {
+            ConnectionPool.getInstance().returnConnection(connection);
+        }
+    }
 
     public static ResultSet getResultSetQuery(String query){
         Connection connection = null;

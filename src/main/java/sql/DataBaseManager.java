@@ -73,19 +73,19 @@ public class DataBaseManager {
             "    ON UPDATE NO ACTION)";
 
     public static void createDataBase() throws SQLException {
-        DBUtils.runQuery(CREATE_SCHEMA);
+        DBUtils.runUpdateQuery(CREATE_SCHEMA);
     }
 
     public static void dropDataBase() throws SQLException{
-        DBUtils.runQuery(DROP_SCHEMA);
+        DBUtils.runUpdateQuery(DROP_SCHEMA);
     }
 
     public static void createTables() throws SQLException{
-        DBUtils.runQuery(CREATE_TABLE_COMPANIES);
-        DBUtils.runQuery(CREATE_TABLE_CUSTOMERS);
-        DBUtils.runQuery(CREATE_TABLE_CATEGORIES);
-        DBUtils.runQuery(CREATE_TABLE_COUPONS);
-        DBUtils.runQuery(CREATE_TABLE_CUSTOMERS_COUPONS);
+        DBUtils.runUpdateQuery(CREATE_TABLE_COMPANIES);
+        DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS);
+        DBUtils.runUpdateQuery(CREATE_TABLE_CATEGORIES);
+        DBUtils.runUpdateQuery(CREATE_TABLE_COUPONS);
+        DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS_COUPONS);
     }
 
 //    public static void dropTable() throws SQLException{

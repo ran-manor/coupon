@@ -44,7 +44,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
             parmas.put(2,company.getName());
             parmas.put(3,company.getEmail());
             parmas.put(4,company.getPassword());
-            DBUtils.runQuery(ADD_COMPANY , parmas);
+            DBUtils.runUpdateQuery(ADD_COMPANY , parmas);
         } catch (InterruptedException | SQLException err) {
             System.out.printf(err.getMessage());
             isOK = false;
