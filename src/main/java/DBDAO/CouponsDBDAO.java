@@ -19,7 +19,7 @@ public class CouponsDBDAO implements CouponDAO {
     public void addCoupon(Coupon coupon) {
         Map<Integer,Object> params = new HashMap<>();
         params.put(1,coupon.getCompanyId());
-        params.put(2,coupon.getCategory());
+        params.put(2,coupon.getCategoryId());
         params.put(3,coupon.getTitle());
         params.put(4,coupon.getDescription());
         params.put(5,coupon.getStartDate());

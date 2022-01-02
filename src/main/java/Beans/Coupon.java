@@ -13,8 +13,8 @@ import java.util.Date;
 @Builder
 public class Coupon {
     private int id;
-    private int CompanyId;
-    private Category category;
+    private int companyId;
+    private int categoryId;
     private String title;
     private String description;
     private Date startDate;
