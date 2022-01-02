@@ -25,6 +25,7 @@ public class TesterDBDAO {
         customersDBDAO.addCustomer(customer);
         customersDBDAO.deleteCustomer(1);
         customersDBDAO.addCustomer(customer1);
+        System.out.println("Alon git is suck");
 //        CouponsDBDAO dbCou = new CouponsDBDAO();
 //        dbCou.addCoupon(c);
     }
