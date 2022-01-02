@@ -49,7 +49,9 @@ public class CustomersDBDAO implements CustomerDAO {
 
     @Override
     public void deleteCustomer(int customerID) {
-
+        Map<Integer,Object>parms = new HashMap<>();
+        parms.put(1,customerID);
+    DBUtils.runUpdateQuery(DELETE_CUSTOMER,parms);
     }
 
     @Override
@@ -81,6 +83,11 @@ public class CustomersDBDAO implements CustomerDAO {
 
     @Override
     public void updateCustomer(Customer customer) {
-
+        Map<Integer,Object> parmas = new HashMap<>();
+        parmas.put(1,customer.getFirstName());
+        parmas.put(2,customer.getLastName());
+        parmas.put(3,customer.getEmail());
+        parmas.put(4,customer.getPassword());
+        DBUtils.runUpdateQuery(UPDATE_CUSTOMER,parmas);
     }
 }
