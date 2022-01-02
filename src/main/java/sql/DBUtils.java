@@ -31,13 +31,13 @@ public class DBUtils {
 
     public static ResultSet getResultSetQuery(String query, Map<Integer, Object> params) {
         return (ResultSet) runQuery(query, params, (statement) -> {
-            try {
-                return statement.executeQuery();
-            } catch (SQLException err) {
-                err.getMessage();
-                return null;
-            }
-        });
+                    try {
+                        return statement.executeQuery();
+                    } catch (SQLException err) {
+                        err.getMessage();
+                        return null;
+                    }
+                    });
     }
 
 
@@ -51,7 +51,6 @@ public class DBUtils {
             }
             return statementAction.apply(statement);
         } catch (InterruptedException | SQLException e) {
-            System.out.println("here");
             e.printStackTrace();
             return null;
         } finally {

@@ -71,20 +71,20 @@ public class CustomersDBDAO implements CustomerDAO {
     @Override
     public ArrayList<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<Customer>();
-        try {
-            connection = ConnectionPool.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_CUSTOMERS);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                Customer customer =Customer.builder()
-                        .firstName(resultSet.getString("first_name"))
-                        .lastName(resultSet.getString("last_name"))
-                        .email(resultSet.getString("email"))
-                        .password(resultSet.getString("password"))
-                        .build();
-                customers.add(customer);
+        ResultSet resultSet = DBUtils.getResultSetQuery(GET_ALL_CUSTOMERS);
+
+            try {
+                while (resultSet.next()) {
+                    Customer customer = Customer.builder()
+                            .firstName(resultSet.getString("first_name"))
+                            .lastName(resultSet.getString("last_name"))
+                            .email(resultSet.getString("email"))
+                            .password(resultSet.getString("password"))
+                            .build();
+                    customers.add(customer);
+                }
             }
-        } catch (InterruptedException | SQLException err) {
+        catch (SQLException err) {
             System.out.println(err.getMessage());
         }
         return (ArrayList<Customer>) customers;
