@@ -1,10 +1,7 @@
 package sql;
 
-import Beans.Category;
-
 import java.sql.*;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class DBUtils {
