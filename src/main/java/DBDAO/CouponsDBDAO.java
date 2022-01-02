@@ -12,7 +12,7 @@ import java.util.Map;
 public class CouponsDBDAO implements CouponDAO {
 
     private final String ADD_COUPON = "INSERT INTO `CouponMania`.`coupons` " +
-            "(`company_id`,`category_id`, `title`, `description`, `start_date`,`end_date`,`amount`, `price`, `image`)   )" +
+            "(`company_id`,`category_id`, `title`, `description`, `start_date`,`end_date`,`amount`, `price`, `image`)" +
             "VALUES (?,?,?,?,?,?,?,?,?);";
 
     @Override
@@ -27,7 +27,7 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(7,coupon.getAmount());
         params.put(8,coupon.getPrice());
         params.put(9,coupon.getImage());
-        DBUtils.runQuery(ADD_COUPON,params);
+        DBUtils.runUpdateQuery(ADD_COUPON,params);
 
 
     }
@@ -38,9 +38,10 @@ public class CouponsDBDAO implements CouponDAO {
     }
 
     @Override
-    public ArrayList<Coupon> getAllCompanies() {
+    public ArrayList<Coupon> getAllCoupons() {
         return null;
     }
+
 
     @Override
     public Coupon getOneCoupon(int couponID) {
