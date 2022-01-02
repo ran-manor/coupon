@@ -18,7 +18,4 @@ public class Company {
 
     private void setPassword(String password){
     }
-    public String getPassword(){
-        return "***********";
-    }
 }

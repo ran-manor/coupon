@@ -19,7 +19,4 @@ public class Customer {
 
     private void setPassword(String password){
     }
-    public String getPassword(){
-        return "***********";
-    }
 }
