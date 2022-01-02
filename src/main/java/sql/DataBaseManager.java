@@ -101,7 +101,7 @@ public class DataBaseManager {
         DBUtils.runUpdateQuery(CREATE_TABLE_COMPANIES);
         DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS);
         DBUtils.runUpdateQuery(CREATE_TABLE_CATEGORIES);
-        initCategories();
+       // initCategories();
         DBUtils.runUpdateQuery(CREATE_TABLE_COUPONS);
         DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS_COUPONS);
     }

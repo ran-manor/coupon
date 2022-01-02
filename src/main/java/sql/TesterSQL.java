@@ -27,6 +27,7 @@ public static void main(String[] args) {
         DataBaseManager.dropDataBase();
         DataBaseManager.createDataBase();
         DataBaseManager.createTables();
+
     } catch (SQLException err) {
         System.out.println(err.getMessage());
     }
