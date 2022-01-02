@@ -51,6 +51,7 @@ public class DBUtils {
             }
             return statementAction.apply(statement);
         } catch (InterruptedException | SQLException e) {
+            System.out.println("here");
             e.printStackTrace();
             return null;
         } finally {
