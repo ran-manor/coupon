@@ -47,12 +47,12 @@ public class DataBaseManager {
             "  INDEX `category_id_idx` (`category_id` ASC) VISIBLE,\n" +
             "  CONSTRAINT `company_id`\n" +
             "    FOREIGN KEY (`company_id`)\n" +
-            "    REFERENCES `bhp-g2-coup-sys-p2`.`companies` (`id`)\n" +
+            "    REFERENCES `CouponMania`.`companies` (`id`)\n" +
             "    ON DELETE NO ACTION\n" +
             "    ON UPDATE NO ACTION,\n" +
             "  CONSTRAINT `category_id`\n" +
             "    FOREIGN KEY (`category_id`)\n" +
-            "    REFERENCES `bhp-g2-coup-sys-p2`.`categories` (`id`)\n" +
+            "    REFERENCES `CouponMania`.`categories` (`id`)\n" +
             "    ON DELETE NO ACTION\n" +
             "    ON UPDATE NO ACTION)";
     private static final String CREATE_TABLE_CUSTOMERS_COUPONS = "CREATE TABLE `CouponMania`.`customers_coupons` (\n" +
@@ -62,12 +62,12 @@ public class DataBaseManager {
             "  INDEX `coupon_id_idx` (`coupon_id` ASC) VISIBLE,\n" +
             "  CONSTRAINT `customr_id`\n" +
             "    FOREIGN KEY (`customer_id`)\n" +
-            "    REFERENCES `bhp-g2-coup-sys-p2`.`customers` (`id`)\n" +
+            "    REFERENCES `CouponMania`.`customers` (`id`)\n" +
             "    ON DELETE NO ACTION\n" +
             "    ON UPDATE NO ACTION,\n" +
             "  CONSTRAINT `coupon_id`\n" +
             "    FOREIGN KEY (`coupon_id`)\n" +
-            "    REFERENCES `bhp-g2-coup-sys-p2`.`coupons` (`id`)\n" +
+            "    REFERENCES `CouponMania`.`coupons` (`id`)\n" +
             "    ON DELETE NO ACTION\n" +
             "    ON UPDATE NO ACTION)";
 
