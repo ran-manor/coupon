@@ -16,6 +16,8 @@ public class Company {
     private String password;
     private List<Coupon> coupons = new ArrayList<>();
 
+    private void setPassword(String password){
+    }
     public String getPassword(){
         return "***********";
     }
