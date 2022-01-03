@@ -74,7 +74,7 @@ public class CustomersDBDAO implements CustomerDAO {
         ResultSet resultSet = DBUtils.getResultSetQuery(GET_ALL_CUSTOMERS);
 
             try {
-                while (resultSet.next()) {
+                while (!resultSet.next()) {
                     Customer customer = Customer.builder()
                             .firstName(resultSet.getString("first_name"))
                             .lastName(resultSet.getString("last_name"))
@@ -92,6 +92,22 @@ public class CustomersDBDAO implements CustomerDAO {
 
     @Override
     public Customer getOneCustomer(int customerID) {
+        Map<Integer,Object>parmas = new HashMap<>();
+        parmas.put(1,customerID);
+        ResultSet resultSet = DBUtils.getResultSetQuery(GET_ONE_CUSTOMER_BY_ID,parmas);
+        if(resultSet!=null){
+            try {
+                Customer customer = Customer.builder()
+                        .firstName(resultSet.getString("first_name"))
+                        .lastName(resultSet.getString("last_name"))
+                        .email(resultSet.getString("email"))
+                        .password(resultSet.getString("password"))
+                        .build();
+                return customer;
+            } catch (SQLException err) {
+                System.out.println(err.getMessage());
+            }
+        }
         return null;
     }
 
