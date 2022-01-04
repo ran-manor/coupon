@@ -14,7 +14,7 @@ public class DBUtils {
     /* Use this for any CREATE , UPDATE , ADD or DELETE query's you want to run.
     * Return's true if the query ran successfully and false if it didn't. */
     public static boolean runUpdateQuery(String query, Map<Integer, Object> params) {
-        return (boolean) runQuery(query, params, (statement) -> {
+        return runQuery(query, params, (statement) -> {
             try {
                 return statement.execute();
             } catch (SQLException err) {
@@ -31,7 +31,7 @@ public class DBUtils {
     /* Use this to run n sql query if you expect to get back information to work with
     * the information is returned as a ResultSet and might be null */
     public static ResultSet getResultSetQuery(String query, Map<Integer, Object> params) {
-        return (ResultSet) runQuery(query, params, (statement) -> {
+        return runQuery(query, params, (statement) -> {
             try {
                 return statement.executeQuery();
             } catch (SQLException err) {
@@ -51,7 +51,28 @@ public class DBUtils {
     * it also receives a function. the purpose of the method is to prepare a PreparedStatement and then
     * use that PreparedStatement in the function passed to "statementRunMethod".
     * statementRunMethod should be a function that executes a PreparedStatement */
-    private static Object runQuery(String query, Map<Integer, Object> params, Function<PreparedStatement, Object> statementRunMethod) {
+//    private static Object runQuery(String query, Map<Integer, Object> params, Function<PreparedStatement, Object> statementRunMethod) {
+//        Connection connection = null;
+//        try {
+//            connection = ConnectionPool.getInstance().getConnection();
+//            PreparedStatement statement = connection.prepareStatement(query);
+//
+//            //go into statement preparation only if a parameter map has been passed to the function
+//            if (params != null) {
+//                prepareStatementFromParams(statement, params);
+//            }
+//
+//            //apply the prepared statement to the function passed into the runQuery method
+//            return statementRunMethod.apply(statement);
+//
+//        } catch (InterruptedException | SQLException err) {
+//            System.out.println(err.getMessage());
+//            return null;
+//        } finally {
+//            ConnectionPool.getInstance().returnConnection(connection);
+//        }
+//    }
+    private static <T> T runQuery(String query, Map<Integer, Object> params, Function<PreparedStatement, T> statementRunMethod) {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -72,6 +93,8 @@ public class DBUtils {
             ConnectionPool.getInstance().returnConnection(connection);
         }
     }
+
+
 
     /* Gets a prepared statement and a parameter map,
      inserts the values of the parameter map in the ? of the statement,
