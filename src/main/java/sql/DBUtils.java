@@ -38,7 +38,7 @@ public class DBUtils {
             ConnectionPool.getInstance().returnConnection(connection);
         }
     }
-    public static boolean runQueryGetId( Customer customer, String query, Map<Integer, Object> params)  {
+    public static boolean runQueryGetId( Object object, String query, Map<Integer, Object> params)  {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -52,7 +52,7 @@ public class DBUtils {
             }
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                   customer.setId(generatedKeys.getLong(1));
+                  // customer.setId(generatedKeys.getLong(1));
                     return true;
                 }
                 else {
@@ -67,66 +67,66 @@ public class DBUtils {
         }
         return false;
     }
-
-    public static boolean runQueryGetId(Company user, String query, Map<Integer, Object> params)  {
-        Connection connection = null;
-        try {
-            connection = ConnectionPool.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-            if (params != null) {
-                prepareStatementFromParams(statement, params);
-            }
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0 ){
-                throw new SQLException("Creation failed , no id  affected");
-            }
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                  user.setId( generatedKeys.getLong(1));
-                    return true;
-                }
-                else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
-                }
-            }
-
-        } catch (InterruptedException | SQLException err) {
-            System.out.println(err.getMessage());
-        } finally {
-            ConnectionPool.getInstance().returnConnection(connection);
-        }
-        return false;
-    }
-
-    public static boolean runQueryGetId(Coupon user, String query, Map<Integer, Object> params)  {
-        Connection connection = null;
-        try {
-            connection = ConnectionPool.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-            if (params != null) {
-                prepareStatementFromParams(statement, params);
-            }
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0 ){
-                throw new SQLException("Creation failed , no id  affected");
-            }
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                   user.setId(generatedKeys.getLong(1));
-                    return true;
-                }
-                else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
-                }
-            }
-
-        } catch (InterruptedException | SQLException err) {
-            System.out.println(err.getMessage());
-        } finally {
-            ConnectionPool.getInstance().returnConnection(connection);
-        }
-        return false;
-    }
+//
+//    public static boolean runQueryGetId(Company user, String query, Map<Integer, Object> params)  {
+//        Connection connection = null;
+//        try {
+//            connection = ConnectionPool.getInstance().getConnection();
+//            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+//            if (params != null) {
+//                prepareStatementFromParams(statement, params);
+//            }
+//            int affectedRows = statement.executeUpdate();
+//            if (affectedRows == 0 ){
+//                throw new SQLException("Creation failed , no id  affected");
+//            }
+//            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+//                if (generatedKeys.next()) {
+//                  user.setId( generatedKeys.getLong(1));
+//                    return true;
+//                }
+//                else {
+//                    throw new SQLException("Creating user failed, no ID obtained.");
+//                }
+//            }
+//
+//        } catch (InterruptedException | SQLException err) {
+//            System.out.println(err.getMessage());
+//        } finally {
+//            ConnectionPool.getInstance().returnConnection(connection);
+//        }
+//        return false;
+//    }
+//
+//    public static boolean runQueryGetId(Coupon user, String query, Map<Integer, Object> params)  {
+//        Connection connection = null;
+//        try {
+//            connection = ConnectionPool.getInstance().getConnection();
+//            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+//            if (params != null) {
+//                prepareStatementFromParams(statement, params);
+//            }
+//            int affectedRows = statement.executeUpdate();
+//            if (affectedRows == 0 ){
+//                throw new SQLException("Creation failed , no id  affected");
+//            }
+//            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+//                if (generatedKeys.next()) {
+//                   user.setId(generatedKeys.getLong(1));
+//                    return true;
+//                }
+//                else {
+//                    throw new SQLException("Creating user failed, no ID obtained.");
+//                }
+//            }
+//
+//        } catch (InterruptedException | SQLException err) {
+//            System.out.println(err.getMessage());
+//        } finally {
+//            ConnectionPool.getInstance().returnConnection(connection);
+//        }
+//        return false;
+//    }
 
     public static void runQuery(String query, int key, Object value)  {
         Connection connection = null;
