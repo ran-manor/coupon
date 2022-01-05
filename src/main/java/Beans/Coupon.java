@@ -14,7 +14,7 @@ import java.util.Date;
 public class Coupon {
     private int id;
     private int companyId;
-    private int categoryId;
+    private Category category;
     private String title;
     private String description;
     private Date startDate;

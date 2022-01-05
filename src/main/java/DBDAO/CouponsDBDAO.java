@@ -1,5 +1,6 @@
 package DBDAO;
 
+import Beans.Category;
 import Beans.Coupon;
 import DAO.CouponDAO;
 import sql.DBUtils;
@@ -22,11 +23,15 @@ public class CouponsDBDAO implements CouponDAO {
 
     private final String GET_ONE_COUPON = "SELECT * FROM `CouponMania`.`coupons` WHERE id=?";
 
+    private final String UPDATE_COUPON = "UPDATE `CouponMania`.`coupons`" +
+            "SET title=?, description=?, start_date=?, end_date=?, amount=?, price=?, image=?" +
+            "WHERE id=?";
+
     @Override
     public void addCoupon(Coupon coupon) {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, coupon.getCompanyId());
-        params.put(2, coupon.getCategoryId());
+        params.put(2, coupon.getCategory().value);
         params.put(3, coupon.getTitle());
         params.put(4, coupon.getDescription());
         params.put(5, coupon.getStartDate());
@@ -53,7 +58,7 @@ public class CouponsDBDAO implements CouponDAO {
                 if (!res.next()) break;
                 Coupon coupon = Coupon.builder()
                         .id(res.getInt("id"))
-                        .categoryId(res.getInt("category_id"))
+                        .category(Category.getCategoryById(res.getInt("category_id")))
                         .companyId(res.getInt("company_id"))
                         .description(res.getString("description"))
                         .title(res.getString("title"))
@@ -81,7 +86,7 @@ public class CouponsDBDAO implements CouponDAO {
             if (res != null) {
                 Coupon coupon = Coupon.builder()
                         .id(res.getInt("id"))
-                        .categoryId(res.getInt("category_id"))
+                        .category(Category.getCategoryById(res.getInt("category_id")))
                         .companyId(res.getInt("company_id"))
                         .description(res.getString("description"))
                         .title(res.getString("title"))
@@ -101,6 +106,17 @@ public class CouponsDBDAO implements CouponDAO {
 
     @Override
     public void updateCoupon(Coupon coupon) {
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, coupon.getCompanyId());
+        params.put(2, coupon.getCategory().value);
+        params.put(3, coupon.getTitle());
+        params.put(4, coupon.getDescription());
+        params.put(5, coupon.getStartDate());
+        params.put(6, coupon.getEndDate());
+        params.put(7, coupon.getAmount());
+        params.put(8, coupon.getPrice());
+        params.put(9, coupon.getImage());
+        DBUtils.runUpdateQuery(UPDATE_COUPON, params);
 
     }
 
