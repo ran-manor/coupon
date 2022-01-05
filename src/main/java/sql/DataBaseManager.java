@@ -93,11 +93,7 @@ public class DataBaseManager {
         Map<Integer, Object> params = new HashMap<>();
         for (Category item : Category.values()) {
             params.put(1, item.name());
-            try {
-                DBUtils.runQuery(ADD_CATEGORY, params);
-            } catch (SQLException err) {
-                System.out.println(err.getMessage());
-            }
+            DBUtils.runQuery(ADD_CATEGORY, params);
         }
 
     }

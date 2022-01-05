@@ -25,8 +25,7 @@ public class CustomersDBDAO implements CustomerDAO {
     private final String DELETE_CUSTOMER = "DELETE FROM `couponmania`.`customers` WHERE id=?";
 
     private final String GET_ALL_CUSTOMERS = "SELECT * FROM `couponmania`.`customers`";
-
-    private final String GET_ONE_CUSTOMER_BY_ID = "SELECT * FROM `couponmania`.`customers` WHERE id LIKE ?";
+    private final String GET_ONE_CUSTOMER_BY_PARMETER = "SELECT * FROM `couponmania`.`customers` WHERE id LIKE ?";
     private final String IS_CUSTOMER_EXISITS = "SELECT * FROM `couponmania`.`customers` WHERE email=? AND password=?";
 
     private Connection connection;
@@ -86,7 +85,7 @@ public class CustomersDBDAO implements CustomerDAO {
     public Customer getOneCustomer(int customerID) {
         ResultSet resultSet ;
         try {
-            resultSet = DBUtils.runQueryForResultSet(GET_ONE_CUSTOMER_BY_ID, 1, customerID);
+            resultSet = DBUtils.runQueryForResultSet(GET_ONE_CUSTOMER_BY_PARMETER, 1, customerID);
             if (resultSet != null) {
                     Customer customer = Customer.builder()
                             .firstName(resultSet.getString("first_name"))
@@ -104,16 +103,33 @@ public class CustomersDBDAO implements CustomerDAO {
     }
 
     @Override
+    public Customer getCustomerByEmail(String email) {
+        ResultSet resultSet ;
+        try {
+            resultSet = DBUtils.runQueryForResultSet(GET_ONE_CUSTOMER_BY_PARMETER, 4, email);
+            if (resultSet != null) {
+                Customer customer = Customer.builder()
+                        .firstName(resultSet.getString("first_name"))
+                        .lastName(resultSet.getString("last_name"))
+                        .email(resultSet.getString("email"))
+                        .password(resultSet.getString("password"))
+                        .build();
+                return customer;
+
+            }
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public void updateCustomer(Customer customer) {
         Map<Integer,Object> parmas = new HashMap<>();
         parmas.put(1,customer.getFirstName());
         parmas.put(2,customer.getLastName());
         parmas.put(3,customer.getEmail());
         parmas.put(4,customer.getPassword());
-        try {
-            DBUtils.runQuery(UPDATE_CUSTOMER,parmas);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
+        DBUtils.runQuery(UPDATE_CUSTOMER,parmas);
     }
 }

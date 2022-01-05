@@ -121,11 +121,7 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
-        try {
-            DBUtils.runQuery(UPDATE_COUPON, params);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
+        DBUtils.runQuery(UPDATE_COUPON, params);
 
     }
 

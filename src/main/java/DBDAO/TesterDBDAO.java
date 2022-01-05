@@ -23,6 +23,8 @@ public class TesterDBDAO {
 //
      CustomersDBDAO customersDBDAO = new CustomersDBDAO();
      customersDBDAO.addCustomer(customer);
+//     Customer customer1 =customersDBDAO.getCustomerByEmail(customer.getEmail());
+      //  System.out.println(customer1);
 //     customersDBDAO.addCustomer(new Customer("ran","manor","Raran@gmail.com","122345",coupons));
         customersDBDAO.addCustomer(new Customer("ran1","manor1","Raran1@gmail.com","122345",coupons));
 
