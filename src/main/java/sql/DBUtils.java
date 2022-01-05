@@ -9,20 +9,20 @@ import java.util.Map;
 
 public class DBUtils {
     public static final String SCHEMA_PATH = "`CouponMania`";
-    public static void runQuery(String sql) throws SQLException {
+    public static void runQuery(String sql)  {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.execute();
-        } catch (InterruptedException err) {
+        } catch (InterruptedException | SQLException err) {
             System.out.println(err.getMessage());
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
         }
     }
 
-    public static void runQuery(String query, Map<Integer, Object> params) throws SQLException {
+    public static void runQuery(String query, Map<Integer, Object> params) {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -32,7 +32,7 @@ public class DBUtils {
             }
             statement.execute();
 
-        } catch (InterruptedException err) {
+        } catch (InterruptedException  | SQLException err) {
             System.out.println(err.getMessage());
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
