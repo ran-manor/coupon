@@ -1,6 +1,9 @@
 package Beans;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +17,12 @@ public class Customer {
     private String lastName;
     private String email;
     private String password;
-    private ArrayList<Coupon> coupons = new ArrayList<>();
+    private List<Coupon> coupons = new ArrayList<>();
 
     private void setPassword(String password){
     }
-    public Customer(String firstName, String lastName, String email, String password, ArrayList<Coupon> coupons) {
+
+    public Customer(String firstName, String lastName, String email, String password, List<Coupon> coupons) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

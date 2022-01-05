@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomersDBDAO implements CustomerDAO {
-    private final String ADD_CUSTOMER="INSERT INTO `couponmania`.`customers` " +
+    protected final static String ADD_CUSTOMER="INSERT INTO `couponmania`.`customers` " +
             "(`first_name`,`last_name`,`email`,`password`)" +
             "VALUES (?,?,?,?);";
 
