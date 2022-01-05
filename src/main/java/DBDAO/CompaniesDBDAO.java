@@ -44,26 +44,18 @@ public class CompaniesDBDAO implements CompaniesDAO {
     }
 
     @Override
-    public void addCompany(Company company) {
+    public boolean addCompany(Company company) {
         Map<Integer,Object> params = new HashMap<>();
         params.put(1 , company.getId());
         params.put(2 , company.getName());
         params.put(3 , company.getEmail());
         params.put(4, company.getPassword());
-        try {
-            DBUtils.runQuery(ADD_COMPANY , params);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
+      return  DBUtils.runQueryGetId(company,ADD_COMPANY, params);
     }
 
     @Override
     public void deleteCompany(int companyID) {
-        try {
-            DBUtils.runQuery(DELETE_COMPANY,1,companyID);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());;
-        }
+        DBUtils.runQuery(DELETE_COMPANY,1,companyID);
     }
 
     @Override

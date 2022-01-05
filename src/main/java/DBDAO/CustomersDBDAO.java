@@ -46,27 +46,19 @@ public class CustomersDBDAO implements CustomerDAO {
     }
 
     @Override
-    public void addCustomer(Customer customer) {
+    public boolean addCustomer(Customer customer) {
         Map<Integer,Object> parmas = new HashMap<>();
 
             parmas.put(1,customer.getFirstName());
             parmas.put(2,customer.getLastName());
             parmas.put(3,customer.getEmail());
             parmas.put(4,customer.getPassword());
-        try {
-            DBUtils.runQuery(ADD_CUSTOMER,parmas);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
+      return   DBUtils.runQueryGetId(customer,ADD_CUSTOMER,parmas);
     }
 
     @Override
     public void deleteCustomer(int customerID)  {
-        try {
-            DBUtils.runQuery(DELETE_CUSTOMER,1,customerID);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());;
-        }
+        DBUtils.runQuery(DELETE_CUSTOMER,1,customerID);
     }
 
     @Override

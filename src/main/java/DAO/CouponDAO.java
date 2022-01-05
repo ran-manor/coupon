@@ -6,7 +6,7 @@ import Beans.Coupon;
 import java.util.ArrayList;
 
 public interface CouponDAO {
-    void addCoupon(Coupon coupon);
+    boolean addCoupon(Coupon coupon);
     void deleteCoupon(int couponID);
     ArrayList<Coupon> getAllCoupons();
     Coupon getOneCoupon(int couponID);

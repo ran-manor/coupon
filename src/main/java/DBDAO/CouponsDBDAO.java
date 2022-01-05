@@ -35,7 +35,7 @@ public class CouponsDBDAO implements CouponDAO {
             "WHERE customer_id=? AND coupon_id=?";
 
     @Override
-    public void addCoupon(Coupon coupon) {
+    public boolean addCoupon(Coupon coupon) {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, coupon.getCompanyId());
         params.put(2, coupon.getCategory().value);
@@ -46,21 +46,13 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
-        try {
-            DBUtils.runQuery(ADD_COUPON, params);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
+       return DBUtils.runQueryGetId(coupon,ADD_COUPON, params);
     }
 
     @Override
     public void deleteCoupon(int couponID) {
 
-        try {
-            DBUtils.runQuery(DELETE_COUPON_BY_ID, 1, couponID);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
+        DBUtils.runQuery(DELETE_COUPON_BY_ID, 1, couponID);
     }
 
     @Override

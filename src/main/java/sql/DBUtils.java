@@ -1,5 +1,9 @@
 package sql;
 
+import Beans.Company;
+import Beans.Coupon;
+import Beans.Customer;
+
 import java.sql.*;
 import java.util.Map;
 
@@ -34,8 +38,96 @@ public class DBUtils {
             ConnectionPool.getInstance().returnConnection(connection);
         }
     }
+    public static boolean runQueryGetId( Customer user, String query, Map<Integer, Object> params)  {
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            if (params != null) {
+                prepareStatementFromParams(statement, params);
+            }
+             int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0 ){
+                throw new SQLException("Creation failed , no id  affected");
+            }
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    user.setId((int) generatedKeys.getLong(1));
+                    return true;
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
 
-    public static void runQuery(String query, int key, Object value) throws SQLException {
+        } catch (InterruptedException | SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+            ConnectionPool.getInstance().returnConnection(connection);
+        }
+        return false;
+    }
+    public static boolean runQueryGetId(Company user, String query, Map<Integer, Object> params)  {
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            if (params != null) {
+                prepareStatementFromParams(statement, params);
+            }
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0 ){
+                throw new SQLException("Creation failed , no id  affected");
+            }
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    user.setId((int) generatedKeys.getLong(1));
+                    return true;
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
+
+        } catch (InterruptedException | SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+            ConnectionPool.getInstance().returnConnection(connection);
+        }
+        return false;
+    }
+
+    public static boolean runQueryGetId(Coupon user, String query, Map<Integer, Object> params)  {
+        Connection connection = null;
+        try {
+            connection = ConnectionPool.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            if (params != null) {
+                prepareStatementFromParams(statement, params);
+            }
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0 ){
+                throw new SQLException("Creation failed , no id  affected");
+            }
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    user.setId((int) generatedKeys.getLong(1));
+                    return true;
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
+
+        } catch (InterruptedException | SQLException err) {
+            System.out.println(err.getMessage());
+        } finally {
+            ConnectionPool.getInstance().returnConnection(connection);
+        }
+        return false;
+    }
+
+    public static void runQuery(String query, int key, Object value)  {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -58,7 +150,7 @@ public class DBUtils {
                 System.out.println(err.getMessage());
             }
             statement.execute();
-        } catch (InterruptedException err) {
+        } catch (InterruptedException | SQLException err) {
             System.out.println(err.getMessage());
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
@@ -84,7 +176,7 @@ public class DBUtils {
         return resultSet;
     }
 
-    public static ResultSet runQueryForResultSet(String query, int key, Object value) throws SQLException {
+    public static ResultSet runQueryForResultSet(String query, int key, Object value)  {
         Connection connection = null;
         ResultSet resultSet = null;
         try {
@@ -109,7 +201,7 @@ public class DBUtils {
             }
             resultSet = statement.executeQuery();
 
-        } catch (InterruptedException err) {
+        } catch (InterruptedException  | SQLException err) {
             System.out.println(err.getMessage());
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
