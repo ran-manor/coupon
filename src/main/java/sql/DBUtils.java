@@ -38,7 +38,7 @@ public class DBUtils {
             ConnectionPool.getInstance().returnConnection(connection);
         }
     }
-    public static boolean runQueryGetId( Customer user, String query, Map<Integer, Object> params)  {
+    public static boolean runQueryGetId( Customer customer, String query, Map<Integer, Object> params)  {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -52,7 +52,7 @@ public class DBUtils {
             }
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    user.setId((int) generatedKeys.getLong(1));
+                   customer.setId(generatedKeys.getLong(1));
                     return true;
                 }
                 else {
@@ -67,6 +67,7 @@ public class DBUtils {
         }
         return false;
     }
+
     public static boolean runQueryGetId(Company user, String query, Map<Integer, Object> params)  {
         Connection connection = null;
         try {
@@ -81,7 +82,7 @@ public class DBUtils {
             }
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    user.setId((int) generatedKeys.getLong(1));
+                  user.setId( generatedKeys.getLong(1));
                     return true;
                 }
                 else {
@@ -111,7 +112,7 @@ public class DBUtils {
             }
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    user.setId((int) generatedKeys.getLong(1));
+                   user.setId(generatedKeys.getLong(1));
                     return true;
                 }
                 else {

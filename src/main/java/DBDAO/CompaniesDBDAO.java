@@ -17,7 +17,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     private final String ADD_COMPANY = "INSERT INTO " + TABLE_PATH +
             " (`id`,`name`, `email`, `password`) " +
             "VALUES (?,?,?,?)";
-    private final String DELETE_COMPANY = "DELETE FROM "+ TABLE_PATH + " WHERE id=?";
+    private final String DELETE_COMPANY = "DELETE FROM " + TABLE_PATH + " WHERE id=?";
 
     private final String GET_COMPANIES_ALL = "SELECT * FROM " + TABLE_PATH;
     private final String GET_COMPANIES_SPECIFY_EMAIL_PASSWORD = " WHERE email=? AND password=?";
@@ -32,12 +32,12 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public boolean isCompanyExists(String email, String password) {
-        Map<Integer,Object> params = new HashMap<>();
-        params.put(1 , email);
-        params.put(2 , password);
-    ResultSet resultSet ;
-        resultSet = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_EMAIL_PASSWORD, params );
-        if (resultSet==null){
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, email);
+        params.put(2, password);
+        ResultSet resultSet;
+        resultSet = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_EMAIL_PASSWORD, params);
+        if (resultSet == null) {
             return false;
         }
         return true;
@@ -45,17 +45,17 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public boolean addCompany(Company company) {
-        Map<Integer,Object> params = new HashMap<>();
-        params.put(1 , company.getId());
-        params.put(2 , company.getName());
-        params.put(3 , company.getEmail());
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, company.getId());
+        params.put(2, company.getName());
+        params.put(3, company.getEmail());
         params.put(4, company.getPassword());
-      return  DBUtils.runQueryGetId(company,ADD_COMPANY, params);
+        return DBUtils.runQueryGetId(company, ADD_COMPANY, params);
     }
 
     @Override
     public void deleteCompany(int companyID) {
-        DBUtils.runQuery(DELETE_COMPANY,1,companyID);
+        DBUtils.runQuery(DELETE_COMPANY, 1, companyID);
     }
 
     @Override
@@ -75,25 +75,25 @@ public class CompaniesDBDAO implements CompaniesDAO {
         } catch (SQLException err) {
             System.out.println(err.getMessage());
         }
-            return companies;
-        }
+        return companies;
+    }
 
     @Override
     public void updateCompany(Company company) {
-       Map<Integer,Object>parmas = new HashMap<>();
-       parmas.put(1,company.getName());
-       parmas.put(2,company.getEmail());
-       parmas.put(3,company.getPassword());
-       parmas.put(4,company.getId());
-        DBUtils.runQueryForResultSet(UPDATE_COMPANY,parmas);
+        Map<Integer, Object> parmas = new HashMap<>();
+        parmas.put(1, company.getName());
+        parmas.put(2, company.getEmail());
+        parmas.put(3, company.getPassword());
+        parmas.put(4, company.getId());
+        DBUtils.runQueryForResultSet(UPDATE_COMPANY, parmas);
     }
 
     @Override
     public Company getOneCompany(int companyID) {
         ResultSet result = null;
         try {
-            result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID ,1,companyID);
-            if (result!=null){
+            result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID, 1, companyID);
+            if (result != null) {
                 return Company.builder()
                         .id(result.getInt("id"))
                         .name(result.getString("name"))

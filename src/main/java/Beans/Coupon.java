@@ -1,9 +1,6 @@
 package Beans;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -12,7 +9,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class Coupon {
-    private int id;
+    private long id;
     private int companyId;
     private Category category;
     private String title;

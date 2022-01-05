@@ -24,10 +24,12 @@ public class TesterDBDAO {
      CustomersDBDAO customersDBDAO = new CustomersDBDAO();
      customersDBDAO.addCustomer(customer);
         customersDBDAO.addCustomer(customer1);
-        customersDBDAO.deleteCustomer(1);
-        customersDBDAO.deleteCustomer(2);
-        customersDBDAO.addCustomer(customer);
-        customersDBDAO.addCustomer(customer1);
+        System.out.println(customer1.getId());
+
+//        customersDBDAO.deleteCustomer(1);
+//        customersDBDAO.deleteCustomer(2);
+//        customersDBDAO.addCustomer(customer);
+//        customersDBDAO.addCustomer(customer1);
 
 
 
