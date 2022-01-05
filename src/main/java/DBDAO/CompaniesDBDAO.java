@@ -3,6 +3,7 @@ package DBDAO;
 import Beans.Company;
 import DAO.CompaniesDAO;
 import sql.DBUtils;
+import sql.db;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class CompaniesDBDAO implements CompaniesDAO {
     private final String GET_COMPANIES_ALL = "SELECT * FROM " + TABLE_PATH;
     private final String GET_COMPANIES_SPECIFY_EMAIL_PASSWORD = " WHERE email=? AND password=?";
     private final String GET_COMPANIES_SPECIFY_ID = " WHERE id=?";
+    private final String UPDATE_COMPANY = "UPDATE `couponmania`.`companies` " +
+            "SET name=?, email=? ,password=?" +
+            "WHERE id=?";
 
 //    private final String ADD_COUPON = "INSERT INTO `CouponMania`.`coupons` " +
 //            "(`customer_id`,`category_id`, `title`, `description`, `start_date`,`end_date`,`amount`, `price`, `image`)   )" +
@@ -31,70 +35,85 @@ public class CompaniesDBDAO implements CompaniesDAO {
         Map<Integer,Object> params = new HashMap<>();
         params.put(1 , email);
         params.put(2 , password);
-
-        try {
-            return DBUtils.getResultSetQuery(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_EMAIL_PASSWORD, params ).next();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+    ResultSet resultSet ;
+        resultSet = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_EMAIL_PASSWORD, params );
+        if (resultSet==null){
             return false;
         }
+        return true;
     }
 
     @Override
-    public boolean addCompany(Company company) {
+    public void addCompany(Company company) {
         Map<Integer,Object> params = new HashMap<>();
         params.put(1 , company.getId());
         params.put(2 , company.getName());
         params.put(3 , company.getEmail());
         params.put(4, company.getPassword());
-        return DBUtils.runUpdateQuery(ADD_COMPANY , params);
+        try {
+            DBUtils.runQuery(ADD_COMPANY , params);
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
     }
 
     @Override
     public void deleteCompany(int companyID) {
-        Map<Integer,Object> params = new HashMap<>();
-        params.put( 1 , companyID);
-        DBUtils.runUpdateQuery(DELETE_COMPANY , params);
+        try {
+            DBUtils.runQuery(DELETE_COMPANY,1,companyID);
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());;
+        }
     }
 
     @Override
     public ArrayList<Company> getAllCompanies() {
         ArrayList<Company> companies = new ArrayList<>();
-        ResultSet result = DBUtils.getResultSetQuery(GET_COMPANIES_ALL);
-
-            try {
-                while (result.next()) {
-                    companies.add(Company.builder()
-                            .id(result.getInt("id"))
-                            .name(result.getString("name"))
-                            .email(result.getString("email"))
-                            .password(result.getString("password"))
-                            .build());
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
+        ResultSet result = null;
+        try {
+            result = DBUtils.runQueryForResult(GET_COMPANIES_ALL);
+            while (result.next()) {
+                companies.add(Company.builder()
+                        .id(result.getInt("id"))
+                        .name(result.getString("name"))
+                        .email(result.getString("email"))
+                        .password(result.getString("password"))
+                        .build());
             }
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
             return companies;
-
         }
 
     @Override
+    public void updateCompany(Company company) {
+       Map<Integer,Object>parmas = new HashMap<>();
+       parmas.put(1,company.getName());
+       parmas.put(2,company.getEmail());
+       parmas.put(3,company.getPassword());
+       parmas.put(4,company.getId());
+        DBUtils.runQueryForResultSet(UPDATE_COMPANY,parmas);
+    }
+
+    @Override
     public Company getOneCompany(int companyID) {
-        Map<Integer , Object> params = new HashMap<>();
-        params.put(1 , companyID);
-        ResultSet result = DBUtils.getResultSetQuery(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID , params);
+        ResultSet result = null;
         try {
-            if (result.next()){
+            result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID ,1,companyID);
+            if (result!=null){
                 return Company.builder()
                         .id(result.getInt("id"))
                         .name(result.getString("name"))
                         .email(result.getString("email"))
                         .password(result.getString("password"))
                         .build();
+
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
         }
         return null;
     }
+
 }

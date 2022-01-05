@@ -4,7 +4,8 @@ public enum Category {
     Food,
     Electricity,
     Restaurant,
-    Vacation;
+    Vacation,
+    Tattoo;
 
     public final int value = 1 + ordinal();
 

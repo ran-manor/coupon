@@ -82,29 +82,33 @@ public class DataBaseManager {
             "    ON UPDATE NO ACTION)";
 
     public static void createDataBase() throws SQLException {
-        DBUtils.runUpdateQuery(CREATE_SCHEMA);
+        DBUtils.runQuery(CREATE_SCHEMA);
     }
 
     public static void dropDataBase() throws SQLException {
-        DBUtils.runUpdateQuery(DROP_SCHEMA);
+       DBUtils.runQuery(DROP_SCHEMA);
     }
 
     public static void initCategories() {
         Map<Integer, Object> params = new HashMap<>();
         for (Category item : Category.values()) {
             params.put(1, item.name());
-            DBUtils.runUpdateQuery(ADD_CATEGORY, params);
+            try {
+                DBUtils.runQuery(ADD_CATEGORY, params);
+            } catch (SQLException err) {
+                System.out.println(err.getMessage());
+            }
         }
 
     }
 
     public static void createTables() throws SQLException {
-        DBUtils.runUpdateQuery(CREATE_TABLE_COMPANIES);
-        DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS);
-        DBUtils.runUpdateQuery(CREATE_TABLE_CATEGORIES);
-        initCategories();
-        DBUtils.runUpdateQuery(CREATE_TABLE_COUPONS);
-        DBUtils.runUpdateQuery(CREATE_TABLE_CUSTOMERS_COUPONS);
+        DBUtils.runQuery(CREATE_TABLE_COMPANIES);
+       DBUtils.runQuery(CREATE_TABLE_CUSTOMERS);
+        DBUtils.runQuery(CREATE_TABLE_CATEGORIES);
+       initCategories();
+       DBUtils.runQuery(CREATE_TABLE_COUPONS);
+       DBUtils.runQuery(CREATE_TABLE_CUSTOMERS_COUPONS);
     }
 
 //    public static void dropTable() throws SQLException{

@@ -2,11 +2,10 @@ package DBDAO;
 
 import Beans.Customer;
 import DAO.CustomerDAO;
-import sql.ConnectionPool;
 import sql.DBUtils;
+import sql.db;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,19 +34,15 @@ public class CustomersDBDAO implements CustomerDAO {
 
     @Override
     public boolean isCustomerExists(String email, String password) {
-        boolean isExist = true;
-        Map<Integer,Object>parmas = new HashMap<>();
-        ResultSet resultSet =DBUtils.getResultSetQuery(IS_CUSTOMER_EXISITS,parmas);;
-        parmas.put(1,email);
-        parmas.put(2,parmas);
-        try {
-            if (resultSet.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, email);
+        params.put(2, password);
+        ResultSet resultSet;
+        resultSet = DBUtils.runQueryForResultSet(IS_CUSTOMER_EXISITS, params);
+        if (resultSet == null) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -58,55 +53,60 @@ public class CustomersDBDAO implements CustomerDAO {
             parmas.put(2,customer.getLastName());
             parmas.put(3,customer.getEmail());
             parmas.put(4,customer.getPassword());
-        DBUtils.runUpdateQuery(ADD_CUSTOMER,parmas);
+        try {
+            DBUtils.runQuery(ADD_CUSTOMER,parmas);
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
     }
 
     @Override
-    public void deleteCustomer(int customerID) {
-        Map<Integer,Object>parms = new HashMap<>();
-        parms.put(1,customerID);
-    DBUtils.runUpdateQuery(DELETE_CUSTOMER,parms);
+    public void deleteCustomer(int customerID)  {
+        try {
+            DBUtils.runQuery(DELETE_CUSTOMER,1,customerID);
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());;
+        }
     }
 
     @Override
     public ArrayList<Customer> getAllCustomers() {
-        List<Customer> customers = new ArrayList<Customer>();
-        ResultSet resultSet = DBUtils.getResultSetQuery(GET_ALL_CUSTOMERS);
-
-            try {
-                while (!resultSet.next()) {
-                    Customer customer = Customer.builder()
-                            .firstName(resultSet.getString("first_name"))
-                            .lastName(resultSet.getString("last_name"))
-                            .email(resultSet.getString("email"))
-                            .password(resultSet.getString("password"))
-                            .build();
-                    customers.add(customer);
-                }
-            }
-        catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
-        return (ArrayList<Customer>) customers;
-    }
-
-    @Override
-    public Customer getOneCustomer(int customerID) {
-        Map<Integer,Object>parmas = new HashMap<>();
-        parmas.put(1,customerID);
-        ResultSet resultSet = DBUtils.getResultSetQuery(GET_ONE_CUSTOMER_BY_ID,parmas);
-        if(resultSet!=null){
-            try {
+        ArrayList<Customer> customers = new ArrayList<>();
+        ResultSet resultSet ;
+        try {
+            resultSet = DBUtils.runQueryForResult(GET_ALL_CUSTOMERS);
+            while (resultSet.next()) {
                 Customer customer = Customer.builder()
                         .firstName(resultSet.getString("first_name"))
                         .lastName(resultSet.getString("last_name"))
                         .email(resultSet.getString("email"))
                         .password(resultSet.getString("password"))
                         .build();
-                return customer;
-            } catch (SQLException err) {
-                System.out.println(err.getMessage());
+                customers.add(customer);
             }
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
+        return customers;
+    }
+
+    @Override
+    public Customer getOneCustomer(int customerID) {
+        ResultSet resultSet ;
+        try {
+            resultSet = DBUtils.runQueryForResultSet(GET_ONE_CUSTOMER_BY_ID, 1, customerID);
+            if (resultSet != null) {
+                    Customer customer = Customer.builder()
+                            .firstName(resultSet.getString("first_name"))
+                            .lastName(resultSet.getString("last_name"))
+                            .email(resultSet.getString("email"))
+                            .password(resultSet.getString("password"))
+                            .build();
+                    return customer;
+
+            }
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
         }
         return null;
     }
@@ -118,6 +118,10 @@ public class CustomersDBDAO implements CustomerDAO {
         parmas.put(2,customer.getLastName());
         parmas.put(3,customer.getEmail());
         parmas.put(4,customer.getPassword());
-        DBUtils.runUpdateQuery(UPDATE_CUSTOMER,parmas);
+        try {
+            DBUtils.runQuery(UPDATE_CUSTOMER,parmas);
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
     }
 }

@@ -4,6 +4,7 @@ import Beans.Category;
 import Beans.Coupon;
 import DAO.CouponDAO;
 import sql.DBUtils;
+import sql.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,39 +46,46 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
-        DBUtils.runUpdateQuery(ADD_COUPON, params);
+        try {
+            DBUtils.runQuery(ADD_COUPON, params);
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
     }
 
     @Override
     public void deleteCoupon(int couponID) {
-        Map<Integer, Object> params = new HashMap<>();
-        params.put(1, couponID);
-        DBUtils.runUpdateQuery(DELETE_COUPON_BY_ID, params);
+
+        try {
+            DBUtils.runQuery(DELETE_COUPON_BY_ID, 1, couponID);
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
     }
 
     @Override
     public ArrayList<Coupon> getAllCoupons() {
         ArrayList<Coupon> coupons = new ArrayList<>();
-        ResultSet res = DBUtils.getResultSetQuery(GET_ALL_COUPONS);
-        while (true) {
-            try {
-                if (!res.next()) break;
+        ResultSet resultSet;
+        try {
+            resultSet = DBUtils.runQueryForResult(GET_ALL_COUPONS);
+            while (resultSet.next()) {
                 Coupon coupon = Coupon.builder()
-                        .id(res.getInt("id"))
-                        .category(Category.getCategoryById(res.getInt("category_id")))
-                        .companyId(res.getInt("company_id"))
-                        .description(res.getString("description"))
-                        .title(res.getString("title"))
-                        .startDate(res.getDate("start_date"))
-                        .endDate(res.getDate("end_date"))
-                        .amount(res.getInt("amount"))
-                        .price(res.getInt("price"))
-                        .image(res.getString("image"))
+                        .id(resultSet.getInt("id"))
+                        .category(Category.getCategoryById(resultSet.getInt("category_id")))
+                        .companyId(resultSet.getInt("company_id"))
+                        .description(resultSet.getString("description"))
+                        .title(resultSet.getString("title"))
+                        .startDate(resultSet.getDate("start_date"))
+                        .endDate(resultSet.getDate("end_date"))
+                        .amount(resultSet.getInt("amount"))
+                        .price(resultSet.getInt("price"))
+                        .image(resultSet.getString("image"))
                         .build();
                 coupons.add(coupon);
-            } catch (SQLException err) {
-                System.out.println(err.getMessage());
             }
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
         }
         return coupons;
     }
@@ -85,10 +93,9 @@ public class CouponsDBDAO implements CouponDAO {
 
     @Override
     public Coupon getOneCoupon(int couponID) {
-        Map<Integer, Object> params = new HashMap<>();
-        params.put(1, couponID);
-        ResultSet res = DBUtils.getResultSetQuery(GET_ONE_COUPON, params);
+        ResultSet res;
         try {
+            res = DBUtils.runQueryForResultSet(GET_ONE_COUPON, 1, couponID);
             if (res != null) {
                 Coupon coupon = Coupon.builder()
                         .id(res.getInt("id"))
@@ -122,7 +129,11 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
-        DBUtils.runUpdateQuery(UPDATE_COUPON, params);
+        try {
+            DBUtils.runQuery(UPDATE_COUPON, params);
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+        }
 
     }
 
@@ -131,7 +142,7 @@ public class CouponsDBDAO implements CouponDAO {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, customerID);
         params.put(2, couponID);
-        DBUtils.runUpdateQuery(ADD_COUPON_PURCHASE, params);
+        DBUtils.runQueryForResultSet(ADD_COUPON_PURCHASE, params);
 
     }
 
@@ -140,6 +151,6 @@ public class CouponsDBDAO implements CouponDAO {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, customerID);
         params.put(2, couponID);
-        DBUtils.runUpdateQuery(DELETE_COUPON_PURCHASE, params);
+        DBUtils.runQueryForResultSet(DELETE_COUPON_PURCHASE, params);
     }
 }

@@ -6,8 +6,9 @@ import java.util.ArrayList;
 
 public interface CompaniesDAO {
     boolean isCompanyExists(String email, String password);
-    boolean addCompany(Company company);
+    void addCompany(Company company);
     void deleteCompany(int companyID);
     ArrayList<Company> getAllCompanies();
+    void updateCompany(Company company);
     Company getOneCompany(int companyID);
 }
