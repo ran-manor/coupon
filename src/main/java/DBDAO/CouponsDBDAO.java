@@ -27,6 +27,12 @@ public class CouponsDBDAO implements CouponDAO {
             "SET title=?, description=?, start_date=?, end_date=?, amount=?, price=?, image=?" +
             "WHERE id=?";
 
+    private final String ADD_COUPON_PURCHASE = "INSERT INTO `CouponMania`.`customers_coupons` " +
+            "(`customer_id`,`coupon_id`) VALUES (?,?);";
+
+    private final String DELETE_COUPON_PURCHASE = "DELETE FROM `CouponMania`.`customers_coupons` " +
+            "WHERE customer_id=? AND coupon_id=?";
+
     @Override
     public void addCoupon(Coupon coupon) {
         Map<Integer, Object> params = new HashMap<>();
@@ -122,11 +128,18 @@ public class CouponsDBDAO implements CouponDAO {
 
     @Override
     public void addCouponPurchase(int customerID, int couponID) {
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, customerID);
+        params.put(2, couponID);
+        DBUtils.runUpdateQuery(ADD_COUPON_PURCHASE, params);
 
     }
 
     @Override
     public void deleteCouponPurchase(int customerID, int couponID) {
-
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, customerID);
+        params.put(2, couponID);
+        DBUtils.runUpdateQuery(DELETE_COUPON_PURCHASE, params);
     }
 }
