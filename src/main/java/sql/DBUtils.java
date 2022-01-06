@@ -10,6 +10,7 @@ import java.util.Map;
 public class DBUtils {
     //TODO: make a "create params map" static method
     //,,,
+    //'''
     public static final String SCHEMA_PATH = "`CouponMania`";
 
     public static void runQuery(String query, Map<Integer, Object> params) {
