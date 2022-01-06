@@ -51,27 +51,6 @@ public class db {
     * it also receives a function. the purpose of the method is to prepare a PreparedStatement and then
     * use that PreparedStatement in the function passed to "statementRunMethod".
     * statementRunMethod should be a function that executes a PreparedStatement */
-//    private static Object runQuery(String query, Map<Integer, Object> params, Function<PreparedStatement, Object> statementRunMethod) {
-//        Connection connection = null;
-//        try {
-//            connection = ConnectionPool.getInstance().getConnection();
-//            PreparedStatement statement = connection.prepareStatement(query);
-//
-//            //go into statement preparation only if a parameter map has been passed to the function
-//            if (params != null) {
-//                prepareStatementFromParams(statement, params);
-//            }
-//
-//            //apply the prepared statement to the function passed into the runQuery method
-//            return statementRunMethod.apply(statement);
-//
-//        } catch (InterruptedException | SQLException err) {
-//            System.out.println(err.getMessage());
-//            return null;
-//        } finally {
-//            ConnectionPool.getInstance().returnConnection(connection);
-//        }
-//    }
     private static <T> T runQuery(String query, Map<Integer, Object> params, Function<PreparedStatement, T> statementRunMethod) {
         Connection connection = null;
         try {
@@ -121,6 +100,3 @@ public class db {
         });
     }
 }
-
-
-

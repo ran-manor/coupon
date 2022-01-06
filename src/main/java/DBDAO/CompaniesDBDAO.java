@@ -50,12 +50,14 @@ public class CompaniesDBDAO implements CompaniesDAO {
         params.put(2, company.getName());
         params.put(3, company.getEmail());
         params.put(4, company.getPassword());
-        return DBUtils.runQueryGetId(company, ADD_COMPANY, params);
+        return DBUtils.runQueryGetId(ADD_COMPANY, params);
     }
 
     @Override
     public void deleteCompany(int companyID) {
-        DBUtils.runQuery(DELETE_COMPANY, 1, companyID);
+        Map<Integer , Object> params = new HashMap<Integer,Object>();
+        params.put(1 , companyID);
+        DBUtils.runQuery(DELETE_COMPANY, params);
     }
 
     @Override
@@ -90,9 +92,14 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public Company getOneCompany(int companyID) {
+        Map<Integer , Object> params = new HashMap<Integer,Object>();
+        params.put(1 , companyID);
+
         ResultSet result = null;
+
         try {
-            result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID, 1, companyID);
+            result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID, params);
+
             if (result != null) {
                 return Company.builder()
                         .id(result.getInt("id"))

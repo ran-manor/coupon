@@ -46,13 +46,14 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
-       return DBUtils.runQueryGetId(coupon,ADD_COUPON, params);
+       return DBUtils.runQueryGetId(ADD_COUPON, params);
     }
 
     @Override
     public void deleteCoupon(int couponID) {
-
-        DBUtils.runQuery(DELETE_COUPON_BY_ID, 1, couponID);
+        Map<Integer , Object> params = new HashMap<Integer,Object>();
+        params.put(1 , couponID);
+        DBUtils.runQuery(DELETE_COUPON_BY_ID, params);
     }
 
     @Override
@@ -86,8 +87,10 @@ public class CouponsDBDAO implements CouponDAO {
     @Override
     public Coupon getOneCoupon(int couponID) {
         ResultSet res;
+        Map<Integer , Object> params = new HashMap<Integer,Object>();
+        params.put(1 , couponID);
         try {
-            res = DBUtils.runQueryForResultSet(GET_ONE_COUPON, 1, couponID);
+            res = DBUtils.runQueryForResultSet(GET_ONE_COUPON, params);
             if (res != null) {
                 Coupon coupon = Coupon.builder()
                         .id(res.getInt("id"))
@@ -121,11 +124,9 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
-        try {
+
             DBUtils.runQuery(UPDATE_COUPON, params);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
+
 
     }
 

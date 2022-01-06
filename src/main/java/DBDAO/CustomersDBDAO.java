@@ -53,12 +53,14 @@ public class CustomersDBDAO implements CustomerDAO {
             parmas.put(2,customer.getLastName());
             parmas.put(3,customer.getEmail());
             parmas.put(4,customer.getPassword());
-      return   DBUtils.runQueryGetId(customer,ADD_CUSTOMER,parmas);
+      return   DBUtils.runQueryGetId(ADD_CUSTOMER,parmas);
     }
 
     @Override
     public void deleteCustomer(int customerID)  {
-        DBUtils.runQuery(DELETE_CUSTOMER,1,customerID);
+        Map<Integer , Object> params = new HashMap<Integer,Object>();
+        params.put(1 , customerID);
+        DBUtils.runQuery(DELETE_CUSTOMER,params);
     }
 
     @Override
@@ -84,9 +86,11 @@ public class CustomersDBDAO implements CustomerDAO {
 
     @Override
     public Customer getOneCustomer(int customerID) {
+        Map<Integer , Object> params = new HashMap<Integer,Object>();
+        params.put(1 , customerID);
         ResultSet resultSet ;
         try {
-            resultSet = DBUtils.runQueryForResultSet(GET_ONE_CUSTOMER_BY_ID, 1, customerID);
+            resultSet = DBUtils.runQueryForResultSet(GET_ONE_CUSTOMER_BY_ID, params);
             if (resultSet != null) {
                     Customer customer = Customer.builder()
                             .firstName(resultSet.getString("first_name"))
@@ -110,10 +114,7 @@ public class CustomersDBDAO implements CustomerDAO {
         parmas.put(2,customer.getLastName());
         parmas.put(3,customer.getEmail());
         parmas.put(4,customer.getPassword());
-        try {
-            DBUtils.runQuery(UPDATE_CUSTOMER,parmas);
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
+
+        DBUtils.runQuery(UPDATE_CUSTOMER,parmas);
     }
 }
