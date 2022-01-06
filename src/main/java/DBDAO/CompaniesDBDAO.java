@@ -42,7 +42,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
                 return true;
             }
         } catch (SQLException err) {
-            System.out.println(err.getMessage());
+          System.out.println(err.getMessage());
+            err.printStackTrace();
         }
         return false;
     }
@@ -79,7 +80,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
                         .build());
             }
         } catch (SQLException err) {
-            System.out.println(err.getMessage());
+        System.out.println(err.getMessage());
+            err.printStackTrace();
         }
         return companies;
     }
@@ -91,7 +93,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         parmas.put(2, company.getEmail());
         parmas.put(3, company.getPassword());
         parmas.put(4, company.getId());
-        DBUtils.runQueryForResultSet(UPDATE_COMPANY, parmas);
+        DBUtils.runQuery(UPDATE_COMPANY, parmas);
     }
 
     @Override
@@ -112,7 +114,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
                             .build();
             }
         } catch (SQLException err) {
-            System.out.println(err.getMessage());
+           System.out.println(err.getMessage());
+            err.printStackTrace();
         }
         return null;
     }

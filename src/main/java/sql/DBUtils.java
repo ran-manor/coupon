@@ -78,9 +78,11 @@ public class DBUtils {
 
         } catch (InterruptedException | SQLException err) {
             System.out.println(err.getMessage());
+            err.printStackTrace();
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
         }
+        System.out.println("here: " + resultSet);
         return resultSet;
     }
     public static ResultSet runQueryForResult(String query)  {
