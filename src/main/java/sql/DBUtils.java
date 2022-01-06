@@ -86,7 +86,7 @@ public class DBUtils {
     public static ResultSet runQueryForResult(String query)  {
         return runQueryForResultSet(query , null);
     }
-//todo: add custom exception to this method
+//todo: add custom exception to this methodd
     private static void prepareStatementFromParams(PreparedStatement statement, Map<Integer, Object> params) {
         params.forEach((key, value) -> {
             try {
