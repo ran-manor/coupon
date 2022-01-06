@@ -36,11 +36,15 @@ public class CompaniesDBDAO implements CompaniesDAO {
         params.put(1, email);
         params.put(2, password);
         ResultSet resultSet;
-        resultSet = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_EMAIL_PASSWORD, params);
-        if (resultSet == null) {
-            return false;
+        try {
+            resultSet = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_EMAIL_PASSWORD, params);
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -99,16 +103,13 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
         try {
             result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID, params);
-
-            if (result != null) {
-                while (result.next()) {
+            if (result.next()) {
                     return Company.builder()
                             .id(result.getLong("id"))
                             .name(result.getString("name"))
                             .email(result.getString("email"))
                             .password(result.getString("password"))
                             .build();
-                }
             }
         } catch (SQLException err) {
             System.out.println(err.getMessage());

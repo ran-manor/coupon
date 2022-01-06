@@ -38,11 +38,15 @@ public class CustomersDBDAO implements CustomerDAO {
         params.put(1, email);
         params.put(2, password);
         ResultSet resultSet;
+        try{
         resultSet = DBUtils.runQueryForResultSet(IS_CUSTOMER_EXISITS, params);
-        if (resultSet == null) {
-            return false;
+        if (resultSet.next()) {
+            return true;
         }
-        return true;
+        }catch (SQLException err){
+            System.out.println(err.getMessage());
+        }
+        return false;
     }
 
     @Override
