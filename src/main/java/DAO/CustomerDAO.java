@@ -11,6 +11,5 @@ public interface CustomerDAO {
     void deleteCustomer(int customerID);
     ArrayList<Customer> getAllCustomers();
     Customer getOneCustomer(int customerID);
-    Customer getCustomerByEmail(String email);
     void updateCustomer(Customer customer);
 }

@@ -55,8 +55,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public void deleteCompany(int companyID) {
-        Map<Integer , Object> params = new HashMap<Integer,Object>();
-        params.put(1 , companyID);
+        Map<Integer, Object> params = new HashMap<Integer, Object>();
+        params.put(1, companyID);
         DBUtils.runQuery(DELETE_COMPANY, params);
     }
 
@@ -68,7 +68,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
             result = DBUtils.runQueryForResult(GET_COMPANIES_ALL);
             while (result.next()) {
                 companies.add(Company.builder()
-                        .id(result.getInt("id"))
+                        .id(result.getLong("id"))
                         .name(result.getString("name"))
                         .email(result.getString("email"))
                         .password(result.getString("password"))
@@ -92,8 +92,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public Company getOneCompany(int companyID) {
-        Map<Integer , Object> params = new HashMap<Integer,Object>();
-        params.put(1 , companyID);
+        Map<Integer, Object> params = new HashMap<Integer, Object>();
+        params.put(1, companyID);
 
         ResultSet result = null;
 
@@ -101,13 +101,14 @@ public class CompaniesDBDAO implements CompaniesDAO {
             result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID, params);
 
             if (result != null) {
-                return Company.builder()
-                        .id(result.getInt("id"))
-                        .name(result.getString("name"))
-                        .email(result.getString("email"))
-                        .password(result.getString("password"))
-                        .build();
-
+                while (result.next()) {
+                    return Company.builder()
+                            .id(result.getLong("id"))
+                            .name(result.getString("name"))
+                            .email(result.getString("email"))
+                            .password(result.getString("password"))
+                            .build();
+                }
             }
         } catch (SQLException err) {
             System.out.println(err.getMessage());

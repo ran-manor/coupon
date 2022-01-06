@@ -24,7 +24,8 @@ public class DBUtils {
             statement.execute();
 
         } catch (InterruptedException | SQLException err) {
-            System.out.println(err.getMessage());
+         //   System.out.println(err.getMessage());
+            err.printStackTrace();
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
         }
@@ -85,7 +86,7 @@ public class DBUtils {
     public static ResultSet runQueryForResult(String query)  {
         return runQueryForResultSet(query , null);
     }
-
+//todo: add custom exception to this method
     private static void prepareStatementFromParams(PreparedStatement statement, Map<Integer, Object> params) {
         params.forEach((key, value) -> {
             try {
@@ -101,6 +102,9 @@ public class DBUtils {
                     statement.setBoolean(key, (Boolean) value);
                 } else if (value instanceof Float) {
                     statement.setFloat(key, (Float) value);
+                }
+                else if (value instanceof Long){
+                    statement.setLong(key, (Long) value);
                 }
             } catch (SQLException err) {
                 System.out.println(err.getMessage());

@@ -71,6 +71,7 @@ public class CustomersDBDAO implements CustomerDAO {
             resultSet = DBUtils.runQueryForResult(GET_ALL_CUSTOMERS);
             while (resultSet.next()) {
                 Customer customer = Customer.builder()
+                        .id(resultSet.getLong("id"))
                         .firstName(resultSet.getString("first_name"))
                         .lastName(resultSet.getString("last_name"))
                         .email(resultSet.getString("email"))
@@ -92,14 +93,16 @@ public class CustomersDBDAO implements CustomerDAO {
         try {
             resultSet = DBUtils.runQueryForResultSet(GET_ONE_CUSTOMER_BY_ID, params);
             if (resultSet != null) {
+                while (resultSet.next()) {
                     Customer customer = Customer.builder()
+                            .id(resultSet.getLong("id"))
                             .firstName(resultSet.getString("first_name"))
                             .lastName(resultSet.getString("last_name"))
                             .email(resultSet.getString("email"))
                             .password(resultSet.getString("password"))
                             .build();
                     return customer;
-
+                }
             }
         } catch (SQLException err) {
             System.out.println(err.getMessage());
@@ -114,6 +117,7 @@ public class CustomersDBDAO implements CustomerDAO {
         parmas.put(2,customer.getLastName());
         parmas.put(3,customer.getEmail());
         parmas.put(4,customer.getPassword());
+        parmas.put(5, customer.getId());
 
         DBUtils.runQuery(UPDATE_CUSTOMER,parmas);
     }
