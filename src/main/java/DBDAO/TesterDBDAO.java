@@ -19,12 +19,14 @@ public class TesterDBDAO {
 ////        //new CompaniesDBDAO().addCompany(new Company(1 , "nir" , "mail" , "1234" , new ArrayList<>()));
       ArrayList<Coupon> coupons = new ArrayList<>();
         Customer customer = new Customer("ran","manor","Raran@gmail.com","122345",coupons);
-        Customer customer1 = new Customer("ran1","manor1","Raran1@gmail.com","122345",coupons);
+       // Customer customer1 = new Customer("ran1","manor1","Raran1@gmail.com","122345",coupons);
 //
      CustomersDBDAO customersDBDAO = new CustomersDBDAO();
      customersDBDAO.addCustomer(customer);
-        customersDBDAO.addCustomer(customer1);
-        System.out.println(customer1.getId());
+//     Customer customer1 =customersDBDAO.getCustomerByEmail(customer.getEmail());
+      //  System.out.println(customer1);
+//     customersDBDAO.addCustomer(new Customer("ran","manor","Raran@gmail.com","122345",coupons));
+        customersDBDAO.addCustomer(new Customer("ran1","manor1","Raran1@gmail.com","122345",coupons));
 
 //        customersDBDAO.deleteCustomer(1);
 //        customersDBDAO.deleteCustomer(2);
