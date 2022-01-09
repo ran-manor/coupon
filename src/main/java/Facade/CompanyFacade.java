@@ -29,11 +29,14 @@ public class CompanyFacade extends ClientFacade{
         couponDAO.updateCoupon(coupon);
     }
     public void deleteCoupon(Coupon coupon){
-        ArrayList<Coupon> coupons= couponDAO.getAllCoupons();
-        for (Coupon item: coupons){
-            //if ()
-        }
+        deleteCoupon(coupon.getId());
     }
+    public void deleteCoupon(long id){
+        couponDAO.deleteCoupon(id);
+        couponDAO.deleteCouponPurchaseByCouponID(id);
+    }
+
+
     public ArrayList<Coupon> getCompanyCoupons(){
         return null;
     }

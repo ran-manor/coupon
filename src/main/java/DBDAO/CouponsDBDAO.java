@@ -36,6 +36,8 @@ public class CouponsDBDAO implements CouponDAO {
 
     private final String DELETE_COUPON_PURCHASE_BY_COUPON_ID = "DELETE FROM `CouponMania`.`customers_coupons` " +
             "WHERE coupon_id=?";
+    
+
 
     @Override
     public boolean addCoupon(Coupon coupon) {
