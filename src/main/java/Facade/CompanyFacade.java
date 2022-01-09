@@ -3,9 +3,10 @@ package Facade;
 import Beans.Category;
 import Beans.Company;
 import Beans.Coupon;
+import lombok.Data;
 
 import java.util.ArrayList;
-
+@Data
 public class CompanyFacade extends ClientFacade{
     private int companyId;
     public CompanyFacade(){}
@@ -13,9 +14,26 @@ public class CompanyFacade extends ClientFacade{
     public boolean login(String email, String password) {
         return false;
     }
-    public void addCoupon(Coupon coupon){}
-    public void updateCoupon(Coupon coupon){}
-    public void deleteCoupon(Coupon coupon){}
+    public void addCoupon(Coupon coupon){
+        Company company = companiesDAO.getOneCompany(this.getCompanyId());
+        boolean isOk= true;
+        for (Coupon item:company.getCoupons()) {
+            if(item.getTitle().equals(coupon.getTitle()))
+                isOk=false;
+                break;
+        }
+        if(isOk){
+        couponDAO.addCoupon(coupon);}
+    }
+    public void updateCoupon(Coupon coupon){
+        couponDAO.updateCoupon(coupon);
+    }
+    public void deleteCoupon(Coupon coupon){
+        ArrayList<Coupon> coupons= couponDAO.getAllCoupons();
+        for (Coupon item: coupons){
+            //if ()
+        }
+    }
     public ArrayList<Coupon> getCompanyCoupons(){
         return null;
     }
