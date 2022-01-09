@@ -112,6 +112,8 @@ public class CustomersDBDAO implements CustomerDAO {
         return null;
     }
 
+
+
     @Override
     public void updateCustomer(Customer customer) {
         Map<Integer, Object> parmas = new HashMap<>();
