@@ -58,7 +58,7 @@ public class AdminFacade extends ClientFacade {
     }
 
     public void addCustomer(Customer customer) {
-        ArrayList<Customer> customers = customerDAO.getAllCustomers();.getAllCompanies();
+        ArrayList<Customer> customers = customerDAO.getAllCustomers();
         boolean isOK = true;
         for (Customer item : customers) {
             if (item.getEmail().equals(customer.getEmail())) {
@@ -70,19 +70,23 @@ public class AdminFacade extends ClientFacade {
             customerDAO.addCustomer(customer);
         }
     }
-//
+
+    //
     public void updateCustomer(Customer customer) {
+        customerDAO.updateCustomer(customer);
     }
 
     public void deleteCustomer(int customerId) {
+        couponDAO.deleteCouponPurchaseByCustomerID(customerId);
+        customerDAO.deleteCustomer(customerId);
     }
 
-    public ArrayList<Customer> getAllCutomers() {
-        return null;
+    public ArrayList<Customer> getAllCustomers() {
+        return customerDAO.getAllCustomers();
     }
 
     public Customer getOneCustomer(int customerId) {
-        return null;
+        return customerDAO.getOneCustomer(customerId);
     }
 
 }

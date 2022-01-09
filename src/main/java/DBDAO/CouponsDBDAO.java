@@ -36,6 +36,9 @@ public class CouponsDBDAO implements CouponDAO {
 
     private final String DELETE_COUPON_PURCHASE_BY_COUPON_ID = "DELETE FROM `CouponMania`.`customers_coupons` " +
             "WHERE coupon_id=?";
+
+    private final String DELETE_COUPON_PURCHASE_BY_CUSTOMER_ID = "DELETE FROM `CouponMania`.`customers_coupons` " +
+            "WHERE customer_id=?";
     
 
 
@@ -157,5 +160,12 @@ public class CouponsDBDAO implements CouponDAO {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, couponID);
         DBUtils.runQuery(DELETE_COUPON_PURCHASE_BY_COUPON_ID, params);
+    }
+
+    @Override
+    public void deleteCouponPurchaseByCustomerID(long couponID) {
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, couponID);
+        DBUtils.runQuery(DELETE_COUPON_PURCHASE_BY_CUSTOMER_ID, params);
     }
 }
