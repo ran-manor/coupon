@@ -38,6 +38,7 @@ public class TesterDBDAO {
 //        companiesDBDAO.updateCompany(testCompany);
 ////        System.out.println(companiesDBDAO.getAllCompanies());
 //        System.out.println(companiesDBDAO.getOneCompany(1));
+        Coupon coupon = new Coupon();
 
 
     }
