@@ -42,8 +42,8 @@ public class AdminFacade extends ClientFacade {
         ArrayList<Coupon> coupons = couponDAO.getAllCoupons();
         for (Coupon item : coupons){
             if (item.getCompanyId()== companyId){
+                couponDAO.deleteCouponPurchaseByCouponID(item.getId());
                 couponDAO.deleteCoupon(item.getId());
-
             }
         }
         companiesDAO.deleteCompany(companyId);

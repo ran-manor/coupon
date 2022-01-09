@@ -34,6 +34,9 @@ public class CouponsDBDAO implements CouponDAO {
     private final String DELETE_COUPON_PURCHASE = "DELETE FROM `CouponMania`.`customers_coupons` " +
             "WHERE customer_id=? AND coupon_id=?";
 
+    private final String DELETE_COUPON_PURCHASE_BY_COUPON_ID = "DELETE FROM `CouponMania`.`customers_coupons` " +
+            "WHERE coupon_id=?";
+
     @Override
     public boolean addCoupon(Coupon coupon) {
         Map<Integer, Object> params = new HashMap<>();
@@ -64,7 +67,7 @@ public class CouponsDBDAO implements CouponDAO {
             resultSet = DBUtils.runQueryForResult(GET_ALL_COUPONS);
             while (resultSet.next()) {
                 Coupon coupon = Coupon.builder()
-                        .id(resultSet.getInt("id"))
+                        .id(resultSet.getLong("id"))
                         .category(Category.getCategoryById(resultSet.getInt("category_id")))
                         .companyId(resultSet.getInt("company_id"))
                         .description(resultSet.getString("description"))
@@ -146,5 +149,11 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(1, customerID);
         params.put(2, couponID);
         DBUtils.runQuery(DELETE_COUPON_PURCHASE, params);
+    }
+
+    public void deleteCouponPurchaseByCouponID( long couponID) {
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, couponID);
+        DBUtils.runQuery(DELETE_COUPON_PURCHASE_BY_COUPON_ID, params);
     }
 }
