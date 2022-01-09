@@ -50,11 +50,11 @@ public class AdminFacade extends ClientFacade {
     }
 
     public ArrayList<Company> getAllCompanies() {
-        return null;
+        return companiesDAO.getAllCompanies();
     }
 
     public Company getOneCompany(int companyId) {
-        return null;
+        return companiesDAO.getOneCompany(companyId);
     }
 
     public void addCustomer(Customer customer) {
