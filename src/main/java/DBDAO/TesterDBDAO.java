@@ -28,16 +28,16 @@ public class TesterDBDAO {
 //       customersDBDAO.updateCustomer(testCustomer);
         //       System.out.println(customersDBDAO.isCustomerExists("Raran1@gmail.com", "122345"));
 
-        Company company1 = new Company("McDonalds", "mcmc@mcdonalds.com", "ronald1234", coupons);
+        Company company1 = new Company("McDonalds1", "mcmc@mcdonalds.com", "ronald1234", coupons);
          companiesDBDAO.addCompany(company1);
         // System.out.println(companiesDBDAO.isCompanyExists("mcmc@mcdonalds.com", "ronald1234"));
         // System.out.println(companiesDBDAO.getAllCompanies());
-        Company testCompany = companiesDBDAO.getOneCompany(1);
-        System.out.println("something " + testCompany);
-       testCompany.setEmail("mcmc@bigmac.yummy");
-        companiesDBDAO.updateCompany(testCompany);
-//        System.out.println(companiesDBDAO.getAllCompanies());
-        System.out.println(companiesDBDAO.getOneCompany(1));
+//        Company testCompany = companiesDBDAO.getOneCompany(1);
+//        System.out.println("something " + testCompany);
+//       testCompany.setEmail("mcmc@bigmac.yummy");
+//        companiesDBDAO.updateCompany(testCompany);
+////        System.out.println(companiesDBDAO.getAllCompanies());
+//        System.out.println(companiesDBDAO.getOneCompany(1));
 
 
     }

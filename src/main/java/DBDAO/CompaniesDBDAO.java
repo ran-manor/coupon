@@ -15,8 +15,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
     private final String TABLE_PATH = DBUtils.SCHEMA_PATH + ".`companies`";
 
     private final String ADD_COMPANY = "INSERT INTO " + TABLE_PATH +
-            " (`id`,`name`, `email`, `password`) " +
-            "VALUES (?,?,?,?)";
+            " (`name`, `email`, `password`) " +
+            "VALUES (?,?,?)";
     private final String DELETE_COMPANY = "DELETE FROM " + TABLE_PATH + " WHERE id=?";
 
     private final String GET_COMPANIES_ALL = "SELECT * FROM " + TABLE_PATH;
@@ -51,10 +51,10 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public boolean addCompany(Company company) {
         Map<Integer, Object> params = new HashMap<>();
-        params.put(1, company.getId());
-        params.put(2, company.getName());
-        params.put(3, company.getEmail());
-        params.put(4, company.getPassword());
+        //params.put(1, company.getId());
+        params.put(1, company.getName());
+        params.put(2, company.getEmail());
+        params.put(3, company.getPassword());
         return DBUtils.runQueryGetId(ADD_COMPANY, params);
     }
 
