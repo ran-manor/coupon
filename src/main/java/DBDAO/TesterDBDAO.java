@@ -39,13 +39,13 @@ public class TesterDBDAO {
 //        companiesDBDAO.updateCompany(testCompany);
 ////        System.out.println(companiesDBDAO.getAllCompanies());
 //        System.out.println(companiesDBDAO.getOneCompany(1));
-        Coupon coupon = new Coupon(1,Category.Tattoo, "Burger Tatoo", "cool very cool",
+        Coupon coupon = new Coupon(1,Category.Vacation, "Burger Vacation", "nice very nice",
                 DateUtils.localDateToSqlDate(DateUtils.getStartDate()),DateUtils.localDateToSqlDate(DateUtils.getEndDate()),
                 20, 100.54, "www.something.com");
+       // couponsDBDAO.addCoupon(coupon);
 
-      //  couponsDBDAO.addCoupon(coupon);
-
-        System.out.println(couponsDBDAO.getOneCoupon(1)) ;
+        //System.out.println(couponsDBDAO.getOneCoupon(1)) ;
+        System.out.println(couponsDBDAO.getAllCoupons());
 
 
     }
