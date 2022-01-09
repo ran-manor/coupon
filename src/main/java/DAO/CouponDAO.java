@@ -4,6 +4,7 @@ import Beans.Company;
 import Beans.Coupon;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface CouponDAO {
     boolean addCoupon(Coupon coupon);
@@ -15,4 +16,5 @@ public interface CouponDAO {
     void deleteCouponPurchase(long customerID,long couponID);
     void deleteCouponPurchaseByCouponID( long couponID);
     void deleteCouponPurchaseByCustomerID( long couponID);
+    HashMap<Long , ArrayList<Long>> getAllCouponPurchases();
 }

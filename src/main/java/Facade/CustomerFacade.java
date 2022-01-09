@@ -15,7 +15,10 @@ public class CustomerFacade extends ClientFacade{
     public boolean login(String email, String password) {
         return false;
     }
-    public void purchaseCoupon(Coupon coupon){}
+
+    public void purchaseCoupon(Coupon coupon){
+
+    }
     public ArrayList<Coupon> getCustomersCoupons(){
         return null;
     }

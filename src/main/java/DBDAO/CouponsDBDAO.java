@@ -41,6 +41,7 @@ public class CouponsDBDAO implements CouponDAO {
             "WHERE customer_id=?";
     
 
+private final String GET_ALL_COUPON_PURCHASES = "SELECT * FROM `CouponMania`.`customers_coupons`";
 
     @Override
     public boolean addCoupon(Coupon coupon) {
@@ -167,5 +168,23 @@ public class CouponsDBDAO implements CouponDAO {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, couponID);
         DBUtils.runQuery(DELETE_COUPON_PURCHASE_BY_CUSTOMER_ID, params);
+    }
+
+    @Override
+    public HashMap<Long, ArrayList<Long>> getAllCouponPurchases() {
+        ResultSet results = DBUtils.runQueryForResult(GET_ALL_COUPON_PURCHASES);
+        HashMap<Long, ArrayList<Long>> resultMap = new HashMap<>();
+
+        try {
+            while (results.next()){
+                if (!resultMap.containsKey(results.getLong("customer_id"))){
+                    resultMap.put(results.getLong("customer_id") , new ArrayList<Long>());
+                }
+                resultMap.get(results.getLong("customer_id")).add(results.getLong("coupon_id"));
+            }
+        }catch (SQLException err){
+            err.printStackTrace();
+        }
+        return resultMap;
     }
 }

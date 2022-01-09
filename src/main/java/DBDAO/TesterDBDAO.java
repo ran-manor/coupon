@@ -18,6 +18,17 @@ public class TesterDBDAO {
 
         initMockData(companiesDBDAO, couponsDBDAO, customersDBDAO);
         //todo: tests
+
+
+        couponsDBDAO.addCouponPurchase(3 , 4);
+        couponsDBDAO.addCouponPurchase(1 , 2);
+        couponsDBDAO.addCouponPurchase(1 , 3);
+        couponsDBDAO.addCouponPurchase(2 , 1);
+
+
+        System.out.println(couponsDBDAO.getAllCouponPurchases());
+
+
     }
 
 
