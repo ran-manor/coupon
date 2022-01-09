@@ -4,7 +4,7 @@ import Beans.Category;
 import Beans.Coupon;
 import DAO.CouponDAO;
 import sql.DBUtils;
-import sql.db;
+import utils.DateUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,8 +41,8 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(2, coupon.getCategory().value);
         params.put(3, coupon.getTitle());
         params.put(4, coupon.getDescription());
-        params.put(5, coupon.getStartDate());
-        params.put(6, coupon.getEndDate());
+        params.put(5, DateUtils.javaDateToSqlDate(coupon.getStartDate()));
+        params.put(6, DateUtils.javaDateToSqlDate(coupon.getEndDate()));
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
@@ -119,8 +119,8 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(2, coupon.getCategory().value);
         params.put(3, coupon.getTitle());
         params.put(4, coupon.getDescription());
-        params.put(5, coupon.getStartDate());
-        params.put(6, coupon.getEndDate());
+        params.put(5, DateUtils.javaDateToSqlDate(coupon.getStartDate()));
+        params.put(6, DateUtils.javaDateToSqlDate(coupon.getEndDate()));
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
