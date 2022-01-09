@@ -29,4 +29,8 @@ public class Customer {
         this.password = password;
         this.coupons = coupons;
     }
+
+    private void setId(long id) {
+        this.id = id;
+    }
 }
