@@ -6,6 +6,8 @@ import Beans.Coupon;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 @Data
 public class CompanyFacade extends ClientFacade{
     private int companyId;
@@ -28,6 +30,7 @@ public class CompanyFacade extends ClientFacade{
     public void updateCoupon(Coupon coupon){
         couponDAO.updateCoupon(coupon);
     }
+
     public void deleteCoupon(Coupon coupon){
         deleteCoupon(coupon.getId());
     }
@@ -38,15 +41,23 @@ public class CompanyFacade extends ClientFacade{
     //...
 
     public ArrayList<Coupon> getCompanyCoupons(){
-        return null;
+        return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
+                        .filter(coupon -> coupon.getCompanyId() == companyId)
+                        .collect(Collectors.toList()));
+
     }
     public ArrayList<Coupon> getCompanyCoupons(Category category){
-        return null;
+        return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
+                .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getCategory().value == category.value)
+                .collect(Collectors.toList()));
     }
     public ArrayList<Coupon> getCompanyCoupons(double maxPrice){
-        return null;
+        return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
+                .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getPrice() < maxPrice)
+                .collect(Collectors.toList()));
     }
+
     public Company getCompanyDetails(){
-        return null;
+        return companiesDAO.getOneCompany(companyId);
     }
 }
