@@ -13,4 +13,5 @@ public interface CouponDAO {
     void updateCoupon(Coupon coupon);
     void addCouponPurchase(long customerID,long couponID);
     void deleteCouponPurchase(long customerID,long couponID);
+    void deleteCouponPurchaseByCouponID( long couponID);
 }
