@@ -44,8 +44,10 @@ public class TesterDBDAO {
                 20, 100.54, "www.something.com");
        // couponsDBDAO.addCoupon(coupon);
 
-        //System.out.println(couponsDBDAO.getOneCoupon(1)) ;
-        System.out.println(couponsDBDAO.getAllCoupons());
+        Coupon testCoupon = couponsDBDAO.getOneCoupon(1) ;
+        //System.out.println(couponsDBDAO.getAllCoupons());
+        testCoupon.setAmount(5);
+        couponsDBDAO.updateCoupon(testCoupon);
 
 
     }

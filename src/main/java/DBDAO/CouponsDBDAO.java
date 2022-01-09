@@ -25,7 +25,7 @@ public class CouponsDBDAO implements CouponDAO {
     private final String GET_ONE_COUPON = "SELECT * FROM `CouponMania`.`coupons` WHERE id=?";
 
     private final String UPDATE_COUPON = "UPDATE `CouponMania`.`coupons`" +
-            "SET title=?, description=?, start_date=?, end_date=?, amount=?, price=?, image=?" +
+            "SET company_id=?, category_id=?, title=?, description=?, start_date=?, end_date=?, amount=?, price=?, image=?" +
             "WHERE id=?";
 
     private final String ADD_COUPON_PURCHASE = "INSERT INTO `CouponMania`.`customers_coupons` " +
@@ -124,6 +124,7 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
+        params.put(10,coupon.getId());
 
             DBUtils.runQuery(UPDATE_COUPON, params);
 
