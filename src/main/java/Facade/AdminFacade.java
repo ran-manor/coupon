@@ -70,7 +70,7 @@ public class AdminFacade extends ClientFacade {
             customerDAO.addCustomer(customer);
         }
     }
-
+//
     public void updateCustomer(Customer customer) {
     }
 
