@@ -61,7 +61,7 @@ public class CustomersDBDAO implements CustomerDAO {
     }
 
     @Override
-    public void deleteCustomer(int customerID) {
+    public void deleteCustomer(long customerID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();
         params.put(1, customerID);
         DBUtils.runQuery(DELETE_CUSTOMER, params);
@@ -90,7 +90,7 @@ public class CustomersDBDAO implements CustomerDAO {
     }
 
     @Override
-    public Customer getOneCustomer(int customerID) {
+    public Customer getOneCustomer(long customerID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();
         params.put(1, customerID);
         ResultSet resultSet;

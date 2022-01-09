@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Data
 public class CompanyFacade extends ClientFacade{
-    private int companyId;
+    private long companyId;
     public CompanyFacade(){}
     @Override
     public boolean login(String email, String password) {

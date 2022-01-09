@@ -59,7 +59,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     }
 
     @Override
-    public void deleteCompany(int companyID) {
+    public void deleteCompany(long companyID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();
         params.put(1, companyID);
         DBUtils.runQuery(DELETE_COMPANY, params);
@@ -97,7 +97,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     }
 
     @Override
-    public Company getOneCompany(int companyID) {
+    public Company getOneCompany(long companyID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();
         params.put(1, companyID);
 
