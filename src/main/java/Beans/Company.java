@@ -28,4 +28,12 @@ public class Company {
         this.password = password;
         this.coupons = coupons;
     }
+
+    private void setId(long id) {
+        this.id = id;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
 }

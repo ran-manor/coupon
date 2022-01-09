@@ -50,7 +50,7 @@ public class CouponsDBDAO implements CouponDAO {
     }
 
     @Override
-    public void deleteCoupon(int couponID) {
+    public void deleteCoupon(long couponID) {
         Map<Integer , Object> params = new HashMap<Integer,Object>();
         params.put(1 , couponID);
         DBUtils.runQuery(DELETE_COUPON_BY_ID, params);
@@ -85,7 +85,7 @@ public class CouponsDBDAO implements CouponDAO {
 
 
     @Override
-    public Coupon getOneCoupon(int couponID) {
+    public Coupon getOneCoupon(long couponID) {
         ResultSet resultSet;
         Map<Integer , Object> params = new HashMap<Integer,Object>();
         params.put(1 , couponID);
@@ -132,7 +132,7 @@ public class CouponsDBDAO implements CouponDAO {
     }
 
     @Override
-    public void addCouponPurchase(int customerID, int couponID) {
+    public void addCouponPurchase(long customerID, long couponID) {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, customerID);
         params.put(2, couponID);
@@ -141,7 +141,7 @@ public class CouponsDBDAO implements CouponDAO {
     }
 
     @Override
-    public void deleteCouponPurchase(int customerID, int couponID) {
+    public void deleteCouponPurchase(long customerID, long couponID) {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, customerID);
         params.put(2, couponID);

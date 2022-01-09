@@ -1,6 +1,7 @@
 package Facade;
 
 import Beans.Company;
+import Beans.Coupon;
 import Beans.Customer;
 
 import java.util.ArrayList;
@@ -15,7 +16,22 @@ public class AdminFacade extends ClientFacade {
     }
 
     public void addCompany(Company company) {
-        companiesDAO.addCompany(company);
+        ArrayList<Company> companies = companiesDAO.getAllCompanies();
+        boolean isOK = true;
+        for (Company item : companies) {
+            if (item.getName().equals(company.getName())) {
+                isOK = false;
+                break;
+            }
+            if (item.getEmail().equals(company.getEmail())) {
+                isOK = false;
+                break;
+            }
+        }
+        if (isOK) {
+            companiesDAO.addCompany(company);
+        }
+
     }
 
     public void updateCompany(Company company) {
@@ -23,6 +39,13 @@ public class AdminFacade extends ClientFacade {
     }
 
     public void deleteCompany(int companyId) {
+        ArrayList<Coupon> coupons = couponDAO.getAllCoupons();
+        for (Coupon item : coupons){
+            if (item.getCompanyId()== companyId){
+                couponDAO.deleteCoupon(item.getId());
+
+            }
+        }
         companiesDAO.deleteCompany(companyId);
     }
 

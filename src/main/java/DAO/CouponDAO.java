@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 public interface CouponDAO {
     boolean addCoupon(Coupon coupon);
-    void deleteCoupon(int couponID);
+    void deleteCoupon(long couponID);
     ArrayList<Coupon> getAllCoupons();
-    Coupon getOneCoupon(int couponID);
+    Coupon getOneCoupon(long couponID);
     void updateCoupon(Coupon coupon);
-    void addCouponPurchase(int customerID,int couponID);
-    void deleteCouponPurchase(int customerID,int couponID);
+    void addCouponPurchase(long customerID,long couponID);
+    void deleteCouponPurchase(long customerID,long couponID);
 }
