@@ -32,5 +32,9 @@ public class Coupon {
         this.price = price;
         this.image = image;
     }
+
+    private void setId(long id) {
+        this.id = id;
+    }
 }
 

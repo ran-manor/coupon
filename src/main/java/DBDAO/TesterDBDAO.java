@@ -18,7 +18,6 @@ public class TesterDBDAO {
 
         initMockData(companiesDBDAO, couponsDBDAO, customersDBDAO);
 
-
     }
 
 
