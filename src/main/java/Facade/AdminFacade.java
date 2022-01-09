@@ -37,7 +37,7 @@ public class AdminFacade extends ClientFacade {
     public void updateCompany(Company company) {
         companiesDAO.updateCompany(company);
     }
-
+//
     public void deleteCompany(int companyId) {
         ArrayList<Coupon> coupons = couponDAO.getAllCoupons();
         for (Coupon item : coupons){
