@@ -35,7 +35,7 @@ public class CompanyFacade extends ClientFacade{
         couponDAO.deleteCoupon(id);
         couponDAO.deleteCouponPurchaseByCouponID(id);
     }
-
+    //...
 
     public ArrayList<Coupon> getCompanyCoupons(){
         return null;
