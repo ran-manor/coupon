@@ -37,24 +37,24 @@ public class AdminFacade extends ClientFacade {
     public void updateCompany(Company company) {
         companiesDAO.updateCompany(company);
     }
-
+//
     public void deleteCompany(int companyId) {
         ArrayList<Coupon> coupons = couponDAO.getAllCoupons();
         for (Coupon item : coupons){
             if (item.getCompanyId()== companyId){
+                couponDAO.deleteCouponPurchaseByCouponID(item.getId());
                 couponDAO.deleteCoupon(item.getId());
-
             }
         }
         companiesDAO.deleteCompany(companyId);
     }
 
     public ArrayList<Company> getAllCompanies() {
-        return null;
+        return companiesDAO.getAllCompanies();
     }
 
     public Company getOneCompany(int companyId) {
-        return null;
+        return companiesDAO.getOneCompany(companyId);
     }
 
     public void addCustomer(Customer customer) {
