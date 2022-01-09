@@ -4,10 +4,11 @@ import Beans.Category;
 import Beans.Company;
 import Beans.Coupon;
 import Beans.Customer;
+import utils.DateUtils;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TesterDBDAO {
@@ -28,8 +29,8 @@ public class TesterDBDAO {
 //       customersDBDAO.updateCustomer(testCustomer);
         //       System.out.println(customersDBDAO.isCustomerExists("Raran1@gmail.com", "122345"));
 
-        Company company1 = new Company("McDonalds1", "mcmc@mcdonalds.com", "ronald1234", coupons);
-         companiesDBDAO.addCompany(company1);
+      //  Company company1 = new Company("McDonalds1", "mcmc@mcdonalds.com", "ronald1234", coupons);
+       //  companiesDBDAO.addCompany(company1);
         // System.out.println(companiesDBDAO.isCompanyExists("mcmc@mcdonalds.com", "ronald1234"));
         // System.out.println(companiesDBDAO.getAllCompanies());
 //        Company testCompany = companiesDBDAO.getOneCompany(1);
@@ -38,7 +39,13 @@ public class TesterDBDAO {
 //        companiesDBDAO.updateCompany(testCompany);
 ////        System.out.println(companiesDBDAO.getAllCompanies());
 //        System.out.println(companiesDBDAO.getOneCompany(1));
-        Coupon coupon = new Coupon();
+        Coupon coupon = new Coupon(1,Category.Tattoo, "Burger Tatoo", "cool very cool",
+                DateUtils.localDateToSqlDate(DateUtils.getStartDate()),DateUtils.localDateToSqlDate(DateUtils.getEndDate()),
+                20, 100.54, "www.something.com");
+
+      //  couponsDBDAO.addCoupon(coupon);
+
+        System.out.println(couponsDBDAO.getOneCoupon(1)) ;
 
 
     }

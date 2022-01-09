@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomersDBDAO implements CustomerDAO {
-    protected final static String ADD_CUSTOMER="INSERT INTO `couponmania`.`customers` " +
+    protected final static String ADD_CUSTOMER = "INSERT INTO `couponmania`.`customers` " +
             "(`first_name`,`last_name`,`email`,`password`)" +
             "VALUES (?,?,?,?);";
 
@@ -38,12 +38,12 @@ public class CustomersDBDAO implements CustomerDAO {
         params.put(1, email);
         params.put(2, password);
         ResultSet resultSet;
-        try{
-        resultSet = DBUtils.runQueryForResultSet(IS_CUSTOMER_EXISITS, params);
-        if (resultSet.next()) {
-            return true;
-        }
-        }catch (SQLException err){
+        try {
+            resultSet = DBUtils.runQueryForResultSet(IS_CUSTOMER_EXISITS, params);
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException err) {
             System.out.println(err.getMessage());
         }
         return false;
@@ -51,26 +51,26 @@ public class CustomersDBDAO implements CustomerDAO {
 
     @Override
     public boolean addCustomer(Customer customer) {
-        Map<Integer,Object> parmas = new HashMap<>();
+        Map<Integer, Object> parmas = new HashMap<>();
 
-            parmas.put(1,customer.getFirstName());
-            parmas.put(2,customer.getLastName());
-            parmas.put(3,customer.getEmail());
-            parmas.put(4,customer.getPassword());
-      return   DBUtils.runQueryGetId(ADD_CUSTOMER,parmas);
+        parmas.put(1, customer.getFirstName());
+        parmas.put(2, customer.getLastName());
+        parmas.put(3, customer.getEmail());
+        parmas.put(4, customer.getPassword());
+        return DBUtils.runQueryGetId(ADD_CUSTOMER, parmas);
     }
 
     @Override
-    public void deleteCustomer(int customerID)  {
-        Map<Integer , Object> params = new HashMap<Integer,Object>();
-        params.put(1 , customerID);
-        DBUtils.runQuery(DELETE_CUSTOMER,params);
+    public void deleteCustomer(int customerID) {
+        Map<Integer, Object> params = new HashMap<Integer, Object>();
+        params.put(1, customerID);
+        DBUtils.runQuery(DELETE_CUSTOMER, params);
     }
 
     @Override
     public ArrayList<Customer> getAllCustomers() {
         ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet ;
+        ResultSet resultSet;
         try {
             resultSet = DBUtils.runQueryForResult(GET_ALL_CUSTOMERS);
             while (resultSet.next()) {
@@ -91,22 +91,20 @@ public class CustomersDBDAO implements CustomerDAO {
 
     @Override
     public Customer getOneCustomer(int customerID) {
-        Map<Integer , Object> params = new HashMap<Integer,Object>();
-        params.put(1 , customerID);
-        ResultSet resultSet ;
+        Map<Integer, Object> params = new HashMap<Integer, Object>();
+        params.put(1, customerID);
+        ResultSet resultSet;
         try {
             resultSet = DBUtils.runQueryForResultSet(GET_ONE_CUSTOMER_BY_ID, params);
-            if (resultSet != null) {
-                while (resultSet.next()) {
-                    Customer customer = Customer.builder()
-                            .id(resultSet.getLong("id"))
-                            .firstName(resultSet.getString("first_name"))
-                            .lastName(resultSet.getString("last_name"))
-                            .email(resultSet.getString("email"))
-                            .password(resultSet.getString("password"))
-                            .build();
-                    return customer;
-                }
+            if (resultSet.next()) {
+                Customer customer = Customer.builder()
+                        .id(resultSet.getLong("id"))
+                        .firstName(resultSet.getString("first_name"))
+                        .lastName(resultSet.getString("last_name"))
+                        .email(resultSet.getString("email"))
+                        .password(resultSet.getString("password"))
+                        .build();
+                return customer;
             }
         } catch (SQLException err) {
             System.out.println(err.getMessage());
@@ -116,13 +114,13 @@ public class CustomersDBDAO implements CustomerDAO {
 
     @Override
     public void updateCustomer(Customer customer) {
-        Map<Integer,Object> parmas = new HashMap<>();
-        parmas.put(1,customer.getFirstName());
-        parmas.put(2,customer.getLastName());
-        parmas.put(3,customer.getEmail());
-        parmas.put(4,customer.getPassword());
+        Map<Integer, Object> parmas = new HashMap<>();
+        parmas.put(1, customer.getFirstName());
+        parmas.put(2, customer.getLastName());
+        parmas.put(3, customer.getEmail());
+        parmas.put(4, customer.getPassword());
         parmas.put(5, customer.getId());
 
-        DBUtils.runQuery(UPDATE_CUSTOMER,parmas);
+        DBUtils.runQuery(UPDATE_CUSTOMER, parmas);
     }
 }

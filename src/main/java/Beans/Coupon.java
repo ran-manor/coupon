@@ -2,6 +2,7 @@ package Beans;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
