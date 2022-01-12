@@ -9,7 +9,7 @@ public enum CouponErrorMsg {
     COUPON_UPDATE_COUPON_ID("cannot update coupon id"),
     COUPON_UPDATE_COMPANY_ID("cannot update coupon's company id"),
     AMOUNT_EQUAL_ZERO("The coupon can not be purchased. The amount has reached 0");
-
+//hhh
 
     private String msg;
 
