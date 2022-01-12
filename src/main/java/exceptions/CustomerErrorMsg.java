@@ -5,9 +5,11 @@ package exceptions;
  */
 public enum CustomerErrorMsg {
 
-    COMPANY_NAME_EXIST("cannot add company with exiting customer name"),
-    COMPANY_EMAIL_EXIST("cannot add company with exiting customer email"),
-    COMPANY_ID_NOT_EXIST("cannot update company with exiting non exist id");
+    CUSTOMER_NAME_EXIST("cannot add customer with exiting customer name"),
+    CUSTOMER_EMAIL_EXIST("cannot add customer with exiting customer email"),
+    CUSTOMER_ID_NOT_EXIST("cannot update customer with exiting non exist id"),
+    CUSTOMER_UPDATE_ID_EXIST("cannot update customer with exiting id");
+
 
     private String msg;
 
