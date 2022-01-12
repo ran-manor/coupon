@@ -4,10 +4,9 @@ package exceptions;
  * Created by kobis on 21 Jun, 2021
  */
 public enum CompanyErrorMsg {
-
-    COMPANY_NAME_EXIST("cannot add company with exiting company name"),
-    COMPANY_EMAIL_EXIST("cannot add company with exiting company email"),
-    COMPANY_ID_NOT_EXIST("cannot update company with exiting non exist id");
+    COUPON_NAME_EXISTS("Cannot add coupon - coupon with the same name already exists for this company."),
+    COUPON_UDATE_FAILED_NO_ID("Coupon update failed, no coupon with this ID"),
+    COUPON_UDATE_FAILED_DIFFRENT_COMPANY_ID("Coupon update failed - cannot update coupon to different company ID");
 
     private String msg;
 

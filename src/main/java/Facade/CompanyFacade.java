@@ -10,24 +10,36 @@ import java.util.stream.Collectors;
 
 @Data
 public class CompanyFacade extends ClientFacade{
+
     private long companyId;
+
     public CompanyFacade(){}
     @Override
     public boolean login(String email, String password) {
-        return companiesDAO.isCompanyExists(email , password);
+        Company result = companiesDAO.isCompanyExists(email , password);
+        if (result != null){
+            companyId = result.getId();
+            return true;
+        }
+        //todo: throw dont exist exception
+        return false;
     }
+
     public void addCoupon(Coupon coupon){
         Company company = companiesDAO.getOneCompany(this.getCompanyId());
         boolean isOk= true;
         for (Coupon item:company.getCoupons()) {
             if(item.getTitle().equals(coupon.getTitle()))
+                //TODO: throw coupon name exists exception
                 isOk=false;
                 break;
         }
         if(isOk){
         couponDAO.addCoupon(coupon);}
     }
+
     public void updateCoupon(Coupon coupon){
+        //todo: make sure the coupon you are updating has the same company id and id
         couponDAO.updateCoupon(coupon);
     }
 

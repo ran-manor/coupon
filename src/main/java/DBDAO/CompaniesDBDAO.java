@@ -30,23 +30,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
 //            "(`customer_id`,`category_id`, `title`, `description`, `start_date`,`end_date`,`amount`, `price`, `image`)   )" +
 //            "VALUES (?,?,?,?,?,?,?,?,?);";
 
-    @Override
-    public boolean isCompanyExists(String email, String password) {
-        Map<Integer, Object> params = new HashMap<>();
-        params.put(1, email);
-        params.put(2, password);
-        ResultSet resultSet;
-        try {
-            resultSet = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_EMAIL_PASSWORD, params);
-            if (resultSet.next()) {
-                return true;
-            }
-        } catch (SQLException err) {
-          System.out.println(err.getMessage());
-            err.printStackTrace();
-        }
-        return false;
-    }
 
     @Override
     public boolean addCompany(Company company) {
@@ -118,6 +101,29 @@ public class CompaniesDBDAO implements CompaniesDAO {
             err.printStackTrace();
         }
         return null;
+    }
+    @Override
+    public Company isCompanyExists(String email, String password) {
+        Map<Integer, Object> params = new HashMap<>();
+        params.put(1, email);
+        params.put(2, password);
+        ResultSet result;
+        Company returnCompany = null;
+        try {
+            result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_EMAIL_PASSWORD, params);
+            if (result.next()) {
+                returnCompany = Company.builder()
+                        .id(result.getLong("id"))
+                        .name(result.getString("name"))
+                        .email(result.getString("email"))
+                        .password(result.getString("password"))
+                        .build();
+            }
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+            err.printStackTrace();
+        }
+        return returnCompany;
     }
 
 }

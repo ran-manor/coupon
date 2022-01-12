@@ -34,6 +34,8 @@ public class DBUtils {
         runQuery(sql , null);
     }
 
+
+    //TODO: what is the purpose of this?
     public static boolean runQueryGetId(String query, Map<Integer, Object> params)  {
         Connection connection = null;
         try {
