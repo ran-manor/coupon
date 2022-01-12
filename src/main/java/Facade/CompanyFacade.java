@@ -21,6 +21,7 @@ public class CompanyFacade extends ClientFacade{
             companyId = result.getId();
             return true;
         }
+        //todo: throw dont exist exception
         return false;
     }
 
