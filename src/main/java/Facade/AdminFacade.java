@@ -7,12 +7,15 @@ import Beans.Customer;
 import java.util.ArrayList;
 
 public class AdminFacade extends ClientFacade {
+    private String email = "admin@admin.com";
+    private String password = "admin";
     public AdminFacade() {
     }
 
     @Override
     public boolean login(String email, String password) {
-        return false;
+
+        return this.email.equals(email) && this.password.equals(password);
     }
 
     public void addCompany(Company company) {
