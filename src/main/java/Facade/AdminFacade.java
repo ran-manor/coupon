@@ -13,6 +13,7 @@ public class AdminFacade extends ClientFacade {
 
     @Override
     public boolean login(String email, String password) {
+        //admin true details
         final String adminEmail = "admin@admin.com";
         final String adminPassword = "admin";
         return email.equals(adminEmail) && password.equals(adminPassword);
