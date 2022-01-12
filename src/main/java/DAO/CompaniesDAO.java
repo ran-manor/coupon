@@ -5,7 +5,7 @@ import Beans.Company;
 import java.util.ArrayList;
 
 public interface CompaniesDAO {
-    boolean isCompanyExists(String email, String password);
+    Company isCompanyExists(String email, String password);
     boolean    addCompany(Company company);
     void deleteCompany(long companyID);
     ArrayList<Company> getAllCompanies();
