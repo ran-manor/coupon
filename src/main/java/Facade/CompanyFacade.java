@@ -14,7 +14,7 @@ public class CompanyFacade extends ClientFacade{
     public CompanyFacade(){}
     @Override
     public boolean login(String email, String password) {
-        return false;
+        return companiesDAO.isCompanyExists(email , password);
     }
     public void addCoupon(Coupon coupon){
         Company company = companiesDAO.getOneCompany(this.getCompanyId());
