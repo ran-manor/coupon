@@ -3,13 +3,9 @@ package Facade;
 import Beans.Category;
 import Beans.Coupon;
 import Beans.Customer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+
 
 //@AllArgsConstructor
 //@NoArgsConstructor
@@ -21,7 +17,7 @@ public class CustomerFacade extends ClientFacade{
     //todo: implement
     @Override
     public boolean login(String email, String password) {
-        return false;
+        return  customerDAO.isCustomerExists(email,password);
     }
 
 

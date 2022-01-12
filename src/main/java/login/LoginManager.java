@@ -4,6 +4,7 @@ import Facade.AdminFacade;
 import Facade.ClientFacade;
 import Facade.CompanyFacade;
 import Facade.CustomerFacade;
+import exceptions.LoginException;
 import utils.DateUtils;
 
 public class LoginManager {
@@ -23,12 +24,12 @@ public class LoginManager {
         return instance;
     }
 
-    public ClientFacade login(String email, String password, ClientType clientType)  {
+    public ClientFacade login(String email, String password, ClientType clientType) throws LoginException {
         switch (clientType) {
             case ADMINISTRATOR:
                 ClientFacade adminFacade = new AdminFacade();
                 if (!adminFacade.login(email, password)) {
-                    //throw new LoginException("Invalid user name or password");
+                    throw new LoginException("Invalid user name or password");
                 }
                 System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
                 return adminFacade;
