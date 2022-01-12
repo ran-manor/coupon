@@ -3,6 +3,8 @@ package Facade;
 import Beans.Category;
 import Beans.Coupon;
 import Beans.Customer;
+import exceptions.CustomerException;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,10 +24,11 @@ public class CustomerFacade extends ClientFacade{
 
 
     //TODO: EXCEPTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void purchaseCoupon(Coupon coupon){
+    public void purchaseCoupon(Coupon coupon)throws CustomerException {
         Customer customer = customerDAO.getOneCustomer((int) customerId);
         if(coupon.getAmount()==0 ){
             //todo: throw exp
+            throw new CustomerException("");
         }
         else if(coupon.getEndDate().after(new Date())){
             //todo: throw exp

@@ -36,7 +36,7 @@ public class LoginManager {
             case COMPANY:
                 ClientFacade companyFacade = new CompanyFacade();
                 if (!companyFacade.login(email, password)) {
-                    //throw new LoginException("Invalid user name or password");
+                    throw new LoginException("Invalid user name or password");
                 }
                 System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
                 return companyFacade;
@@ -45,7 +45,7 @@ public class LoginManager {
 
                 ClientFacade customerFacade = new CustomerFacade();
                 if (!customerFacade.login(email, password)) {
-                    //throw new LoginException("Invalid user name or password");
+                    throw new LoginException("Invalid user name or password");
                 }
                 System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
                 return customerFacade;
