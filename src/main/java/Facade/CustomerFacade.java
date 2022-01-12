@@ -5,16 +5,18 @@ import Beans.Coupon;
 import Beans.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-@AllArgsConstructor
-@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
+//@Data
 public class CustomerFacade extends ClientFacade{
     //todo: removie with login
-    private long customerId =  2;
+    private long customerId ;
 
     //todo: implement
     @Override
