@@ -5,9 +5,10 @@ package exceptions;
  */
 public enum CouponErrorMsg {
 
-    COUPON_TITLE_EXIST("cannot add coupon with exiting title"),
-    COUPON_UPDATE_COUPON_ID("cannot update coupon id"),
-    COMPANY_ID_NOT_EXIST("cannot update company with exiting non exist id");
+    COMPANY_NAME_EXIST("cannot add company with exiting company name"),
+    COMPANY_EMAIL_EXIST("cannot add company with exiting company email"),
+    COMPANY_ID_NOT_EXIST("cannot update company with exiting non exist id"),
+    AMOUNT_EQUAL_ZERO("The coupon can not be purchased. The quantity has reached 0 ");
 
     private String msg;
 
