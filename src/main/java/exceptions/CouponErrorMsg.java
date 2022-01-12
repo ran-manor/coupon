@@ -5,8 +5,8 @@ package exceptions;
  */
 public enum CouponErrorMsg {
 
-    COMPANY_NAME_EXIST("cannot add company with exiting company name"),
-    COMPANY_EMAIL_EXIST("cannot add company with exiting company email"),
+    COUPON_TITLE_EXIST("cannot add coupon with exiting title"),
+    COUPON_UPDATE_COUPON_ID("cannot update coupon id"),
     COMPANY_ID_NOT_EXIST("cannot update company with exiting non exist id");
 
     private String msg;
