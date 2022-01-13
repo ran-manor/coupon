@@ -36,5 +36,9 @@ public class Coupon {
     private void setId(long id) {
         this.id = id;
     }
+
+    private void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
 }
 

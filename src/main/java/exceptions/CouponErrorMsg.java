@@ -5,10 +5,11 @@ package exceptions;
  */
 public enum CouponErrorMsg {
 
-    COUPON_TITLE_EXIST("cannot add coupon with exiting coupon title"),
+    COUPON_ALREADY_EXISTS("cannot purchase a coupon the customer already owns"),
     COUPON_UPDATE_COUPON_ID("cannot update coupon id"),
     COUPON_UPDATE_COMPANY_ID("cannot update coupon's company id"),
-    AMOUNT_EQUAL_ZERO("The coupon can not be purchased. The amount has reached 0");
+    AMOUNT_EQUAL_ZERO("The coupon can not be purchased. The amount has reached 0"),
+    EXPIRED_DATE ("cannot purchase an expired coupon");
 //hhh
 
     private String msg;

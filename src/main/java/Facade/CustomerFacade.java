@@ -5,7 +5,6 @@ import Beans.Coupon;
 import Beans.Customer;
 import exceptions.CouponErrorMsg;
 import exceptions.CouponSystemExceptions;
-import exceptions.CustomerErrorMsg;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,10 +31,10 @@ public class CustomerFacade extends ClientFacade{
             throw new CouponSystemExceptions(CouponErrorMsg.AMOUNT_EQUAL_ZERO);
         }
         else if(coupon.getEndDate().after(new Date())){
-            //todo: throw exp
+            throw new CouponSystemExceptions(CouponErrorMsg.EXPIRED_DATE);
         }
         else if (couponDAO.getAllCouponPurchases().get(customerId).contains(coupon.getId())){
-            //todo: throw exp
+            throw new CouponSystemExceptions(CouponErrorMsg.COUPON_ALREADY_EXISTS);
         }
         //gets here if the purchase answers all conditions
         else {
