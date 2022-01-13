@@ -71,7 +71,7 @@ public class CustomerFacade extends ClientFacade {
         return ownedCoupons;
 
     }
-
+//
     public ArrayList<Coupon> getCustomersCoupons(double maxPrice) {
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
