@@ -24,7 +24,7 @@ public class LoginManager {
         }
         return instance;
     }
-
+    //
     public <T extends ClientFacade> T login(String email, String password, ClientType clientType)  {
         switch (clientType) {
             case ADMINISTRATOR:
