@@ -1,8 +1,6 @@
 package exceptions;
 
-/**
- * Created by kobis on 21 Jun, 2021
- */
+
 public enum CouponErrorMsg {
 
     COUPON_ALREADY_EXISTS("cannot purchase a coupon the customer already owns"),

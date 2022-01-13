@@ -5,6 +5,7 @@ import Beans.Coupon;
 import Beans.Customer;
 import exceptions.CouponErrorMsg;
 import exceptions.CouponSystemExceptions;
+import exceptions.CustomerErrorMsg;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,43 +14,38 @@ import java.util.Date;
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Data
-public class CustomerFacade extends ClientFacade{
-    //todo: removie with login
-    private long customerId ;
+public class CustomerFacade extends ClientFacade {
+    private long customerId;
 
-    //todo: implement
     @Override
     public boolean login(String email, String password) {
-        return  customerDAO.isCustomerExists(email,password);
+        return customerDAO.isCustomerExists(email, password);
     }
 
 
-    //TODO: EXCEPTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void purchaseCoupon(Coupon coupon)throws Exception{
+    public void purchaseCoupon(Coupon coupon) throws Exception {
         Customer customer = customerDAO.getOneCustomer((int) customerId);
-        if(coupon.getAmount()==0 ){
-            throw new CouponSystemExceptions(CouponErrorMsg.AMOUNT_EQUAL_ZERO);
-        }
-        else if(coupon.getEndDate().after(new Date())){
-            throw new CouponSystemExceptions(CouponErrorMsg.EXPIRED_DATE);
-        }
-        else if (couponDAO.getAllCouponPurchases().get(customerId).contains(coupon.getId())){
-            throw new CouponSystemExceptions(CouponErrorMsg.COUPON_ALREADY_EXISTS);
+        if (coupon.getAmount() == 0) {
+            throw new CouponSystemExceptions(CustomerErrorMsg.AMOUNT_EQUAL_ZERO);
+        } else if (coupon.getEndDate().after(new Date())) {
+            throw new CouponSystemExceptions(CustomerErrorMsg.EXPIRED_DATE);
+        } else if (couponDAO.getAllCouponPurchases().get(customerId).contains(coupon.getId())) {
+            throw new CouponSystemExceptions(CustomerErrorMsg.COUPON_ALREADY_EXISTS);
         }
         //gets here if the purchase answers all conditions
         else {
-            couponDAO.addCouponPurchase(customerId , coupon.getId());
+            couponDAO.addCouponPurchase(customerId, coupon.getId());
 
             //Decrease coupon amount by 1
             Coupon c = couponDAO.getOneCoupon(coupon.getId());
-            c.setAmount(c.getAmount()-1);
+            c.setAmount(c.getAmount() - 1);
             couponDAO.updateCoupon(c);
         }
 
 
-
     }
-    public ArrayList<Coupon> getCustomersCoupons(){
+
+    public ArrayList<Coupon> getCustomersCoupons() {
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
         ArrayList<Coupon> ownedCoupons = new ArrayList<>();
@@ -60,32 +56,39 @@ public class CustomerFacade extends ClientFacade{
 
 
     }
-    public ArrayList<Coupon> getCustomersCoupons(Category category){
+
+    public ArrayList<Coupon> getCustomersCoupons(Category category) {
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
         ArrayList<Coupon> ownedCoupons = new ArrayList<>();
         for (Long id : ownedCouponsId) {
 //            ownedCoupons.add(couponDAO.getOneCoupon(id));
-            if (couponDAO.getOneCoupon(id).getCategory() == category){
+            if (couponDAO.getOneCoupon(id).getCategory() == category) {
                 ownedCoupons.add(couponDAO.getOneCoupon(id));
             }
         }
         return ownedCoupons;
 
     }
-    public ArrayList<Coupon> getCustomersCoupons(double maxPrice){
+
+    public ArrayList<Coupon> getCustomersCoupons(double maxPrice) {
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
         ArrayList<Coupon> ownedCoupons = new ArrayList<>();
         for (Long id : ownedCouponsId) {
 //            ownedCoupons.add(couponDAO.getOneCoupon(id));
-            if (couponDAO.getOneCoupon(id).getPrice() < maxPrice){
+            if (couponDAO.getOneCoupon(id).getPrice() < maxPrice) {
                 ownedCoupons.add(couponDAO.getOneCoupon(id));
             }
         }
         return ownedCoupons;
     }
-    public Customer getCustomerDetails(){
-        return customerDAO.getOneCustomer(customerId);
+
+    public Customer getCustomerDetails() throws Exception{
+        Customer customer = customerDAO.getOneCustomer(customerId);
+        if(customer == null){
+            throw new CouponSystemExceptions(CustomerErrorMsg.CUSTOMER_NOT_EXIST);
+        }
+        return customer;
     }
 }

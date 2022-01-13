@@ -1,14 +1,18 @@
 package exceptions;
 
-/**
- * Created by kobis on 21 Jun, 2021
- */
+
 public enum CustomerErrorMsg {
 
     CUSTOMER_NAME_EXIST("cannot add customer with exiting customer name"),
     CUSTOMER_EMAIL_EXIST("cannot add customer with exiting customer email"),
     CUSTOMER_ID_NOT_EXIST("cannot update customer with exiting non exist id"),
-    CUSTOMER_UPDATE_ID_EXIST("cannot update customer with exiting id");
+    CUSTOMER_UPDATE_ID_EXIST("cannot update customer with exiting id"),
+    COUPON_ALREADY_EXISTS("cannot purchase a coupon the customer already owns"),
+    CUSTOMER_UPDATE_COUPON_ID("cannot update coupon id"),
+    CUSTOMER_UPDATE_COMPANY_ID("cannot update coupon's company id"),
+    AMOUNT_EQUAL_ZERO("The coupon can not be purchased. The amount has reached 0"),
+    EXPIRED_DATE ("cannot purchase an expired coupon"),
+    CUSTOMER_NOT_EXIST("The customer doesn't exist");
 
 
     private String msg;
