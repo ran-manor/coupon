@@ -5,6 +5,7 @@ import Beans.Coupon;
 import Beans.Customer;
 import exceptions.AdminErrorMsg;
 import exceptions.CouponSystemExceptions;
+import exceptions.CustomerErrorMsg;
 
 import java.util.ArrayList;
 
@@ -59,7 +60,16 @@ public class AdminFacade extends ClientFacade {
     }
 
     public Company getOneCompany(long companyId) {
-        return companiesDAO.getOneCompany(companyId);
+        Company company = companiesDAO.getOneCompany(companyId);
+        try {
+            if (company == null) {
+                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXIST);
+            }
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+
+        }
+        return company;
     }
 
     public void addCustomer(Customer customer) {
@@ -91,7 +101,16 @@ public class AdminFacade extends ClientFacade {
     }
 
     public Customer getOneCustomer(long customerId) {
-        return customerDAO.getOneCustomer(customerId);
+        Customer customer = customerDAO.getOneCustomer(customerId);
+        try {
+            if (customer == null) {
+                throw new CouponSystemExceptions(AdminErrorMsg.CUSTOMER_NOT_EXIST);
+            }
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+
+        }
+        return customer;
     }
 
 }
