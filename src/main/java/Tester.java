@@ -36,8 +36,8 @@ public class Tester {
         CouponExpirationDailyJob job = new CouponExpirationDailyJob();
        // job.run();
 
-        AdminFacade adminFacade = LoginManager.getInstance().login("alon@lie.false", "lielielie,", ClientType.ADMINISTRATOR);
-
+        AdminFacade adminFacade1 = LoginManager.getInstance().login("alon@lie.false", "admin,", ClientType.ADMINISTRATOR);
+        AdminFacade adminFacade2 = LoginManager.getInstance().login("admin@admin.com", "asdasdasd,", ClientType.ADMINISTRATOR);
 
        // job.stop();
     }

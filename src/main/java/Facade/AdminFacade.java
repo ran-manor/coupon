@@ -12,7 +12,9 @@ import java.util.ArrayList;
 
 public class AdminFacade extends ClientFacade {
 
-    public AdminFacade() {
+    //TODO: make access only via loginmanager ( make uninstantiatable by tester )
+    public AdminFacade()  {
+
     }
 
     @Override
@@ -21,7 +23,9 @@ public class AdminFacade extends ClientFacade {
         final String adminEmail = "admin@admin.com";
         final String adminPassword = "admin";
 //        return email.equals(adminEmail) && password.equals(adminPassword);
-        if (!email.equals(adminEmail) && password.equals(adminPassword)){
+
+        if (!(email.equals(adminEmail) && password.equals(adminPassword))){
+
             throw new CouponSystemExceptions(LoginErrorMsg.ADMIN_NO_MATCHING_INFO);
         }
         return true;
