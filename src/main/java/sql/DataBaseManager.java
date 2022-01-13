@@ -83,7 +83,7 @@ public class DataBaseManager {
 
     public static void createDataBase() throws SQLException {
         DBUtils.runQuery(CREATE_SCHEMA);
-        createTables();
+        createTables();//
     }
 
     public static void dropDataBase() throws SQLException {
