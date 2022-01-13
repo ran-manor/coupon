@@ -3,6 +3,7 @@ package Facade;
 import Beans.Category;
 import Beans.Company;
 import Beans.Coupon;
+import exceptions.CouponSystemExceptions;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -25,12 +26,12 @@ public class CompanyFacade extends ClientFacade{
         return false;
     }
 
-    public void addCoupon(Coupon coupon){
+    public void addCoupon(Coupon coupon) throws CouponSystemExceptions {
         Company company = companiesDAO.getOneCompany(this.getCompanyId());
         boolean isOk= true;
         for (Coupon item:company.getCoupons()) {
             if(item.getTitle().equals(coupon.getTitle()))
-                //TODO: throw coupon name exists exception
+                throw new CouponSystemExceptions()
                 isOk=false;
                 break;
         }

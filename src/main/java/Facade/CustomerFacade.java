@@ -3,7 +3,7 @@ package Facade;
 import Beans.Category;
 import Beans.Coupon;
 import Beans.Customer;
-import exceptions.CouponErrorMsg;
+import exceptions.AdminErrorMsg;
 import exceptions.CouponSystemExceptions;
 
 import java.util.ArrayList;
@@ -25,16 +25,16 @@ public class CustomerFacade extends ClientFacade{
 
 
     //TODO: EXCEPTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void purchaseCoupon(Coupon coupon)throws Exception{
+    public void purchaseCoupon(Coupon coupon)throws CouponSystemExceptions{
         Customer customer = customerDAO.getOneCustomer((int) customerId);
         if(coupon.getAmount()==0 ){
-            throw new CouponSystemExceptions(CouponErrorMsg.AMOUNT_EQUAL_ZERO);
+            throw new CouponSystemExceptions(AdminErrorMsg.AMOUNT_EQUAL_ZERO);
         }
         else if(coupon.getEndDate().after(new Date())){
-            throw new CouponSystemExceptions(CouponErrorMsg.EXPIRED_DATE);
+            throw new CouponSystemExceptions(AdminErrorMsg.EXPIRED_DATE);
         }
         else if (couponDAO.getAllCouponPurchases().get(customerId).contains(coupon.getId())){
-            throw new CouponSystemExceptions(CouponErrorMsg.COUPON_ALREADY_EXISTS);
+            throw new CouponSystemExceptions(AdminErrorMsg.COUPON_ALREADY_EXISTS);
         }
         //gets here if the purchase answers all conditions
         else {
