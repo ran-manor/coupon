@@ -3,9 +3,12 @@ package Facade;
 import Beans.Category;
 import Beans.Company;
 import Beans.Coupon;
+import exceptions.CompanyErrorMsg;
+import exceptions.CouponSystemExceptions;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
@@ -15,32 +18,45 @@ public class CompanyFacade extends ClientFacade{
 
     public CompanyFacade(){}
     @Override
-    public boolean login(String email, String password) {
-        Company result = companiesDAO.isCompanyExists(email , password);
-        if (result != null){
-            companyId = result.getId();
-            return true;
+    public boolean login(String email, String password){
+        try {
+            Company result = companiesDAO.isCompanyExists(email, password);
+            if (result != null) {
+                companyId = result.getId();
+                return true;
+            }
+            throw new CouponSystemExceptions(LoginErrorMsg.COMPANY_NO_MATCHING_INFO);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+            return false;
         }
-        //todo: throw dont exist exception
-        return false;
     }
 
     public void addCoupon(Coupon coupon){
         Company company = companiesDAO.getOneCompany(this.getCompanyId());
-        boolean isOk= true;
-        for (Coupon item:company.getCoupons()) {
-            if(item.getTitle().equals(coupon.getTitle()))
-                //TODO: throw coupon name exists exception
-                isOk=false;
-                break;
+        try {
+            for (Coupon item : company.getCoupons()) {
+                if (item.getTitle().equals(coupon.getTitle())) {
+                    throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_NAME_EXISTS);
+                }
+            }
+        } catch (CouponSystemExceptions err){
+            System.out.println(err.getMessage());
         }
-        if(isOk){
-        couponDAO.addCoupon(coupon);}
     }
 
     public void updateCoupon(Coupon coupon){
-        //todo: make sure the coupon you are updating has the same company id and id
-        couponDAO.updateCoupon(coupon);
+        List<Coupon> allCoupons = getCompanyCoupons();
+        try {
+            if (coupon.getId() != companyId) {
+                throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_UDATE_FAILED_DIFFRENT_COMPANY_ID);
+            }
+            if (!allCoupons.stream().map(c -> c.getId()).collect(Collectors.toList()).contains(coupon.getId())) {
+                throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_UDATE_FAILED_NO_ID);
+            }
+        }catch (CouponSystemExceptions err){
+            System.out.println(err.getMessage());
+        }
     }
 
     public void deleteCoupon(Coupon coupon){

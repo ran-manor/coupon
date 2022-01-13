@@ -6,13 +6,14 @@ import DAO.CustomerDAO;
 import DBDAO.CompaniesDBDAO;
 import DBDAO.CouponsDBDAO;
 import DBDAO.CustomersDBDAO;
+import exceptions.CouponSystemExceptions;
 
 public abstract class ClientFacade {
     protected CompaniesDAO companiesDAO = new CompaniesDBDAO();
     protected CustomerDAO customerDAO = new CustomersDBDAO();
     protected CouponDAO couponDAO = new CouponsDBDAO();
 
-    public abstract boolean login(String email, String password);
+    public abstract boolean login(String email, String password) throws CouponSystemExceptions;
 
 
 }
