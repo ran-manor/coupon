@@ -1,10 +1,6 @@
 package exceptions;
 
 
-import Facade.LoginErrorMsg;
-
-import javax.security.auth.login.LoginException;
-
 public class CouponSystemExceptions extends Exception{
     public CouponSystemExceptions(String msg){
         super(msg);

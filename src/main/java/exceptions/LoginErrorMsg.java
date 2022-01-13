@@ -1,4 +1,4 @@
-package Facade;
+package exceptions;
 
 public enum LoginErrorMsg {
     CUSTOMER_NO_MATCHING_INFO("No customer with matching info. Enter a different email or password."),
