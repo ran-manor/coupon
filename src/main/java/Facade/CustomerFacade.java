@@ -5,6 +5,7 @@ import Beans.Coupon;
 import Beans.Customer;
 import exceptions.CouponSystemExceptions;
 import exceptions.CustomerErrorMsg;
+import exceptions.LoginErrorMsg;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,8 +18,13 @@ public class CustomerFacade extends ClientFacade {
     private long customerId;
 
     @Override
-    public boolean login(String email, String password) {
-        return customerDAO.isCustomerExists(email, password);
+    public boolean login(String email, String password) throws CouponSystemExceptions {
+        Customer customer = customerDAO.isCustomerExists(email, password);
+        if (customer == null){
+            throw new CouponSystemExceptions(LoginErrorMsg.CUSTOMER_NO_MATCHING_INFO);
+        }
+        customerId = customer.getId();
+        return true;
     }
 
 

@@ -19,18 +19,13 @@ public class CompanyFacade extends ClientFacade{
     //aa
     public CompanyFacade(){}
     @Override
-    public boolean login(String email, String password){
-        try {
-            Company result = companiesDAO.isCompanyExists(email, password);
-            if (result != null) {
-                companyId = result.getId();
-                return true;
-            }
+    public boolean login(String email, String password) throws CouponSystemExceptions {
+        Company result = companiesDAO.isCompanyExists(email, password);
+        if (result == null){
             throw new CouponSystemExceptions(LoginErrorMsg.COMPANY_NO_MATCHING_INFO);
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
-            return false;
         }
+        companyId = result.getId();
+        return true;
     }
 
     public void addCoupon(Coupon coupon){

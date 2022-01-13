@@ -6,6 +6,7 @@ import Beans.Customer;
 import exceptions.AdminErrorMsg;
 import exceptions.CouponSystemExceptions;
 import exceptions.CustomerErrorMsg;
+import exceptions.LoginErrorMsg;
 
 import java.util.ArrayList;
 
@@ -15,11 +16,15 @@ public class AdminFacade extends ClientFacade {
     }
 
     @Override
-    public boolean login(String email, String password) {
+    public boolean login(String email, String password) throws CouponSystemExceptions {
         //admin true details
         final String adminEmail = "admin@admin.com";
         final String adminPassword = "admin";
-        return email.equals(adminEmail) && password.equals(adminPassword);
+//        return email.equals(adminEmail) && password.equals(adminPassword);
+        if (!email.equals(adminEmail) && password.equals(adminPassword)){
+            throw new CouponSystemExceptions(LoginErrorMsg.ADMIN_NO_MATCHING_INFO);
+        }
+        return true;
     }
 
     public void addCompany(Company company) {

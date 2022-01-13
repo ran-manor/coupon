@@ -25,31 +25,38 @@ public class LoginManager {
         return instance;
     }
 
-    public ClientFacade login(String email, String password, ClientType clientType) throws LoginException, CouponSystemExceptions {
+    public ClientFacade login(String email, String password, ClientType clientType)  {
         switch (clientType) {
             case ADMINISTRATOR:
                 ClientFacade adminFacade = new AdminFacade();
-                if (!adminFacade.login(email, password)) {
-                    throw new LoginException("Invalid user name or password");
+                try {
+                    adminFacade.login(email ,password);
+                    System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
+                    return adminFacade;
+                }catch (CouponSystemExceptions err){
+                    System.out.println(err.getMessage());
+                    return null;
                 }
-                System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
-                return adminFacade;
             case COMPANY:
                 ClientFacade companyFacade = new CompanyFacade();
-                if (!companyFacade.login(email, password)) {
-                    throw new LoginException("Invalid user name or password");
+                try {
+                    companyFacade.login(email ,password);
+                    System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
+                    return companyFacade;
+                }catch (CouponSystemExceptions err){
+                    System.out.println(err.getMessage());
+                    return null;
                 }
-                System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
-                return companyFacade;
-
             case CUSTOMER: //->ctrl+space for see all enum values
-
                 ClientFacade customerFacade = new CustomerFacade();
-                if (!customerFacade.login(email, password)) {
-                    throw new LoginException("Invalid user name or password");
+                try {
+                    customerFacade.login(email ,password);
+                    System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
+                    return customerFacade;
+                }catch (CouponSystemExceptions err){
+                    System.out.println(err.getMessage());
+                    return null;
                 }
-                System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
-                return customerFacade;
         }
         return null;
     }

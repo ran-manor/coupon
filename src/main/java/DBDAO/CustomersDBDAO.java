@@ -32,8 +32,9 @@ public class CustomersDBDAO implements CustomerDAO {
     private Connection connection;
     private boolean isOK;
 
+    //TODO: make is customer exists and getonecustomer one function
     @Override
-    public boolean isCustomerExists(String email, String password) {
+    public Customer isCustomerExists(String email, String password) {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, email);
         params.put(2, password);
@@ -41,12 +42,19 @@ public class CustomersDBDAO implements CustomerDAO {
         try {
             resultSet = DBUtils.runQueryForResultSet(IS_CUSTOMER_EXISITS, params);
             if (resultSet.next()) {
-                return true;
+                Customer customer = Customer.builder()
+                        .id(resultSet.getLong("id"))
+                        .firstName(resultSet.getString("first_name"))
+                        .lastName(resultSet.getString("last_name"))
+                        .email(resultSet.getString("email"))
+                        .password(resultSet.getString("password"))
+                        .build();
+                return customer;
             }
         } catch (SQLException err) {
             System.out.println(err.getMessage());
         }
-        return false;
+        return null;
     }
 
     @Override
