@@ -25,17 +25,17 @@ public class LoginManager {
         return instance;
     }
 
-    public ClientFacade login(String email, String password, ClientType clientType)  {
+    public <T extends ClientFacade> T login(String email, String password, ClientType clientType)  {
         switch (clientType) {
             case ADMINISTRATOR:
                 ClientFacade adminFacade = new AdminFacade();
-                return tryLogin(email , password , adminFacade);
+                return (T) tryLogin(email , password , adminFacade);
             case COMPANY:
                 ClientFacade companyFacade = new CompanyFacade();
-                return tryLogin(email , password , companyFacade);
+                return (T)tryLogin(email , password , companyFacade);
             case CUSTOMER: //->ctrl+space for see all enum values
                 ClientFacade customerFacade = new CustomerFacade();
-                return tryLogin(email , password , customerFacade);
+                return (T)tryLogin(email , password , customerFacade);
         }
         return null;
     }

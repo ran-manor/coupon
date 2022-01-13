@@ -15,7 +15,7 @@ public class CouponExpirationDailyJob implements Runnable {
     private final CouponDAO couponDAO;
     private boolean quit;
 
-    public CouponExpirationDailyJob(CouponDAO couponDAO, boolean quit) {
+    public CouponExpirationDailyJob() {
         this.couponDAO = new CouponsDBDAO();
         this.quit = false;
     }
