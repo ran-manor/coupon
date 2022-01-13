@@ -12,7 +12,7 @@ public class CouponSystemExceptions extends Exception{
     public CouponSystemExceptions(CompanyErrorMsg errors) {
         super(errors.getMsg());
     }
-    public CouponSystemExceptions(CouponErrorMsg errors) {
+    public CouponSystemExceptions(AdminErrorMsg errors) {
         super(errors.getMsg());
     }
     public CouponSystemExceptions(CustomerErrorMsg errors) {

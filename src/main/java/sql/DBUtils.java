@@ -24,28 +24,29 @@ public class DBUtils {
             statement.execute();
 
         } catch (InterruptedException | SQLException err) {
-         //   System.out.println(err.getMessage());
+            //   System.out.println(err.getMessage());
             err.printStackTrace();
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
         }
     }
+
     public static void runQuery(String sql) {
-        runQuery(sql , null);
+        runQuery(sql, null);
     }
 
 
     //TODO: what is the purpose of this?
-    public static boolean runQueryGetId(String query, Map<Integer, Object> params)  {
+    public static boolean runQueryGetId(String query, Map<Integer, Object> params) {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            PreparedStatement statement = connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             if (params != null) {
                 prepareStatementFromParams(statement, params);
             }
-             int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0 ){
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
                 //TODO: change to custom exception
                 throw new SQLException("Creation failed , no id  affected");
             }
@@ -53,8 +54,7 @@ public class DBUtils {
                 if (generatedKeys.next()) {
 //                   customer.setId(generatedKeys.getLong(1));
                     return true;
-                }
-                else {
+                } else {
                     throw new SQLException("Creating user failed, no ID obtained.");
                 }
             }
@@ -67,7 +67,7 @@ public class DBUtils {
         return false;
     }
 
-    public static ResultSet runQueryForResultSet(String query, Map<Integer, Object> params)  {
+    public static ResultSet runQueryForResultSet(String query, Map<Integer, Object> params) {
         Connection connection = null;
         ResultSet resultSet = null;
         try {
@@ -87,10 +87,12 @@ public class DBUtils {
         System.out.println("here: " + resultSet);
         return resultSet;
     }
-    public static ResultSet runQueryForResult(String query)  {
-        return runQueryForResultSet(query , null);
+
+    public static ResultSet runQueryForResult(String query) {
+        return runQueryForResultSet(query, null);
     }
-//todo: add custom exception to this methodd
+
+    //todo: add custom exception to this methodd
     private static void prepareStatementFromParams(PreparedStatement statement, Map<Integer, Object> params) {
         params.forEach((key, value) -> {
             try {
@@ -106,8 +108,7 @@ public class DBUtils {
                     statement.setBoolean(key, (Boolean) value);
                 } else if (value instanceof Float) {
                     statement.setFloat(key, (Float) value);
-                }
-                else if (value instanceof Long){
+                } else if (value instanceof Long) {
                     statement.setLong(key, (Long) value);
                 }
             } catch (SQLException err) {

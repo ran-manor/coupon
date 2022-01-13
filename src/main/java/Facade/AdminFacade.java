@@ -3,6 +3,9 @@ package Facade;
 import Beans.Company;
 import Beans.Coupon;
 import Beans.Customer;
+import exceptions.AdminErrorMsg;
+import exceptions.CouponSystemExceptions;
+import exceptions.CustomerErrorMsg;
 
 import java.util.ArrayList;
 
@@ -21,19 +24,18 @@ public class AdminFacade extends ClientFacade {
 
     public void addCompany(Company company) {
         ArrayList<Company> companies = companiesDAO.getAllCompanies();
-        boolean isOK = true;
-        for (Company item : companies) {
-            if (item.getName().equals(company.getName())) {
-                isOK = false;
-                break;
+        try {
+            for (Company item : companies) {
+                if (item.getName().equals(company.getName())) {
+                    throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NAME_EXIST);
+                }
+                if (item.getEmail().equals(company.getEmail())) {
+                    throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_EMAIL_EXIST);
+                }
             }
-            if (item.getEmail().equals(company.getEmail())) {
-                isOK = false;
-                break;
-            }
-        }
-        if (isOK) {
             companiesDAO.addCompany(company);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
         }
     }
 
@@ -58,20 +60,29 @@ public class AdminFacade extends ClientFacade {
     }
 
     public Company getOneCompany(long companyId) {
-        return companiesDAO.getOneCompany(companyId);
+        Company company = companiesDAO.getOneCompany(companyId);
+        try {
+            if (company == null) {
+                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXIST);
+            }
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+
+        }
+        return company;
     }
 
     public void addCustomer(Customer customer) {
         ArrayList<Customer> customers = customerDAO.getAllCustomers();
-        boolean isOK = true;
-        for (Customer item : customers) {
-            if (item.getEmail().equals(customer.getEmail())) {
-                isOK = false;
-                break;
+        try {
+            for (Customer item : customers) {
+                if (item.getEmail().equals(customer.getEmail())) {
+                    throw new CouponSystemExceptions(AdminErrorMsg.CUSTOMER_EMAIL_EXIST);
+                }
             }
-        }
-        if (isOK) {
             customerDAO.addCustomer(customer);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
         }
     }
 
@@ -90,7 +101,16 @@ public class AdminFacade extends ClientFacade {
     }
 
     public Customer getOneCustomer(long customerId) {
-        return customerDAO.getOneCustomer(customerId);
+        Customer customer = customerDAO.getOneCustomer(customerId);
+        try {
+            if (customer == null) {
+                throw new CouponSystemExceptions(AdminErrorMsg.CUSTOMER_NOT_EXIST);
+            }
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+
+        }
+        return customer;
     }
 
 }

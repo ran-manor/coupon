@@ -1,8 +1,6 @@
 package exceptions;
 
-/**
- * Created by kobis on 21 Jun, 2021
- */
+
 public enum CompanyErrorMsg {
     COUPON_NAME_EXISTS("Cannot add coupon - coupon with the same name already exists for this company."),
     COUPON_UDATE_FAILED_NO_ID("Coupon update failed, no coupon with this ID"),
