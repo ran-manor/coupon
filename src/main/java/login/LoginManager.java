@@ -4,6 +4,7 @@ import Facade.AdminFacade;
 import Facade.ClientFacade;
 import Facade.CompanyFacade;
 import Facade.CustomerFacade;
+import exceptions.CouponSystemExceptions;
 import exceptions.LoginException;
 import utils.DateUtils;
 
@@ -24,7 +25,7 @@ public class LoginManager {
         return instance;
     }
 
-    public ClientFacade login(String email, String password, ClientType clientType) throws LoginException {
+    public ClientFacade login(String email, String password, ClientType clientType) throws LoginException, CouponSystemExceptions {
         switch (clientType) {
             case ADMINISTRATOR:
                 ClientFacade adminFacade = new AdminFacade();

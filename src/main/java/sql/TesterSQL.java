@@ -13,7 +13,7 @@ public class TesterSQL {
         try {
             DataBaseManager.dropDataBase();
             DataBaseManager.createDataBase();
-           DataBaseManager.createTables();
+
 
         } catch (SQLException err) {
             System.out.println(err.getMessage());
