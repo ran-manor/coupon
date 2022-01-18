@@ -11,7 +11,6 @@ import exceptions.LoginErrorMsg;
 import java.util.ArrayList;
 
 public class AdminFacade extends ClientFacade {
-
     //TODO: make access only via loginmanager ( make uninstantiatable by tester )
     public AdminFacade()  {
 
