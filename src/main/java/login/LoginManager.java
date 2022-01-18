@@ -35,9 +35,10 @@ public class LoginManager {
                 return (T)tryLogin(email , password , companyFacade);
             case CUSTOMER: //->ctrl+space for see all enum values
                 ClientFacade customerFacade = new CustomerFacade();
-                return (T)tryLogin(email , password , customerFacade);
+                return (T) tryLogin(email , password , customerFacade);
+            default:
+                return null;
         }
-        return null;
     }
 
     private <T extends ClientFacade> T tryLogin (String email, String password , T facade){

@@ -6,6 +6,7 @@ import Beans.Coupon;
 import exceptions.CompanyErrorMsg;
 import exceptions.CouponSystemExceptions;
 import exceptions.LoginErrorMsg;
+import exceptions.LoginException;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,9 +16,13 @@ import java.util.stream.Collectors;
 @Data
 public class CompanyFacade extends ClientFacade{
 
+    //TODO: make checks if the companyId has a valid value
     private long companyId;
     //aa
-    public CompanyFacade(){}
+//    public CompanyFacade(String email, String password) throws CouponSystemExceptions {
+//        login( email,  password);
+//    }
+    //TODO: check if login needs to be a boolean method
     @Override
     public boolean login(String email, String password) throws CouponSystemExceptions {
         Company result = companiesDAO.isCompanyExists(email, password);
@@ -29,6 +34,7 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public void addCoupon(Coupon coupon){
+
         Company company = companiesDAO.getOneCompany(this.getCompanyId());
         try {
             for (Coupon item : company.getCoupons()) {
@@ -42,6 +48,13 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public void updateCoupon(Coupon coupon){
+//        if (!isValidLogin){
+//            try {
+//                throw new CouponSystemExceptions(LoginErrorMsg.USER_NO_LOGIN);
+//            } catch (CouponSystemExceptions err) {
+//                System.out.println(err.getMessage());
+//            }
+//        }
         List<Coupon> allCoupons = getCompanyCoupons();
         try {
             if (coupon.getId() != companyId) {
@@ -84,4 +97,5 @@ public class CompanyFacade extends ClientFacade{
     public Company getCompanyDetails(){
         return companiesDAO.getOneCompany(companyId);
     }
-}
+    }
+
