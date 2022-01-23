@@ -33,6 +33,8 @@ public class CustomerFacade extends ClientFacade {
         purchaseCoupon(passCoupon.getId());
     }
     public void purchaseCoupon(long couponId){
+        if (!loginCheck()) return;
+
         Coupon coupon = couponDAO.getOneCoupon(couponId);
 //        Customer customer = customerDAO.getOneCustomer((int) customerId);
         try {
@@ -67,6 +69,9 @@ public class CustomerFacade extends ClientFacade {
     }
 
     public ArrayList<Coupon> getCustomersCoupons() {
+        if (!loginCheck()) return null;
+
+
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
         ArrayList<Coupon> ownedCoupons = new ArrayList<>();
@@ -79,6 +84,8 @@ public class CustomerFacade extends ClientFacade {
     }
 
     public ArrayList<Coupon> getCustomersCoupons(Category category) {
+        if (!loginCheck()) return null;
+
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
         ArrayList<Coupon> ownedCoupons = new ArrayList<>();
@@ -93,6 +100,8 @@ public class CustomerFacade extends ClientFacade {
     }
 //
     public ArrayList<Coupon> getCustomersCoupons(double maxPrice) {
+        if (!loginCheck()) return null;
+
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
         ArrayList<Coupon> ownedCoupons = new ArrayList<>();
@@ -106,6 +115,8 @@ public class CustomerFacade extends ClientFacade {
     }
 
     public Customer getCustomerDetails() {
+        if (!loginCheck()) return null;
+
         Customer customer = customerDAO.getOneCustomer(customerId);
         try {
             if (customer == null) {
@@ -116,5 +127,20 @@ public class CustomerFacade extends ClientFacade {
 
         }
         return customer;
+    }
+
+
+
+    private boolean loginCheck(){
+        boolean isOK = true;
+        try {
+            if (customerId < 1){
+                    throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
+            }
+        } catch (CouponSystemExceptions err){
+            System.out.println(err.getMessage());
+            isOK = false;
+        }
+        return isOK;
     }
 }

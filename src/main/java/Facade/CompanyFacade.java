@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class CompanyFacade extends ClientFacade{
 
     //TODO: make checks if the companyId has a valid value
-    private long companyId;
+    private long companyId = 0;
     private void setCompanyId(long companyId){
         this.companyId = companyId;
     }
@@ -37,6 +37,8 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public void addCoupon(Coupon coupon){
+        if (!loginCheck()) return;
+
 //        if (companyId < 1) return;
 //        Company company = companiesDAO.getOneCompany(this.getCompanyId());
         try {
@@ -56,6 +58,9 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public void updateCoupon(Coupon coupon){
+        if (!loginCheck()) return;
+
+
         List<Coupon> allCoupons = getCompanyCoupons();
         try {
             if (coupon.getId() != companyId) {
@@ -70,33 +75,62 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public void deleteCoupon(Coupon coupon){
+        if (!loginCheck()) return;
+
+
         deleteCoupon(coupon.getId());
     }
     public void deleteCoupon(long id){
+        if (!loginCheck()) return;
+
         couponDAO.deleteCoupon(id);
         couponDAO.deleteCouponPurchaseByCouponID(id);
     }
     //...
 
     public ArrayList<Coupon> getCompanyCoupons(){
+        if (!loginCheck()) return null;
+
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
                         .filter(coupon -> coupon.getCompanyId() == companyId)
                         .collect(Collectors.toList()));
 
     }
+
     public ArrayList<Coupon> getCompanyCoupons(Category category){
+
+        if (!loginCheck()) return null;
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
                 .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getCategory().value == category.value)
                 .collect(Collectors.toList()));
     }
     public ArrayList<Coupon> getCompanyCoupons(double maxPrice){
+        if (!loginCheck()) return null;
+
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
                 .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getPrice() < maxPrice)
                 .collect(Collectors.toList()));
     }
 
     public Company getCompanyDetails(){
+        if (!loginCheck()) return null;
+
         return companiesDAO.getOneCompany(companyId);
     }
+
+    private boolean loginCheck(){
+
+        boolean isOK = true;
+        try {
+            if (companyId < 1){
+                throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
+            }
+        } catch (CouponSystemExceptions err){
+            System.out.println(err.getMessage());
+            isOK = false;
+        }
+        return isOK;
     }
+    }
+    //TODO: לבדוק אם עדיף להצמד לארכיטקטורה המקורית או לעשות מה שיותר טוב
 

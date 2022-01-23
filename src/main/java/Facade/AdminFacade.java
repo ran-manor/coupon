@@ -13,10 +13,7 @@ import java.util.ArrayList;
 
 public class AdminFacade extends ClientFacade {
     //TODO: make access only via loginmanager ( make uninstantiatable by tester )
-    public AdminFacade() {
-
-    }
-
+    boolean isOK = false;
     @Override
     public boolean login(String email, String password) throws CouponSystemExceptions {
         //admin true details
@@ -28,10 +25,13 @@ public class AdminFacade extends ClientFacade {
 
             throw new CouponSystemExceptions(LoginErrorMsg.ADMIN_NO_MATCHING_INFO);
         }
+        isOK = true;
         return true;
     }
 
     public void addCompany(Company company) {
+        //TODO: CAN WE DO THIS INLINE?
+        if (!loginCheck()) return;
         ArrayList<Company> companies = companiesDAO.getAllCompanies();
         try {
             for (Company item : companies) {
@@ -52,6 +52,8 @@ public class AdminFacade extends ClientFacade {
     }
 
     public void updateCompany(Company company) {
+        if (!loginCheck()) return;
+
         try {
             if (company != null) {
                 if (getOneCompany(company.getId()) != null) {
@@ -74,6 +76,8 @@ public class AdminFacade extends ClientFacade {
 
     //
     public void deleteCompany(long companyId) {
+        if (!loginCheck()) return;
+
         ArrayList<Coupon> coupons = couponDAO.getAllCoupons();
         for (Coupon item : coupons) {
             if (item.getCompanyId() == companyId) {
@@ -85,10 +89,15 @@ public class AdminFacade extends ClientFacade {
     }
 
     public ArrayList<Company> getAllCompanies() {
+        if (!loginCheck()) return null;
+
         return companiesDAO.getAllCompanies();
     }
 
     public Company getOneCompany(long companyId) {
+        //TODO: maybe we should return new company instead of null
+        if (!loginCheck()) return null;
+
         Company company = companiesDAO.getOneCompany(companyId);
         try {
             if (company == null) {
@@ -100,21 +109,9 @@ public class AdminFacade extends ClientFacade {
         }
         return company;
     }
-//    public Company getOneCompany(String companyName) {
-//        Company company = companiesDAO.getOneCompany(companyId);
-//        try {
-//            if (company == null) {
-//                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXIST);
-//            }
-//        } catch (CouponSystemExceptions err) {
-//            System.out.println(err.getMessage());
-//
-//        }
-//        return company;
-//    }
-
 
     public void addCustomer(Customer customer) {
+        if (!loginCheck()) return;
         ArrayList<Customer> customers = customerDAO.getAllCustomers();
         try {
             for (Customer item : customers) {
@@ -131,6 +128,8 @@ public class AdminFacade extends ClientFacade {
 
     //
     public void updateCustomer(Customer customer) {
+        if (!loginCheck()) return;
+
         try {
             if (customer != null) {
                 if (getOneCompany(customer.getId()) != null) {
@@ -146,15 +145,21 @@ public class AdminFacade extends ClientFacade {
 
     //TODO: add coupon delete failed error
     public void deleteCustomer(long customerId) {
+        if (!loginCheck()) return;
+
         couponDAO.deleteCouponPurchaseByCustomerID(customerId);
         customerDAO.deleteCustomer(customerId);
     }
 
     public ArrayList<Customer> getAllCustomers() {
+        if (!loginCheck()) return null;
+
         return customerDAO.getAllCustomers();
     }
 
     public Customer getOneCustomer(long customerId) {
+        if (!loginCheck()) return null;
+
         Customer customer = customerDAO.getOneCustomer(customerId);
         try {
             if (customer == null) {
@@ -165,6 +170,18 @@ public class AdminFacade extends ClientFacade {
 
         }
         return customer;
+    }
+
+
+    private boolean loginCheck(){
+        try{
+            if (!isOK){
+                throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
+            }
+        }catch (CouponSystemExceptions err){
+            System.out.println(err.getMessage());
+        }
+        return isOK;
     }
 
 }
