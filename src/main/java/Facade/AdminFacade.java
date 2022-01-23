@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class AdminFacade extends ClientFacade {
     //TODO: make access only via loginmanager ( make uninstantiatable by tester )
-    public AdminFacade()  {
+    public AdminFacade() {
 
     }
 
@@ -24,7 +24,7 @@ public class AdminFacade extends ClientFacade {
         final String adminPassword = "admin";
 //        return email.equals(adminEmail) && password.equals(adminPassword);
 
-        if (!(email.equals(adminEmail) && password.equals(adminPassword))){
+        if (!(email.equals(adminEmail) && password.equals(adminPassword))) {
 
             throw new CouponSystemExceptions(LoginErrorMsg.ADMIN_NO_MATCHING_INFO);
         }
@@ -46,13 +46,30 @@ public class AdminFacade extends ClientFacade {
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
         }
-        for (Coupon coupon:company.getCoupons()) {
+        for (Coupon coupon : company.getCoupons()) {
             couponDAO.addCoupon(coupon);
         }
     }
 
     public void updateCompany(Company company) {
-        companiesDAO.updateCompany(company);
+        try {
+            if (company != null) {
+                if (getOneCompany(company.getId()) != null) {
+                    companiesDAO.updateCompany(company);
+                    return;
+                }
+            }
+            throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_UPDATE_FAIL_NOT_EXIST);
+
+//            if (company == null){
+//                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_UPDATE_FAIL_NOT_EXIST);
+//            }
+//            if (getOneCompany(company.getId())!= null){
+//                companiesDAO.updateCompany(company);
+//            }
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
     }
 
     //
@@ -75,7 +92,7 @@ public class AdminFacade extends ClientFacade {
         Company company = companiesDAO.getOneCompany(companyId);
         try {
             if (company == null) {
-                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXIST);
+                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXISTS);
             }
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
@@ -106,7 +123,7 @@ public class AdminFacade extends ClientFacade {
                 }
             }
             customerDAO.addCustomer(customer);
-            System.out.println(DateUtils.getLocalDateTime() +"Customer " + customer.getFirstName() +" "+customer.getLastName()+ " was added.");
+            System.out.println(DateUtils.getLocalDateTime() + "Customer " + customer.getFirstName() + " " + customer.getLastName() + " was added.");
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
         }
@@ -114,9 +131,20 @@ public class AdminFacade extends ClientFacade {
 
     //
     public void updateCustomer(Customer customer) {
-        customerDAO.updateCustomer(customer);
+        try {
+            if (customer != null) {
+                if (getOneCompany(customer.getId()) != null) {
+                    customerDAO.updateCustomer(customer);
+                    return;
+                }
+            }
+            throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_UPDATE_FAIL_NOT_EXIST);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
     }
 
+    //TODO: add coupon delete failed error
     public void deleteCustomer(long customerId) {
         couponDAO.deleteCouponPurchaseByCustomerID(customerId);
         customerDAO.deleteCustomer(customerId);

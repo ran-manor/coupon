@@ -13,6 +13,7 @@ public class DBUtils {
     //'''
     public static final String SCHEMA_PATH = "`CouponMania`";
 
+    //todo: try to return a bool to fix updatecustomer
     public static void runQuery(String query, Map<Integer, Object> params) {
         Connection connection = null;
         try {

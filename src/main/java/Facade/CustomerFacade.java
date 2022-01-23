@@ -9,6 +9,7 @@ import exceptions.LoginErrorMsg;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 
 //@AllArgsConstructor
@@ -28,25 +29,38 @@ public class CustomerFacade extends ClientFacade {
     }
 
 
-    public void purchaseCoupon(Coupon coupon) {
-        Customer customer = customerDAO.getOneCustomer((int) customerId);
+    public void purchaseCoupon(Coupon passCoupon) {
+        purchaseCoupon(passCoupon.getId());
+    }
+    public void purchaseCoupon(long couponId){
+        Coupon coupon = couponDAO.getOneCoupon(couponId);
+//        Customer customer = customerDAO.getOneCustomer((int) customerId);
         try {
-            if (coupon.getAmount() == 0) {
+            //todo: beutify
+            if (coupon == null){
+                throw new CouponSystemExceptions(CustomerErrorMsg.COUPON_PURCHASE_FAIL_COUPON_NULL);
+            } else if (coupon.getAmount() == 0) {
                 throw new CouponSystemExceptions(CustomerErrorMsg.AMOUNT_EQUAL_ZERO);
-            } else if (coupon.getEndDate().after(new Date())) {
+            } else if (coupon.getEndDate().before(new Date())) {
                 throw new CouponSystemExceptions(CustomerErrorMsg.EXPIRED_DATE);
-            } else if (couponDAO.getAllCouponPurchases().get(customerId).contains(coupon.getId())) {
-                throw new CouponSystemExceptions(CustomerErrorMsg.COUPON_ALREADY_EXISTS);
+            }
+            HashMap<Long , ArrayList<Long>> allCoupons = couponDAO.getAllCouponPurchases();
+            if (allCoupons != null) {
+                ArrayList<Long> couponsByCustomerId = allCoupons.get(customerId);
+                if (couponsByCustomerId != null){
+                    if (couponsByCustomerId.contains(coupon.getId())){
+                        throw new CouponSystemExceptions(CustomerErrorMsg.COUPON_ALREADY_EXISTS);
+                    }
+                }
             }
             //gets here if the purchase answers all conditions
-            else {
-                couponDAO.addCouponPurchase(customerId, coupon.getId());
+            couponDAO.addCouponPurchase(customerId, coupon.getId());
 
-                //Decrease coupon amount by 1
-                Coupon c = couponDAO.getOneCoupon(coupon.getId());
-                c.setAmount(c.getAmount() - 1);
-                couponDAO.updateCoupon(c);
-            }
+            //Decrease coupon amount by 1
+            Coupon c = couponDAO.getOneCoupon(coupon.getId());
+            c.setAmount(c.getAmount() - 1);
+            couponDAO.updateCoupon(c);
+
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
         }

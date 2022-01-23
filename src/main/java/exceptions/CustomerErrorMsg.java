@@ -8,6 +8,7 @@ public enum CustomerErrorMsg {
     CUSTOMER_ID_NOT_EXIST("cannot update customer with exiting non exist id"),
     CUSTOMER_UPDATE_ID_EXIST("cannot update customer with exiting id"),
     COUPON_ALREADY_EXISTS("cannot purchase a coupon the customer already owns"),
+    COUPON_PURCHASE_FAIL_COUPON_NULL("Cannot purchase coupon - coupon does not exist."),
     CUSTOMER_UPDATE_COUPON_ID("cannot update coupon id"),
     CUSTOMER_UPDATE_COMPANY_ID("cannot update coupon's company id"),
     AMOUNT_EQUAL_ZERO("The coupon can not be purchased. The amount has reached 0"),

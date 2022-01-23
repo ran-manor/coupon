@@ -26,6 +26,24 @@ public class Customer {
         this(firstName, lastName, email, password);
         this.coupons = coupons;
     }
+
+    public Customer setFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+
+    }
+
+    public Customer setLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
+
+    }
+
+    public Customer setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
     public Customer(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
