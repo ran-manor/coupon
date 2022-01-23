@@ -84,7 +84,6 @@ public class DBUtils {
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
         }
-        System.out.println("here: " + resultSet);
         return resultSet;
     }
 

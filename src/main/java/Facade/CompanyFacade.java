@@ -18,6 +18,9 @@ public class CompanyFacade extends ClientFacade{
 
     //TODO: make checks if the companyId has a valid value
     private long companyId;
+    private void setCompanyId(long companyId){
+        this.companyId = companyId;
+    }
     //aa
 //    public CompanyFacade(String email, String password) throws CouponSystemExceptions {
 //        login( email,  password);
@@ -34,27 +37,25 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public void addCoupon(Coupon coupon){
-
-        Company company = companiesDAO.getOneCompany(this.getCompanyId());
+//        if (companyId < 1) return;
+//        Company company = companiesDAO.getOneCompany(this.getCompanyId());
         try {
-            for (Coupon item : company.getCoupons()) {
+            for (Coupon item : getCompanyCoupons()) {
                 if (item.getTitle().equals(coupon.getTitle())) {
                     throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_NAME_EXISTS);
                 }
             }
+            if (coupon.getCompanyId() != companyId){
+                throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_WRONG_COMPANYID);
+            }
+            couponDAO.addCoupon(coupon);
+            System.out.println("Coupon was added successfully");
         } catch (CouponSystemExceptions err){
             System.out.println(err.getMessage());
         }
     }
 
     public void updateCoupon(Coupon coupon){
-//        if (!isValidLogin){
-//            try {
-//                throw new CouponSystemExceptions(LoginErrorMsg.USER_NO_LOGIN);
-//            } catch (CouponSystemExceptions err) {
-//                System.out.println(err.getMessage());
-//            }
-//        }
         List<Coupon> allCoupons = getCompanyCoupons();
         try {
             if (coupon.getId() != companyId) {

@@ -11,7 +11,7 @@ import java.util.Date;
 @Builder
 public class Coupon {
     private long id;
-    private int companyId;
+    private long companyId;
     private Category category;
     private String title;
     private String description;
@@ -21,7 +21,7 @@ public class Coupon {
     private double price;
     private String image;
 
-    public Coupon(int companyId, Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
+    public Coupon(long companyId, Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
         this.companyId = companyId;
         this.category = category;
         this.title = title;
