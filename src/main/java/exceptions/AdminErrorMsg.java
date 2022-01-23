@@ -9,10 +9,12 @@ public enum AdminErrorMsg {
     COMPANY_EMAIL_EXIST("cannot add company with exiting company email"),
     COMPANY_ID_UPDATE ("cannot update company ID"),
     COMPANY_NAME_UPDATE ("cannot update company name"),
-    CUSTOMER_EMAIL_EXIST ("adding failed- email already exists"),
+    CUSTOMER_EMAIL_EXIST ("Customer adding failed - email already exists"),
     CUSTOMER_UPDATE_ID ("cannot update customer ID"),
+    CUSTOMER_UPDATE_FAILED_NOT_EXIST("Customer update failed - The customer doesn't exist"),
     CUSTOMER_NOT_EXIST("The customer doesn't exist"),
-    COMPANY_NOT_EXIST("The company doesn't exist");
+    COMPANY_NOT_EXISTS("The company doesn't exist"),
+    COMPANY_UPDATE_FAIL_NOT_EXIST("Company update failed - The company doesn't exist");
 
 
 

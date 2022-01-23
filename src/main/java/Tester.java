@@ -25,14 +25,9 @@ public class Tester {
         AdminFacade adminFacadeWrong = LoginManager.getInstance().login("asdasd" , "asda3243" , ClientType.ADMINISTRATOR);
         AdminFacade adminFacadeWrong2 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
         AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.ADMINISTRATOR);
-
-
         adminFacade.addCompany(new Company("rancorp","rancorp@rancorp.com","lootercorp"));
-
-
         CompanyFacade companyFacadeWrong = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
         CompanyFacade companyFacade = LoginManager.getInstance().login("rancorp@rancorp.com" , "lootercorp" , ClientType.COMPANY);
-
         //region addcoupons
         companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId()
                 , Category.Vacation
@@ -50,24 +45,31 @@ public class Tester {
                 DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
                 18 , 1800 ,"urlasd"));
         //endregion
-
         Company c1 = adminFacade.getOneCompany(3);
         //todo: add print table
         System.out.println(c1);
-
         adminFacade.addCustomer(new Customer("ran" , "manor" , "manr@asdad.com" , "234fs"));
+        adminFacade.addCustomer(new Customer("ran" , "manor" , "customer1@mail" , "234fs"));
 //        System.out.println(adminFacade.getOneCustomer());
-        Company tempCompany = adminFacade.getOneCompany(200);
-        tempCompany.setEmail("blablabla");
 //        tempCompany.setCoupons();
-//        adminFacade.updateCompany((adminFacade.getOneCompany(200).setEmail("notrancorp@not.com")));
+        adminFacade.updateCompany((adminFacade.getOneCompany(200)));
         adminFacade.updateCompany((adminFacade.getOneCompany(3).setEmail("notrancorp@not.com")));
+//        adminFacade.deleteCompany(3);
+
+        adminFacade.addCustomer(new Customer("alon" , "mintz" , "mihtz.@" , "234sdd"));
+        adminFacade.updateCustomer(adminFacade.getOneCustomer(2).setFirstName("alfredo"));
+//        adminFacade.updateCustomer(adminFacade.getOneCustomer(200));
+//        System.out.println(adminFacade.getAllCustomers());
+        CustomerFacade customerFacadeWRONG = LoginManager.getInstance().login("","",ClientType.CUSTOMER);
+        CustomerFacade customerFacade = LoginManager.getInstance().login("customer4@mail","823424",ClientType.CUSTOMER);
+
+        customerFacade.purchaseCoupon(5);
+        adminFacade.deleteCustomer(4);
 
 
-
-
-
-
+//        adminFacade.deleteCustomer(200);
+//        adminFacade.deleteCustomer(4);
+        //endregion
 
 //        CustomerFacade customerFacadeWrong;
 //        CustomerFacade customerFacade;
@@ -101,17 +103,11 @@ public class Tester {
         //
 
 
-        couponsDBDAO.addCoupon(Coupon.builder()
-                .description("coupon a company a")
-                .amount(3)
-                .companyId(1)
-                .startDate(DateUtils.getRandomSqlStartDate())
-                .endDate(DateUtils.getRandomSqlEndDate())
-                .category(Category.Electricity)
-                .price(12)
-                .image("url")
-                .title("coupon 1")
-                .build());
+        couponsDBDAO.addCoupon(new Coupon(1
+                , Category.Vacation
+                , "happy vacation", "a happy vacation" ,
+                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
+                4 , 1800 ,"urlasd"));
         couponsDBDAO.addCoupon(Coupon.builder()
                 .description("coupon b company a")
                 .amount(5)
@@ -150,35 +146,35 @@ public class Tester {
                 .email("customer1@mail")
                 .firstName("nir1")
                 .lastName("katz1")
-                .password("82342")
+                .password("823421")
                 .coupons(new ArrayList<Coupon>())
                 .build());
         customersDBDAO.addCustomer(Customer.builder()
-                .email("customer1@mail")
+                .email("customer2@mail")
                 .firstName("nir2")
                 .lastName("katz2")
-                .password("82342")
+                .password("823422")
                 .coupons(new ArrayList<Coupon>())
                 .build());
         customersDBDAO.addCustomer(Customer.builder()
-                .email("customer1@mail")
+                .email("customer3@mail")
                 .firstName("nir3")
                 .lastName("katz3")
-                .password("82342")
+                .password("823423")
                 .coupons(new ArrayList<Coupon>())
                 .build());
         customersDBDAO.addCustomer(Customer.builder()
-                .email("customer1@mail")
+                .email("customer4@mail")
                 .firstName("nir4")
                 .lastName("katz4")
-                .password("82342")
+                .password("823424")
                 .coupons(new ArrayList<Coupon>())
                 .build());
         customersDBDAO.addCustomer(Customer.builder()
-                .email("customer1@mail")
+                .email("customer5@mail")
                 .firstName("nir5")
                 .lastName("katz5")
-                .password("82342")
+                .password("823425")
                 .coupons(new ArrayList<Coupon>())
                 .build());
     }
