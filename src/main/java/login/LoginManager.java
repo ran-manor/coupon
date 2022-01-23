@@ -44,50 +44,12 @@ public class LoginManager {
     private <T extends ClientFacade> T tryLogin (String email, String password , T facade){
         try {
             facade.login(email ,password);
-            System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
+            System.out.println(DateUtils.getLocalDateTime() + "" + email + " was logged\n");
             return facade;
         }catch (CouponSystemExceptions err){
-            System.out.println(err.getMessage());
+            System.out.println(DateUtils.getLocalDateTime() + "" + err.getMessage());
+            System.out.println();
             return null;
         }
     }
 }
-
-
-/*
-*    public ClientFacade login(String email, String password, ClientType clientType)  {
-        switch (clientType) {
-            case ADMINISTRATOR:
-                ClientFacade adminFacade = new AdminFacade();
-                try {
-                    adminFacade.login(email ,password);
-                    System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
-                    return adminFacade;
-                }catch (CouponSystemExceptions err){
-                    System.out.println(err.getMessage());
-                    return null;
-                }
-            case COMPANY:
-                ClientFacade companyFacade = new CompanyFacade();
-                try {
-                    companyFacade.login(email ,password);
-                    System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
-                    return companyFacade;
-                }catch (CouponSystemExceptions err){
-                    System.out.println(err.getMessage());
-                    return null;
-                }
-            case CUSTOMER: //->ctrl+space for see all enum values
-                ClientFacade customerFacade = new CustomerFacade();
-                try {
-                    customerFacade.login(email ,password);
-                    System.out.println(DateUtils.getLocalDateTime() + email + " was logged ");
-                    return customerFacade;
-                }catch (CouponSystemExceptions err){
-                    System.out.println(err.getMessage());
-                    return null;
-                }
-        }
-        return null;
-    }
-* */

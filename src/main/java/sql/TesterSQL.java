@@ -10,14 +10,9 @@ import java.util.List;
 
 public class TesterSQL {
     public static void main(String[] args) {
-        try {
-            DataBaseManager.dropDataBase();
-            DataBaseManager.createDataBase();
-
-
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
+//        try {
+//            DataBaseManager.dropDataBase();
+//            DataBaseManager.createDataBase();
 
     }
 

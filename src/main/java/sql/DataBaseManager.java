@@ -81,12 +81,12 @@ public class DataBaseManager {
             "    ON DELETE NO ACTION\n" +
             "    ON UPDATE NO ACTION)";
 
-    public static void createDataBase() throws SQLException {
+    public static void createDataBase()  {
         DBUtils.runQuery(CREATE_SCHEMA);
         createTables();//
     }
 
-    public static void dropDataBase() throws SQLException {
+    public static void dropDataBase()  {
        DBUtils.runQuery(DROP_SCHEMA);
     }
 
@@ -99,7 +99,7 @@ public class DataBaseManager {
 
     }
 
-    public static void createTables() throws SQLException {
+    public static void createTables()  {
         DBUtils.runQuery(CREATE_TABLE_COMPANIES);
        DBUtils.runQuery(CREATE_TABLE_CUSTOMERS);
         DBUtils.runQuery(CREATE_TABLE_CATEGORIES);

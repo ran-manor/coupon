@@ -7,6 +7,8 @@ import DBDAO.CouponsDBDAO;
 import DBDAO.CustomersDBDAO;
 import DBDAO.TesterDBDAO;
 import Facade.AdminFacade;
+import Facade.CompanyFacade;
+import Facade.CustomerFacade;
 import login.ClientType;
 import login.LoginManager;
 import sql.DataBaseManager;
@@ -18,30 +20,71 @@ import java.util.ArrayList;
 
 public class Tester {
     public static void main(String[] args) {
-        //todo: move try/catch to DataBaseManager
-        try {
-            DataBaseManager.dropDataBase();
-            DataBaseManager.createDataBase();
-        } catch (SQLException err) {
-            System.out.println(err.getMessage());
-        }
-        CustomersDBDAO customersDBDAO = new CustomersDBDAO();
-        CompaniesDBDAO companiesDBDAO = new CompaniesDBDAO();
-        CouponsDBDAO couponsDBDAO = new CouponsDBDAO();
-        ArrayList<Coupon> coupons = new ArrayList<>();
+        applicationStart();
+
+        AdminFacade adminFacadeWrong = LoginManager.getInstance().login("asdasd" , "asda3243" , ClientType.ADMINISTRATOR);
+        AdminFacade adminFacadeWrong2 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
+        AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.ADMINISTRATOR);
 
 
-        initMockData(companiesDBDAO, couponsDBDAO, customersDBDAO);
+        adminFacade.addCompany(new Company("rancorp","rancorp@rancorp.com","lootercorp"));
 
-        CouponExpirationDailyJob job = new CouponExpirationDailyJob();
-       // job.run();
 
-        AdminFacade adminFacade1 = LoginManager.getInstance().login("alon@lie.false", "admin,", ClientType.ADMINISTRATOR);
-        AdminFacade adminFacade2 = LoginManager.getInstance().login("admin@admin.com", "asdasdasd,", ClientType.ADMINISTRATOR);
+        CompanyFacade companyFacadeWrong = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
+        CompanyFacade companyFacade = LoginManager.getInstance().login("rancorp@rancorp.com" , "lootercorp" , ClientType.COMPANY);
 
-       // job.stop();
+        //region addcoupons
+        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId()
+                , Category.Vacation
+                , "happy vacation", "a happy vacation" ,
+                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
+                18 , 1800 ,"urlasd"));
+        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId() + 1
+                , Category.Electricity
+                , "happy electricity", "a happy electricity" ,
+                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
+                18 , 1800 ,"urlasd"));
+        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId()
+                , Category.Electricity
+                , "happy electricity", "a happy electricity" ,
+                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
+                18 , 1800 ,"urlasd"));
+        //endregion
+
+        Company c1 = adminFacade.getOneCompany(3);
+        //todo: add print table
+        System.out.println(c1);
+
+        adminFacade.addCustomer(new Customer("ran" , "manor" , "manr@asdad.com" , "234fs"));
+//        System.out.println(adminFacade.getOneCustomer());
+        Company tempCompany = adminFacade.getOneCompany(200);
+        tempCompany.setEmail("blablabla");
+//        tempCompany.setCoupons();
+//        adminFacade.updateCompany((adminFacade.getOneCompany(200).setEmail("notrancorp@not.com")));
+        adminFacade.updateCompany((adminFacade.getOneCompany(3).setEmail("notrancorp@not.com")));
+
+
+
+
+
+
+
+//        CustomerFacade customerFacadeWrong;
+//        CustomerFacade customerFacade;
+
+
     }
 
+    private static void applicationStart(){
+        DataBaseManager.dropDataBase();
+        DataBaseManager.createDataBase();
+
+        initMockData(new CompaniesDBDAO(),new CouponsDBDAO(), new CustomersDBDAO());
+
+        CouponExpirationDailyJob job = new CouponExpirationDailyJob();
+        Thread thread = new Thread(job);
+        thread.start();
+    }
     public static void initMockData(CompaniesDBDAO companiesDBDAO, CouponsDBDAO couponsDBDAO, CustomersDBDAO customersDBDAO) {
         companiesDBDAO.addCompany(Company.builder()
                 .password("2142")
@@ -139,6 +182,7 @@ public class Tester {
                 .coupons(new ArrayList<Coupon>())
                 .build());
     }
+
 
 
 }

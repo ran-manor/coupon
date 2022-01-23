@@ -7,6 +7,7 @@ import exceptions.AdminErrorMsg;
 import exceptions.CouponSystemExceptions;
 import exceptions.CustomerErrorMsg;
 import exceptions.LoginErrorMsg;
+import utils.DateUtils;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,9 @@ public class AdminFacade extends ClientFacade {
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
         }
+        for (Coupon coupon:company.getCoupons()) {
+            couponDAO.addCoupon(coupon);
+        }
     }
 
     public void updateCompany(Company company) {
@@ -79,6 +83,19 @@ public class AdminFacade extends ClientFacade {
         }
         return company;
     }
+//    public Company getOneCompany(String companyName) {
+//        Company company = companiesDAO.getOneCompany(companyId);
+//        try {
+//            if (company == null) {
+//                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXIST);
+//            }
+//        } catch (CouponSystemExceptions err) {
+//            System.out.println(err.getMessage());
+//
+//        }
+//        return company;
+//    }
+
 
     public void addCustomer(Customer customer) {
         ArrayList<Customer> customers = customerDAO.getAllCustomers();
@@ -89,6 +106,7 @@ public class AdminFacade extends ClientFacade {
                 }
             }
             customerDAO.addCustomer(customer);
+            System.out.println(DateUtils.getLocalDateTime() +"Customer " + customer.getFirstName() +" "+customer.getLastName()+ " was added.");
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
         }

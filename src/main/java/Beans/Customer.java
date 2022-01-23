@@ -23,12 +23,16 @@ public class Customer {
     }
 
     public Customer(String firstName, String lastName, String email, String password, List<Coupon> coupons) {
+        this(firstName, lastName, email, password);
+        this.coupons = coupons;
+    }
+    public Customer(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.coupons = coupons;
     }
+
 
     private void setId(long id) {
         this.id = id;

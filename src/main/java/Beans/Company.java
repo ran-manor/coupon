@@ -19,14 +19,22 @@ public class Company {
     private String password;
     private ArrayList<Coupon> coupons = new ArrayList<>();
 
+    public Company setEmail(String email){
+        this.email = email;
+        return this;
+    }
+
     private void setPassword(String password){
     }
 
     public Company(String name, String email, String password, ArrayList<Coupon> coupons) {
+        this(name , email , password);
+        this.coupons = coupons;
+    }
+    public Company(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.coupons = coupons;
     }
 
     private void setId(long id) {
