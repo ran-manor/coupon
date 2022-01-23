@@ -23,7 +23,7 @@ public class Tester {
         applicationStart();
 
         AdminFacade adminFacadeWrong = LoginManager.getInstance().login("asdasd" , "asda3243" , ClientType.ADMINISTRATOR);
-        AdminFacade adminFacadeWrong2 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
+//        AdminFacade adminFacadeWrong2 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
         AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.ADMINISTRATOR);
         adminFacade.addCompany(new Company("rancorp","rancorp@rancorp.com","lootercorp"));
         CompanyFacade companyFacadeWrong = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
@@ -66,6 +66,13 @@ public class Tester {
         customerFacade.purchaseCoupon(5);
         adminFacade.deleteCustomer(4);
 
+//        CompanyFacade companyFacadeWRONG = LoginManager.getInstance().login("","",ClientType.CUSTOMER);
+        CompanyFacade companyFacadeWRONG2 = LoginManager.getInstance().login("","",ClientType.COMPANY);
+
+        //TODO: check with zeev what case should we protect
+        companyFacadeWrong.getCompanyCoupons();
+        customerFacadeWRONG.getCustomerDetails();
+//        AdminFacade adminFacadeWrong5 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
 
 //        adminFacade.deleteCustomer(200);
 //        adminFacade.deleteCustomer(4);

@@ -49,7 +49,7 @@ public class LoginManager {
         }catch (CouponSystemExceptions err){
             System.out.println(DateUtils.getLocalDateTime() + "" + err.getMessage());
             System.out.println();
-            return null;
+            return facade;
         }
     }
 }
