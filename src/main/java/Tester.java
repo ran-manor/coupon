@@ -43,6 +43,13 @@ public class Tester {
 ////            TablePrinter.print(customerFacade.getCustomersCoupons(Category.Xtreme));
 //            System.out.println(customerFacade.getCustomerDetails());
 
+//            for (Company company:adminFacade.getAllCompanies()) {
+//                System.out.println(company);
+//            }
+        System.out.println(adminFacade.getAllCompanies());
+
+            //System.out.println(adminFacade.getAllCustomers());
+
             applicationEnd();
             dailyJob.interrupt();
         } catch (CouponSystemExceptions  err) {

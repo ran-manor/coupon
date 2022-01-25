@@ -49,4 +49,26 @@ public class Company {
         this.coupons = coupons;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", \ncoupons:\n" + couponPrinter() +
+                '}'+
+                "\n===========================================================================================";
+    }
+
+    private String couponPrinter(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Coupon coupon:coupons) {
+            sb.append(coupon+"\n");
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

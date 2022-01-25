@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class db {
-    //TODO: change all dbdao's to use generic schema_path name
 
     /*general use string that points to the name of the schema*/
     public static final String SCHEMA_PATH = "`CouponMania`";

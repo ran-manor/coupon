@@ -3,31 +3,31 @@ package DBDAO;
 import Beans.Customer;
 import DAO.CustomerDAO;
 import sql.DBUtils;
-import sql.db;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CustomersDBDAO implements CustomerDAO {
-    protected final static String ADD_CUSTOMER = "INSERT INTO `couponmania`.`customers` " +
-            "(`first_name`,`last_name`,`email`,`password`)" +
+
+    private final String TABLE_PATH = DBUtils.SCHEMA_PATH + ".`customers`";
+
+    protected final String ADD_CUSTOMER = "INSERT INTO " +
+            TABLE_PATH + " (`first_name`,`last_name`,`email`,`password`)" +
             "VALUES (?,?,?,?);";
 
-    private final String UPDATE_CUSTOMER = "UPDATE `couponmania`.`customers` " +
-            "SET first_name=?, last_name=?, email=? ,password=?" +
+    private final String UPDATE_CUSTOMER = "UPDATE " + TABLE_PATH +
+            " SET first_name=?, last_name=?, email=? ,password=?" +
             "WHERE id=?";
 
-    private final String DELETE_CUSTOMER = "DELETE FROM `couponmania`.`customers` WHERE id=?";
+    private final String DELETE_CUSTOMER = "DELETE FROM " + TABLE_PATH + " WHERE id=?";
+    private final String GET_ALL_CUSTOMERS = "SELECT * FROM " + TABLE_PATH;
 
-    private final String GET_ALL_CUSTOMERS = "SELECT * FROM `couponmania`.`customers`";
-
-    private final String GET_ONE_CUSTOMER_BY_ID = "SELECT * FROM `couponmania`.`customers` WHERE id LIKE ?";
-    private final String IS_CUSTOMER_EXISITS = "SELECT * FROM `couponmania`.`customers` WHERE email=? AND password=?";
+    private final String GET_ONE_CUSTOMER_BY_ID = "SELECT * FROM " + TABLE_PATH + " WHERE id LIKE ?";
+    private final String IS_CUSTOMER_EXISITS = "SELECT * FROM " + TABLE_PATH + " WHERE email=? AND password=?";
 
     private Connection connection;
     private boolean isOK;

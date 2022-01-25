@@ -75,10 +75,15 @@ public class AdminFacade extends ClientFacade {
         companiesDAO.deleteCompany(companyId);
     }
 
-    //todo: add coupons setter
     public ArrayList<Company> getAllCompanies() throws CouponSystemExceptions {
         loginCheck();
-        return companiesDAO.getAllCompanies();
+
+        return new ArrayList<>(companiesDAO.getAllCompanies().stream()
+                .map(company -> company.setCoupons(new ArrayList<>(couponDAO.getAllCoupons()
+                .stream()
+                        .filter(coupon -> coupon.getCompanyId() == company.getId())
+                        .collect(Collectors.toList()))))
+                .collect(Collectors.toList()));
     }
 
     public Company getOneCompany(long companyId) throws CouponSystemExceptions {
@@ -139,6 +144,9 @@ public class AdminFacade extends ClientFacade {
                 customer.setCoupons(couponPurchaseIDs.stream()
                         .map(id -> couponDAO.getOneCoupon(id))
                         .collect(Collectors.toList()));
+            }
+            else {
+                customer.setCoupons(new ArrayList<>());
             }
         }
         return customers;

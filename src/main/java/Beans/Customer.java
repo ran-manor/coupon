@@ -55,4 +55,26 @@ public class Customer {
     private void setId(long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", coupons:\n" + couponPrinter() +
+                '}';
+    }
+
+    private String couponPrinter(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Coupon coupon:coupons) {
+            sb.append(coupon+"\n");
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }
