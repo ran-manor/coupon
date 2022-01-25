@@ -2,10 +2,10 @@ package Beans;
 
 public enum Category {
     Food,
-    Electricity,
-    Restaurant,
+    Xtreme,
+    Cars,
     Vacation,
-    Tattoo;
+    Tattoos;
 
     public final int value = 1 + ordinal();
 

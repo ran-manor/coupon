@@ -6,7 +6,6 @@ import Beans.Coupon;
 import exceptions.CompanyErrorMsg;
 import exceptions.CouponSystemExceptions;
 import exceptions.LoginErrorMsg;
-import exceptions.LoginException;
 import lombok.Data;
 
 import java.util.ArrayList;

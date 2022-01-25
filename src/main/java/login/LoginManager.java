@@ -5,7 +5,6 @@ import Facade.ClientFacade;
 import Facade.CompanyFacade;
 import Facade.CustomerFacade;
 import exceptions.CouponSystemExceptions;
-import exceptions.LoginException;
 import utils.DateUtils;
 
 public class LoginManager {

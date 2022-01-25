@@ -23,6 +23,7 @@ public class CouponExpirationDailyJob implements Runnable {
     @Override
     public void run() {
         while (!quit){
+            System.out.println("==================== DailyJob Thread is running ====================");
             couponDAO.getAllCoupons().stream()
                     .filter(coupon-> coupon.getEndDate().before(DateUtils.localDateToSqlDate(LocalDate.now())))
                     .forEach(coupon -> couponDAO.deleteCoupon(coupon.getId()));
