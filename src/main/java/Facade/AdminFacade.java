@@ -104,6 +104,11 @@ public class AdminFacade extends ClientFacade {
             if (company == null) {
                 throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXISTS);
             }
+
+            company.setCoupons(new ArrayList<>(couponDAO.getAllCoupons().stream()
+                    .filter(coupon -> coupon.getCompanyId() == companyId)
+                    .collect(Collectors.toList())));
+
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
 
@@ -171,6 +176,7 @@ public class AdminFacade extends ClientFacade {
                     .get(customer.getId()).stream()
                     .map(id-> couponDAO.getOneCoupon(id))
                     .collect(Collectors.toList()));
+
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
 

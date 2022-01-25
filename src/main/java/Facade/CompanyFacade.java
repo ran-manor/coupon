@@ -97,7 +97,6 @@ public class CompanyFacade extends ClientFacade{
                         .collect(Collectors.toList()));
 
     }
-
     public ArrayList<Coupon> getCompanyCoupons(Category category){
 
         if (!loginCheck()) {return null;}
@@ -116,7 +115,7 @@ public class CompanyFacade extends ClientFacade{
     public Company getCompanyDetails(){
         if (!loginCheck()) {return null;}
 
-        return companiesDAO.getOneCompany(companyId);
+        return companiesDAO.getOneCompany(companyId).setCoupons(getCompanyCoupons());
     }
 
     private boolean loginCheck(){

@@ -44,4 +44,9 @@ public class Company {
     private void setName(String name) {
         this.name = name;
     }
+
+    public Company setCoupons(ArrayList<Coupon> coupons){
+        this.coupons = coupons;
+        return this;
+    }
 }
