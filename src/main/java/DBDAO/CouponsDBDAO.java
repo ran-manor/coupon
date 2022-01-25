@@ -170,7 +170,6 @@ public class CouponsDBDAO implements CouponDAO {
         DBUtils.runQuery(DELETE_COUPON_PURCHASE_BY_CUSTOMER_ID, params);
     }
 
-    //TODO: check if valid
     @Override
     public HashMap<Long, ArrayList<Long>> getAllCouponPurchases() {
         ResultSet results = DBUtils.runQueryForResult(GET_ALL_COUPON_PURCHASES);

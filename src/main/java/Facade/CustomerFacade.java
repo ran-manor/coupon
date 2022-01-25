@@ -38,7 +38,6 @@ public class CustomerFacade extends ClientFacade {
         loginCheck();
 
         Coupon coupon = couponDAO.getOneCoupon(couponId);
-        //todo: beutify
         if (coupon == null) {
             throw new CouponSystemExceptions(CustomerErrorMsg.COUPON_PURCHASE_FAIL_COUPON_NULL);
         } else if (coupon.getAmount() == 0) {
