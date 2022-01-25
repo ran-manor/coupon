@@ -67,7 +67,6 @@ public class CustomerFacade extends ClientFacade {
     public ArrayList<Coupon> getCustomersCoupons() throws CouponSystemExceptions {
         loginCheck();
 
-
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
         ArrayList<Coupon> ownedCoupons = new ArrayList<>();

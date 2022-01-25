@@ -12,6 +12,7 @@ import Facade.CustomerFacade;
 import exceptions.CouponSystemExceptions;
 import login.ClientType;
 import login.LoginManager;
+import sql.ConnectionPool;
 import sql.DataBaseManager;
 import threads.CouponExpirationDailyJob;
 import utils.ArtUtils;
@@ -25,81 +26,33 @@ public class Tester {
     public static void main(String[] args) {
         try {
             applicationStart();
+            CouponExpirationDailyJob job = new CouponExpirationDailyJob();
+            Thread dailyJob = new Thread(job);
+            dailyJob.start();
             AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com", "admin", ClientType.ADMINISTRATOR);
             CustomerFacade customerFacade = LoginManager.getInstance().login("alon@mintz.com", "34567", ClientType.CUSTOMER);
             CompanyFacade companyFacade = LoginManager.getInstance().login("all@in.com", "4567", ClientType.COMPANY);
             customerFacade.purchaseCoupon(10);
-            customerFacade.purchaseCoupon(16);
-            customerFacade.purchaseCoupon(22);
-            System.out.println(adminFacade.getOneCustomer(3));
-            adminFacade.deleteCompany(2);
-            System.out.println(adminFacade.getOneCustomer(3));
-            companyFacade.deleteCoupon(40);
-
-
-
+//            customerFacade.purchaseCoupon(16);
+//            customerFacade.purchaseCoupon(22);
+//            //System.out.println(adminFacade.getOneCustomer(3));
+//            adminFacade.deleteCompany(2);
+//            //System.out.println(adminFacade.getOneCustomer(3));
 //
-//        AdminFacade adminFacadeWrong = LoginManager.getInstance().login("asdasd" , "asda3243" , ClientType.ADMINISTRATOR);
-////        AdminFacade adminFacadeWrong2 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
-//        AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.ADMINISTRATOR);
-//        adminFacade.addCompany(new Company("rancorp","rancorp@rancorp.com","lootercorp"));
-//        CompanyFacade companyFacadeWrong = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
-//        CompanyFacade companyFacade = LoginManager.getInstance().login("rancorp@rancorp.com" , "lootercorp" , ClientType.COMPANY);
-//        //region addcoupons
-//        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId()
-//                , Category.Vacation
-//                , "happy vacation", "a happy vacation" ,
-//                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
-//                18 , 1800 ,"urlasd"));
-//        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId() + 1
-//                , Category.Electricity
-//                , "happy electricity", "a happy electricity" ,
-//                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
-//                18 , 1800 ,"urlasd"));
-//        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId()
-//                , Category.Electricity
-//                , "happy electricity", "a happy electricity" ,
-//                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
-//                18 , 1800 ,"urlasd"));
-//        //endregion
-//        Company c1 = adminFacade.getOneCompany(3);
-//        //todo: add print table
-//        System.out.println(c1);
-//        adminFacade.addCustomer(new Customer("ran" , "manor" , "manr@asdad.com" , "234fs"));
-//        adminFacade.addCustomer(new Customer("ran" , "manor" , "customer1@mail" , "234fs"));
-////        System.out.println(adminFacade.getOneCustomer());
-////        tempCompany.setCoupons();
-//        adminFacade.updateCompany((adminFacade.getOneCompany(200)));
-//        adminFacade.updateCompany((adminFacade.getOneCompany(3).setEmail("notrancorp@not.com")));
-////        adminFacade.deleteCompany(3);
-//
-//        adminFacade.addCustomer(new Customer("alon" , "mintz" , "mihtz.@" , "234sdd"));
-//        adminFacade.updateCustomer(adminFacade.getOneCustomer(2).setFirstName("alfredo"));
-////        adminFacade.updateCustomer(adminFacade.getOneCustomer(200));
-////        System.out.println(adminFacade.getAllCustomers());
-//        CustomerFacade customerFacadeWRONG = LoginManager.getInstance().login("","",ClientType.CUSTOMER);
-//        CustomerFacade customerFacade = LoginManager.getInstance().login("customer4@mail","823424",ClientType.CUSTOMER);
-//
-//        customerFacade.purchaseCoupon(5);
-//        adminFacade.deleteCustomer(4);
-//
-////        CompanyFacade companyFacadeWRONG = LoginManager.getInstance().login("","",ClientType.CUSTOMER);
-//        CompanyFacade companyFacadeWRONG2 = LoginManager.getInstance().login("","",ClientType.COMPANY);
-//
-//        companyFacadeWrong.getCompanyCoupons();
-//        customerFacadeWRONG.getCustomerDetails();
-////        AdminFacade adminFacadeWrong5 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
+////            TablePrinter.print(customerFacade.getCustomersCoupons());
+////            TablePrinter.print(customerFacade.getCustomersCoupons(Category.Xtreme));
+//            System.out.println(customerFacade.getCustomerDetails());
 
-//        adminFacade.deleteCustomer(200);
-//        adminFacade.deleteCustomer(4);
-            //endregion
-
-//        CustomerFacade customerFacadeWrong;
-//        CustomerFacade customerFacade;
-
-        } catch (CouponSystemExceptions err) {
+            applicationEnd();
+            dailyJob.interrupt();
+        } catch (CouponSystemExceptions  err) {
             System.out.println(err.getMessage());
         }
+
+    }
+    //TODO: ask zeev: can tester contain methods like initMockData etc?
+    private static void applicationEnd () {
+        ConnectionPool.getInstance().closeAllConnection();
     }
 
     private static void applicationStart() {
@@ -109,9 +62,7 @@ public class Tester {
 
         initMockData(new CompaniesDBDAO(), new CouponsDBDAO(), new CustomersDBDAO());
 
-        CouponExpirationDailyJob job = new CouponExpirationDailyJob();
-        Thread thread = new Thread(job);
-        thread.start();
+
     }
 
     public static void initMockData(CompaniesDBDAO companiesDBDAO, CouponsDBDAO couponsDBDAO, CustomersDBDAO customersDBDAO) {
