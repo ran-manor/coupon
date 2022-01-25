@@ -17,18 +17,6 @@ public class TesterDBDAO {
 
 
         initMockData(companiesDBDAO, couponsDBDAO, customersDBDAO);
-        //todo: tests
-
-
-//        couponsDBDAO.addCouponPurchase(3 , 4);
-//        couponsDBDAO.addCouponPurchase(1 , 2);
-//        couponsDBDAO.addCouponPurchase(1 , 3);
-//        couponsDBDAO.addCouponPurchase(2 , 1);
-//
-//
-//        System.out.println(couponsDBDAO.getAllCouponPurchases());
-
-
     }
 
 
@@ -38,7 +26,7 @@ public class TesterDBDAO {
     //      couponsDBDAO.updateCoupon(testCoupon);
 
 
-    public static void initMockData(CompaniesDBDAO companiesDBDAO , CouponsDBDAO couponsDBDAO , CustomersDBDAO customersDBDAO){
+    public static void initMockData(CompaniesDBDAO companiesDBDAO, CouponsDBDAO couponsDBDAO, CustomersDBDAO customersDBDAO) {
         companiesDBDAO.addCompany(Company.builder()
                 .password("2142")
                 .name("company a")
@@ -52,7 +40,6 @@ public class TesterDBDAO {
                 .email("asdasdasd")
                 .build());
         //
-
 
 
         couponsDBDAO.addCoupon(Coupon.builder()

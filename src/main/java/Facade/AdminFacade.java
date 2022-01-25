@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AdminFacade extends ClientFacade {
-    //TODO: make access only via loginmanager ( make uninstantiatable by tester )
     boolean isOK = false;
 
     @Override
@@ -32,60 +31,39 @@ public class AdminFacade extends ClientFacade {
         return true;
     }
 
-    public void addCompany(Company company) {
-        //TODO: CAN WE DO THIS INLINE?
-        if (!loginCheck()) {
-            return;
-        }
+    public void addCompany(Company company) throws CouponSystemExceptions {
+        loginCheck();
+
         ArrayList<Company> companies = companiesDAO.getAllCompanies();
-        try {
-            for (Company item : companies) {
-                if (item.getName().equals(company.getName())) {
-                    throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NAME_EXIST);
-                }
-                if (item.getEmail().equals(company.getEmail())) {
-                    throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_EMAIL_EXIST);
-                }
+        for (Company item : companies) {
+            if (item.getName().equals(company.getName())) {
+                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NAME_EXIST);
             }
-            companiesDAO.addCompany(company);
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
+            if (item.getEmail().equals(company.getEmail())) {
+                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_EMAIL_EXIST);
+            }
         }
+        companiesDAO.addCompany(company);
         for (Coupon coupon : company.getCoupons()) {
             couponDAO.addCoupon(coupon);
         }
     }
 
-    public void updateCompany(Company company) {
-        if (!loginCheck()) {
-            return;
-        }
+    public void updateCompany(Company company) throws CouponSystemExceptions {
+        loginCheck();
 
-        try {
-            if (company != null) {
-                if (getOneCompany(company.getId()) != null) {
-                    companiesDAO.updateCompany(company);
-                    return;
-                }
+        if (company != null) {
+            if (getOneCompany(company.getId()) != null) {
+                companiesDAO.updateCompany(company);
+                return;
             }
-            throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_UPDATE_FAIL_NOT_EXIST);
-
-//            if (company == null){
-//                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_UPDATE_FAIL_NOT_EXIST);
-//            }
-//            if (getOneCompany(company.getId())!= null){
-//                companiesDAO.updateCompany(company);
-//            }
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
         }
+        throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_UPDATE_FAIL_NOT_EXIST);
     }
 
     //
-    public void deleteCompany(long companyId) {
-        if (!loginCheck()) {
-            return;
-        }
+    public void deleteCompany(long companyId) throws CouponSystemExceptions {
+        loginCheck();
 
         ArrayList<Coupon> coupons = couponDAO.getAllCoupons();
         for (Coupon item : coupons) {
@@ -97,125 +75,99 @@ public class AdminFacade extends ClientFacade {
         companiesDAO.deleteCompany(companyId);
     }
 
-    public ArrayList<Company> getAllCompanies() {
-        if (!loginCheck()) {
-            return null;
-        }
-
+    //todo: add coupons setter
+    public ArrayList<Company> getAllCompanies() throws CouponSystemExceptions {
+        loginCheck();
         return companiesDAO.getAllCompanies();
     }
 
-    public Company getOneCompany(long companyId) {
+    public Company getOneCompany(long companyId) throws CouponSystemExceptions {
         //TODO: maybe we should return new company instead of null
-        if (!loginCheck()) {
-            return null;
-        }
+        loginCheck();
 
         Company company = companiesDAO.getOneCompany(companyId);
-        try {
-            if (company == null) {
-                throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXISTS);
-            }
-            company.setCoupons(new ArrayList<>(couponDAO.getAllCoupons().stream()
-                    .filter(coupon -> coupon.getCompanyId() == companyId)
-                    .collect(Collectors.toList())));
 
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
-
+        //TODO: should bad input be counted as an error in tester
+        if (company == null) {
+            throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXISTS);
         }
+        company.setCoupons(new ArrayList<>(couponDAO.getAllCoupons().stream()
+                .filter(coupon -> coupon.getCompanyId() == companyId)
+                .collect(Collectors.toList())));
         return company;
     }
 
-    public void addCustomer(Customer customer) {
-        if (!loginCheck()) {
-            return;
-        }
+    public void addCustomer(Customer customer) throws CouponSystemExceptions {
+        loginCheck();
+
         ArrayList<Customer> customers = customerDAO.getAllCustomers();
-        try {
-            for (Customer item : customers) {
-                if (item.getEmail().equals(customer.getEmail())) {
-                    throw new CouponSystemExceptions(AdminErrorMsg.CUSTOMER_EMAIL_EXIST);
-                }
+        for (Customer item : customers) {
+            if (item.getEmail().equals(customer.getEmail())) {
+                throw new CouponSystemExceptions(AdminErrorMsg.CUSTOMER_EMAIL_EXIST);
             }
-            customerDAO.addCustomer(customer);
-            System.out.println(DateUtils.getLocalDateTime() + "Customer " + customer.getFirstName() + " " + customer.getLastName() + " was added.");
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
         }
+        customerDAO.addCustomer(customer);
+        System.out.println(DateUtils.getLocalDateTime() + "Customer " + customer.getFirstName() + " " + customer.getLastName() + " was added.");
     }
 
-    //
-    public void updateCustomer(Customer customer) {
-        if (!loginCheck()) {
-            return;
-        }
+    public void updateCustomer(Customer customer) throws CouponSystemExceptions {
+        loginCheck();
 
-        try {
-            if (customer != null) {
-                if (getOneCompany(customer.getId()) != null) {
-                    customerDAO.updateCustomer(customer);
-                    return;
-                }
+        if (customer != null) {
+            if (getOneCompany(customer.getId()) != null) {
+                customerDAO.updateCustomer(customer);
+                return;
             }
-            throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_UPDATE_FAIL_NOT_EXIST);
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
         }
+        throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_UPDATE_FAIL_NOT_EXIST);
+
     }
 
     //TODO: add coupon delete failed error
-    public void deleteCustomer(long customerId) {
-        if (!loginCheck()) {
-            return;
-        }
+    public void deleteCustomer(long customerId) throws CouponSystemExceptions {
+        loginCheck();
 
         couponDAO.deleteCouponPurchaseByCustomerID(customerId);
         customerDAO.deleteCustomer(customerId);
     }
 
-    public ArrayList<Customer> getAllCustomers() {
-        if (!loginCheck()) {
-            return null;
-        }
+    public ArrayList<Customer> getAllCustomers() throws CouponSystemExceptions {
+        loginCheck();
 
-        return customerDAO.getAllCustomers();
-    }
-
-    public Customer getOneCustomer(long customerId) {
-        if (!loginCheck()) {
-            return null;
-        }
-
-        Customer customer = customerDAO.getOneCustomer(customerId);
-        try {
-            if (customer == null) {
-                throw new CouponSystemExceptions(AdminErrorMsg.CUSTOMER_NOT_EXIST);
-            }
-            ArrayList<Long> couponPurchaseIDs = couponDAO.getAllCouponPurchases().get(customerId);
+        //TODO: make this a method?
+        ArrayList<Customer> customers = customerDAO.getAllCustomers();
+        for (Customer customer : customers) {
+            ArrayList<Long> couponPurchaseIDs = couponDAO.getAllCouponPurchases().get(customer.getId());
             if (couponPurchaseIDs != null) {
                 customer.setCoupons(couponPurchaseIDs.stream()
                         .map(id -> couponDAO.getOneCoupon(id))
                         .collect(Collectors.toList()));
             }
+        }
+        return customers;
+    }
 
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
+    public Customer getOneCustomer(long customerId) throws CouponSystemExceptions {
+        loginCheck();
 
+        Customer customer = customerDAO.getOneCustomer(customerId);
+        if (customer == null) {
+            throw new CouponSystemExceptions(AdminErrorMsg.CUSTOMER_NOT_EXIST);
+        }
+        ArrayList<Long> couponPurchaseIDs = couponDAO.getAllCouponPurchases().get(customerId);
+        if (couponPurchaseIDs != null) {
+            customer.setCoupons(couponPurchaseIDs.stream()
+                    .map(id -> couponDAO.getOneCoupon(id))
+                    .collect(Collectors.toList()));
         }
         return customer;
     }
 
-
-    private boolean loginCheck() {
-        try {
-            if (!isOK) {
-                throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
-            }
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
+    private void loginCheck() throws CouponSystemExceptions {
+        if (!isOK) {
+            throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
         }
-        return isOK;
     }
 
 }
+

@@ -30,53 +30,42 @@ public class CustomerFacade extends ClientFacade {
         return true;
     }
 
-
-    public void purchaseCoupon(Coupon passCoupon) {
-        purchaseCoupon(passCoupon.getId());
+    public void purchaseCoupon(Coupon coupon) throws CouponSystemExceptions {
+        purchaseCoupon(coupon.getId());
     }
 
-    public void purchaseCoupon(long couponId) {
-        if (!loginCheck()) {
-            return;
-        }
+    public void purchaseCoupon(long couponId) throws CouponSystemExceptions {
+        loginCheck();
 
         Coupon coupon = couponDAO.getOneCoupon(couponId);
-//        Customer customer = customerDAO.getOneCustomer((int) customerId);
-        try {
-            //todo: beutify
-            if (coupon == null) {
-                throw new CouponSystemExceptions(CustomerErrorMsg.COUPON_PURCHASE_FAIL_COUPON_NULL);
-            } else if (coupon.getAmount() == 0) {
-                throw new CouponSystemExceptions(CustomerErrorMsg.AMOUNT_EQUAL_ZERO);
-            } else if (coupon.getEndDate().before(new Date())) {
-                throw new CouponSystemExceptions(CustomerErrorMsg.EXPIRED_DATE);
-            }
-            HashMap<Long, ArrayList<Long>> allCoupons = couponDAO.getAllCouponPurchases();
-            if (allCoupons != null) {
-                ArrayList<Long> couponsByCustomerId = allCoupons.get(customerId);
-                if (couponsByCustomerId != null) {
-                    if (couponsByCustomerId.contains(coupon.getId())) {
-                        throw new CouponSystemExceptions(CustomerErrorMsg.COUPON_ALREADY_EXISTS);
-                    }
+        //todo: beutify
+        if (coupon == null) {
+            throw new CouponSystemExceptions(CustomerErrorMsg.COUPON_PURCHASE_FAIL_COUPON_NULL);
+        } else if (coupon.getAmount() == 0) {
+            throw new CouponSystemExceptions(CustomerErrorMsg.AMOUNT_EQUAL_ZERO);
+        } else if (coupon.getEndDate().before(new Date())) {
+            throw new CouponSystemExceptions(CustomerErrorMsg.EXPIRED_DATE);
+        }
+        HashMap<Long, ArrayList<Long>> allCoupons = couponDAO.getAllCouponPurchases();
+        if (allCoupons != null) {
+            ArrayList<Long> couponsByCustomerId = allCoupons.get(customerId);
+            if (couponsByCustomerId != null) {
+                if (couponsByCustomerId.contains(coupon.getId())) {
+                    throw new CouponSystemExceptions(CustomerErrorMsg.COUPON_ALREADY_EXISTS);
                 }
             }
-            //gets here if the purchase answers all conditions
-            couponDAO.addCouponPurchase(customerId, coupon.getId());
-
-            //Decrease coupon amount by 1
-            Coupon c = couponDAO.getOneCoupon(coupon.getId());
-            c.setAmount(c.getAmount() - 1);
-            couponDAO.updateCoupon(c);
-
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
         }
+        //gets here if the purchase answers all conditions
+        couponDAO.addCouponPurchase(customerId, coupon.getId());
+
+        //Decrease coupon amount by 1
+        Coupon c = couponDAO.getOneCoupon(coupon.getId());
+        c.setAmount(c.getAmount() - 1);
+        couponDAO.updateCoupon(c);
     }
 
-    public ArrayList<Coupon> getCustomersCoupons() {
-        if (!loginCheck()) {
-            return null;
-        }
+    public ArrayList<Coupon> getCustomersCoupons() throws CouponSystemExceptions {
+        loginCheck();
 
 
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
@@ -90,10 +79,8 @@ public class CustomerFacade extends ClientFacade {
 
     }
 
-    public ArrayList<Coupon> getCustomersCoupons(Category category) {
-        if (!loginCheck()) {
-            return null;
-        }
+    public ArrayList<Coupon> getCustomersCoupons(Category category) throws CouponSystemExceptions {
+        loginCheck();
 
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
@@ -108,11 +95,8 @@ public class CustomerFacade extends ClientFacade {
 
     }
 
-    //
-    public ArrayList<Coupon> getCustomersCoupons(double maxPrice) {
-        if (!loginCheck()) {
-            return null;
-        }
+    public ArrayList<Coupon> getCustomersCoupons(double maxPrice) throws CouponSystemExceptions {
+        loginCheck();
 
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
@@ -126,42 +110,27 @@ public class CustomerFacade extends ClientFacade {
         return ownedCoupons;
     }
 
-    public Customer getCustomerDetails() {
-        if (!loginCheck()) {
-            return null;
-        }
+    public Customer getCustomerDetails() throws CouponSystemExceptions {
+        loginCheck();
 
         Customer customer = customerDAO.getOneCustomer(customerId);
-        try {
-            if (customer == null) {
-                throw new CouponSystemExceptions(CustomerErrorMsg.CUSTOMER_NOT_EXIST);
-            }
-            //TODO: add exeption for non existing key
-            ArrayList<Long> couponPurchaseIDs = couponDAO.getAllCouponPurchases().get(this.customerId);
-            if (couponPurchaseIDs != null) {
-                customer.setCoupons(couponPurchaseIDs.stream()
-                        .map(id -> couponDAO.getOneCoupon(id))
-                        .collect(Collectors.toList()));
-            }
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
 
+        if (customer == null) {
+            throw new CouponSystemExceptions(CustomerErrorMsg.CUSTOMER_NOT_EXIST);
         }
 
+        ArrayList<Long> couponPurchaseIDs = couponDAO.getAllCouponPurchases().get(this.customerId);
+        if (couponPurchaseIDs != null) {
+            customer.setCoupons(couponPurchaseIDs.stream()
+                    .map(id -> couponDAO.getOneCoupon(id))
+                    .collect(Collectors.toList()));
+        }
         return customer;
     }
 
-
-    private boolean loginCheck() {
-        boolean isOK = true;
-        try {
-            if (customerId < 0) {
-                throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
-            }
-        } catch (CouponSystemExceptions err) {
-            System.out.println(err.getMessage());
-            isOK = false;
+    private void loginCheck() throws CouponSystemExceptions {
+        if (customerId < 0) {
+            throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
         }
-        return isOK;
     }
 }

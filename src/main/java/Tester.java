@@ -21,58 +21,57 @@ import java.util.ArrayList;
 public class Tester {
     public static void main(String[] args) {
         applicationStart();
-
-        AdminFacade adminFacadeWrong = LoginManager.getInstance().login("asdasd" , "asda3243" , ClientType.ADMINISTRATOR);
-//        AdminFacade adminFacadeWrong2 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
-        AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.ADMINISTRATOR);
-        adminFacade.addCompany(new Company("rancorp","rancorp@rancorp.com","lootercorp"));
-        CompanyFacade companyFacadeWrong = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
-        CompanyFacade companyFacade = LoginManager.getInstance().login("rancorp@rancorp.com" , "lootercorp" , ClientType.COMPANY);
-        //region addcoupons
-        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId()
-                , Category.Vacation
-                , "happy vacation", "a happy vacation" ,
-                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
-                18 , 1800 ,"urlasd"));
-        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId() + 1
-                , Category.Electricity
-                , "happy electricity", "a happy electricity" ,
-                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
-                18 , 1800 ,"urlasd"));
-        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId()
-                , Category.Electricity
-                , "happy electricity", "a happy electricity" ,
-                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
-                18 , 1800 ,"urlasd"));
-        //endregion
-        Company c1 = adminFacade.getOneCompany(3);
-        //todo: add print table
-        System.out.println(c1);
-        adminFacade.addCustomer(new Customer("ran" , "manor" , "manr@asdad.com" , "234fs"));
-        adminFacade.addCustomer(new Customer("ran" , "manor" , "customer1@mail" , "234fs"));
-//        System.out.println(adminFacade.getOneCustomer());
-//        tempCompany.setCoupons();
-        adminFacade.updateCompany((adminFacade.getOneCompany(200)));
-        adminFacade.updateCompany((adminFacade.getOneCompany(3).setEmail("notrancorp@not.com")));
-//        adminFacade.deleteCompany(3);
-
-        adminFacade.addCustomer(new Customer("alon" , "mintz" , "mihtz.@" , "234sdd"));
-        adminFacade.updateCustomer(adminFacade.getOneCustomer(2).setFirstName("alfredo"));
-//        adminFacade.updateCustomer(adminFacade.getOneCustomer(200));
-//        System.out.println(adminFacade.getAllCustomers());
-        CustomerFacade customerFacadeWRONG = LoginManager.getInstance().login("","",ClientType.CUSTOMER);
-        CustomerFacade customerFacade = LoginManager.getInstance().login("customer4@mail","823424",ClientType.CUSTOMER);
-
-        customerFacade.purchaseCoupon(5);
-        adminFacade.deleteCustomer(4);
-
-//        CompanyFacade companyFacadeWRONG = LoginManager.getInstance().login("","",ClientType.CUSTOMER);
-        CompanyFacade companyFacadeWRONG2 = LoginManager.getInstance().login("","",ClientType.COMPANY);
-
-        //TODO: check with zeev what case should we protect
-        companyFacadeWrong.getCompanyCoupons();
-        customerFacadeWRONG.getCustomerDetails();
-//        AdminFacade adminFacadeWrong5 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
+//
+//        AdminFacade adminFacadeWrong = LoginManager.getInstance().login("asdasd" , "asda3243" , ClientType.ADMINISTRATOR);
+////        AdminFacade adminFacadeWrong2 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
+//        AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.ADMINISTRATOR);
+//        adminFacade.addCompany(new Company("rancorp","rancorp@rancorp.com","lootercorp"));
+//        CompanyFacade companyFacadeWrong = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
+//        CompanyFacade companyFacade = LoginManager.getInstance().login("rancorp@rancorp.com" , "lootercorp" , ClientType.COMPANY);
+//        //region addcoupons
+//        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId()
+//                , Category.Vacation
+//                , "happy vacation", "a happy vacation" ,
+//                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
+//                18 , 1800 ,"urlasd"));
+//        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId() + 1
+//                , Category.Electricity
+//                , "happy electricity", "a happy electricity" ,
+//                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
+//                18 , 1800 ,"urlasd"));
+//        companyFacade.addCoupon(new Coupon(companyFacade.getCompanyId()
+//                , Category.Electricity
+//                , "happy electricity", "a happy electricity" ,
+//                DateUtils.getRandomSqlStartDate(),DateUtils.getRandomSqlEndDate(),
+//                18 , 1800 ,"urlasd"));
+//        //endregion
+//        Company c1 = adminFacade.getOneCompany(3);
+//        //todo: add print table
+//        System.out.println(c1);
+//        adminFacade.addCustomer(new Customer("ran" , "manor" , "manr@asdad.com" , "234fs"));
+//        adminFacade.addCustomer(new Customer("ran" , "manor" , "customer1@mail" , "234fs"));
+////        System.out.println(adminFacade.getOneCustomer());
+////        tempCompany.setCoupons();
+//        adminFacade.updateCompany((adminFacade.getOneCompany(200)));
+//        adminFacade.updateCompany((adminFacade.getOneCompany(3).setEmail("notrancorp@not.com")));
+////        adminFacade.deleteCompany(3);
+//
+//        adminFacade.addCustomer(new Customer("alon" , "mintz" , "mihtz.@" , "234sdd"));
+//        adminFacade.updateCustomer(adminFacade.getOneCustomer(2).setFirstName("alfredo"));
+////        adminFacade.updateCustomer(adminFacade.getOneCustomer(200));
+////        System.out.println(adminFacade.getAllCustomers());
+//        CustomerFacade customerFacadeWRONG = LoginManager.getInstance().login("","",ClientType.CUSTOMER);
+//        CustomerFacade customerFacade = LoginManager.getInstance().login("customer4@mail","823424",ClientType.CUSTOMER);
+//
+//        customerFacade.purchaseCoupon(5);
+//        adminFacade.deleteCustomer(4);
+//
+////        CompanyFacade companyFacadeWRONG = LoginManager.getInstance().login("","",ClientType.CUSTOMER);
+//        CompanyFacade companyFacadeWRONG2 = LoginManager.getInstance().login("","",ClientType.COMPANY);
+//
+//        companyFacadeWrong.getCompanyCoupons();
+//        customerFacadeWRONG.getCustomerDetails();
+////        AdminFacade adminFacadeWrong5 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);
 
 //        adminFacade.deleteCustomer(200);
 //        adminFacade.deleteCustomer(4);

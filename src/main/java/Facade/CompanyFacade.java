@@ -15,122 +15,102 @@ import java.util.stream.Collectors;
 
 
 @Data
-public class CompanyFacade extends ClientFacade{
+public class CompanyFacade extends ClientFacade {
 
-    //TODO: make checks if the companyId has a valid value
     private long companyId = -1; //0-admin
-    private void setCompanyId(long companyId){
+
+    private void setCompanyId(long companyId) {
         this.companyId = companyId;
     }
-    //aa
-//    public CompanyFacade(String email, String password) throws CouponSystemExceptions {
-//        login( email,  password);
-//    }
-    //TODO: check if login needs to be a boolean method
+
     @Override
     public boolean login(String email, String password) throws CouponSystemExceptions {
         Company result = companiesDAO.isCompanyExists(email, password);
-        if (result == null){
+        if (result == null) {
             throw new CouponSystemExceptions(LoginErrorMsg.COMPANY_NO_MATCHING_INFO);
         }
         companyId = result.getId();
         return true;
     }
 
-    public void addCoupon(Coupon coupon){
-        if (!loginCheck()) {return;}
+    public void addCoupon(Coupon coupon) throws CouponSystemExceptions {
+        loginCheck();
 
-//        if (companyId < 1) return;
-//        Company company = companiesDAO.getOneCompany(this.getCompanyId());
-        try {
-            for (Coupon item : getCompanyCoupons()) {
-                if (item.getTitle().equals(coupon.getTitle())) {
-                    throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_NAME_EXISTS);
-                }
+        for (Coupon item : getCompanyCoupons()) {
+            if (item.getTitle().equals(coupon.getTitle())) {
+                throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_NAME_EXISTS);
             }
-            if (coupon.getCompanyId() != companyId){
-                throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_WRONG_COMPANYID);
-            }
-            couponDAO.addCoupon(coupon);
-            System.out.println("Coupon was added successfully");
-        } catch (CouponSystemExceptions err){
-            System.out.println(err.getMessage());
         }
+        if (coupon.getCompanyId() != companyId) {
+            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_WRONG_COMPANYID);
+        }
+        couponDAO.addCoupon(coupon);
+        System.out.println("Coupon was added successfully");
+
     }
 
-    public void updateCoupon(Coupon coupon){
-        if (!loginCheck()) {return;}
+    public void updateCoupon(Coupon coupon) throws CouponSystemExceptions {
+        loginCheck();
 
 
         List<Coupon> allCoupons = getCompanyCoupons();
-        try {
-            if (coupon.getId() != companyId) {
-                throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_UDATE_FAILED_DIFFRENT_COMPANY_ID);
-            }
-            if (!allCoupons.stream().map(c -> c.getId()).collect(Collectors.toList()).contains(coupon.getId())) {
-                throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_UDATE_FAILED_NO_ID);
-            }
-        }catch (CouponSystemExceptions err){
-            System.out.println(err.getMessage());
+
+        if (coupon.getId() != companyId) {
+            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_UDATE_FAILED_DIFFRENT_COMPANY_ID);
         }
+        if (!allCoupons.stream().map(c -> c.getId()).collect(Collectors.toList()).contains(coupon.getId())) {
+            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_UDATE_FAILED_NO_ID);
+        }
+
     }
 
-    public void deleteCoupon(Coupon coupon){
-        if (!loginCheck()) {return;}
-
-
+    public void deleteCoupon(Coupon coupon) throws CouponSystemExceptions {
+        loginCheck();
         deleteCoupon(coupon.getId());
     }
-    public void deleteCoupon(long id){
-        if (!loginCheck()) {return;}
+
+    public void deleteCoupon(long id) throws CouponSystemExceptions {
+        loginCheck();
 
         couponDAO.deleteCoupon(id);
         couponDAO.deleteCouponPurchaseByCouponID(id);
     }
     //...
 
-    public ArrayList<Coupon> getCompanyCoupons(){
-        if (!loginCheck()) {return null;}
+    public ArrayList<Coupon> getCompanyCoupons() throws CouponSystemExceptions {
+        loginCheck();
 
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
-                        .filter(coupon -> coupon.getCompanyId() == companyId)
-                        .collect(Collectors.toList()));
+                .filter(coupon -> coupon.getCompanyId() == companyId)
+                .collect(Collectors.toList()));
 
     }
-    public ArrayList<Coupon> getCompanyCoupons(Category category){
 
-        if (!loginCheck()) {return null;}
+    public ArrayList<Coupon> getCompanyCoupons(Category category) throws CouponSystemExceptions {
+        loginCheck();
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
                 .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getCategory().value == category.value)
                 .collect(Collectors.toList()));
     }
-    public ArrayList<Coupon> getCompanyCoupons(double maxPrice){
-        if (!loginCheck()) {return null;}
+
+    public ArrayList<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemExceptions {
+        loginCheck();
 
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
                 .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getPrice() < maxPrice)
                 .collect(Collectors.toList()));
     }
 
-    public Company getCompanyDetails(){
-        if (!loginCheck()) {return null;}
+    public Company getCompanyDetails() throws CouponSystemExceptions {
+        loginCheck();
 
         return companiesDAO.getOneCompany(companyId).setCoupons(getCompanyCoupons());
     }
 
-    private boolean loginCheck(){
-
-        boolean isOK = true;
-        try {
-            if (companyId < 0){
-                throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
-            }
-        } catch (CouponSystemExceptions err){
-            System.out.println(err.getMessage());
-            isOK = false;
+    private void loginCheck() throws CouponSystemExceptions {
+        if (companyId < 0) {
+            throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
         }
-        return isOK;
     }
-    }
-    //TODO: לבדוק אם עדיף להצמד לארכיטקטורה המקורית או לעשות מה שיותר טוב
+}
 

@@ -8,12 +8,8 @@ import java.sql.*;
 import java.util.Map;
 
 public class DBUtils {
-    //TODO: make a "create params map" static method
-    //,,,
-    //'''
     public static final String SCHEMA_PATH = "`CouponMania`";
 
-    //todo: try to return a bool to fix updatecustomer
     public static void runQuery(String query, Map<Integer, Object> params) {
         Connection connection = null;
         try {
@@ -25,7 +21,6 @@ public class DBUtils {
             statement.execute();
 
         } catch (InterruptedException | SQLException err) {
-            //   System.out.println(err.getMessage());
             err.printStackTrace();
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
@@ -36,12 +31,23 @@ public class DBUtils {
         runQuery(sql, null);
     }
 
-
     //TODO: what is the purpose of this?
-    public static boolean runQueryGetId(String query, Map<Integer, Object> params) {
+    //TODO: merge this with runQuery
+    public static boolean runQueryGetId(String query, Map<Integer, Object> params ) {
+        //bool isUsinggetid
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
+            //TODO: Merge using this implementtion (or with lambda functions)
+            /*
+            * if (usinggetid)){
+            * PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            * }
+            * else (
+            * PreparedStatement statement = connection.prepareStatement(query);
+            * )
+            *
+            *  */
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             if (params != null) {
                 prepareStatementFromParams(statement, params);
@@ -92,7 +98,6 @@ public class DBUtils {
         return runQueryForResultSet(query, null);
     }
 
-    //todo: add custom exception to this methodd
     private static void prepareStatementFromParams(PreparedStatement statement, Map<Integer, Object> params) {
         params.forEach((key, value) -> {
             try {

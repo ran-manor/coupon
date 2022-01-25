@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.Map;
 import java.util.function.Function;
 
-//TODO: add custom errors
 public class db {
     //TODO: change all dbdao's to use generic schema_path name
 
@@ -45,7 +44,6 @@ public class db {
         return getResultSetQuery(query, null);
     }
 
-    //TODO: check if runQuery can be changed to generic <T>
 
     /* This method receives a sql query as a string,a parameter map that has index as key and an object as a value
     * it also receives a function. the purpose of the method is to prepare a PreparedStatement and then
