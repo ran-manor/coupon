@@ -29,9 +29,7 @@ public class CompanyFacade extends ClientFacade {
         if (result == null) {
             throw new CouponSystemExceptions(LoginErrorMsg.COMPANY_NO_MATCHING_INFO);
         }
-        long resultId = result.getId();
-        System.out.println("Your id is: " + resultId);
-        companyId = resultId;
+        companyId = result.getId();
         return true;
     }
 

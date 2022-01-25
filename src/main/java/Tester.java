@@ -14,6 +14,7 @@ import login.ClientType;
 import login.LoginManager;
 import sql.DataBaseManager;
 import threads.CouponExpirationDailyJob;
+import utils.ArtUtils;
 import utils.DateUtils;
 import utils.TablePrinter;
 
@@ -102,6 +103,7 @@ public class Tester {
     }
 
     private static void applicationStart() {
+        System.out.println(ArtUtils.banner);
         DataBaseManager.dropDataBase();
         DataBaseManager.createDataBase();
 
