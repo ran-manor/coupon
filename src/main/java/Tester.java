@@ -36,6 +36,7 @@ public class Tester {
             companyFacade.deleteCoupon(40);
 
 
+
 //
 //        AdminFacade adminFacadeWrong = LoginManager.getInstance().login("asdasd" , "asda3243" , ClientType.ADMINISTRATOR);
 ////        AdminFacade adminFacadeWrong2 = LoginManager.getInstance().login("admin@admin.com" , "admin" , ClientType.COMPANY);

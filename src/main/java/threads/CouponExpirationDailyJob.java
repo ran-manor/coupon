@@ -20,6 +20,7 @@ public class CouponExpirationDailyJob implements Runnable {
         this.quit = false;
     }
 
+    //
     @Override
     public void run() {
         while (!quit){

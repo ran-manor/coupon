@@ -29,7 +29,9 @@ public class CompanyFacade extends ClientFacade {
         if (result == null) {
             throw new CouponSystemExceptions(LoginErrorMsg.COMPANY_NO_MATCHING_INFO);
         }
-        companyId = result.getId();
+        long resultId = result.getId();
+        System.out.println("Your id is: " + resultId);
+        companyId = resultId;
         return true;
     }
 
@@ -75,6 +77,7 @@ public class CompanyFacade extends ClientFacade {
         if (!couponDAO.getAllCoupons().stream().anyMatch(coupon -> id == coupon.getId())) {
             throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_DELETE_FAILED_COUPON_DOESNT_EXIST);
         }
+
         if (couponDAO.getOneCoupon(id).getCompanyId() != getCompanyId()) {
             throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_DELETEE_FAILED_COUPON_OF_OTHER_COMPANY);
         }
@@ -84,6 +87,7 @@ public class CompanyFacade extends ClientFacade {
     }
     //endregion
 
+    //TODO: make one fucntion
     //region get company coupons
     public ArrayList<Coupon> getCompanyCoupons() throws CouponSystemExceptions {
         loginCheck();

@@ -40,6 +40,7 @@ public class LoginManager {
         }
     }
 
+    //TODO: remove try/catch?
     private <T extends ClientFacade> T tryLogin (String email, String password , T facade){
         try {
             facade.login(email ,password);
