@@ -50,9 +50,14 @@ public class Tester {
         }
 
     }
-    //TODO: ask zeev: can tester contain methods like initMockData etc?
+
     private static void applicationEnd () {
-        ConnectionPool.getInstance().closeAllConnection();
+        try {
+            ConnectionPool.getInstance().closeAllConnection();
+        } catch (InterruptedException err){
+            System.out.println(err.getMessage());
+        }
+
     }
 
     private static void applicationStart() {

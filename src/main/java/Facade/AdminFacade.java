@@ -82,12 +82,10 @@ public class AdminFacade extends ClientFacade {
     }
 
     public Company getOneCompany(long companyId) throws CouponSystemExceptions {
-        //TODO: maybe we should return new company instead of null
         loginCheck();
 
         Company company = companiesDAO.getOneCompany(companyId);
 
-        //TODO: should bad input be counted as an error in tester
         if (company == null) {
             throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXISTS);
         }
@@ -123,7 +121,6 @@ public class AdminFacade extends ClientFacade {
 
     }
 
-    //TODO: add coupon delete failed error
     public void deleteCustomer(long customerId) throws CouponSystemExceptions {
         loginCheck();
 

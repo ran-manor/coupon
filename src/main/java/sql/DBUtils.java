@@ -33,28 +33,27 @@ public class DBUtils {
 
     //TODO: what is the purpose of this?
     //TODO: merge this with runQuery
-    public static boolean runQueryGetId(String query, Map<Integer, Object> params ) {
+    public static boolean runQueryGetId(String query, Map<Integer, Object> params) {
         //bool isUsinggetid
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             //TODO: Merge using this implementtion (or with lambda functions)
             /*
-            * if (usinggetid)){
-            * PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            * }
-            * else (
-            * PreparedStatement statement = connection.prepareStatement(query);
-            * )
-            *
-            *  */
+             * if (usinggetid)){
+             * PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+             * }
+             * else (
+             * PreparedStatement statement = connection.prepareStatement(query);
+             * )
+             *
+             *  */
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             if (params != null) {
                 prepareStatementFromParams(statement, params);
             }
             int affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
-                //TODO: change to custom exception
                 throw new SQLException("Creation failed , no id  affected");
             }
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {

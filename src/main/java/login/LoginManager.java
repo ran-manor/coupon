@@ -24,7 +24,7 @@ public class LoginManager {
         return instance;
     }
     //
-    public <T extends ClientFacade> T login(String email, String password, ClientType clientType)  {
+    public <T extends ClientFacade> T login(String email, String password, ClientType clientType) throws CouponSystemExceptions {
         switch (clientType) {
             case ADMINISTRATOR:
                 ClientFacade adminFacade = new AdminFacade();
@@ -40,16 +40,9 @@ public class LoginManager {
         }
     }
 
-    //TODO: remove try/catch?
-    private <T extends ClientFacade> T tryLogin (String email, String password , T facade){
-        try {
+    private <T extends ClientFacade> T tryLogin (String email, String password , T facade) throws CouponSystemExceptions {
             facade.login(email ,password);
             System.out.println(DateUtils.getLocalDateTime() + "" + email + " was logged\n");
             return facade;
-        }catch (CouponSystemExceptions err){
-            System.out.println(DateUtils.getLocalDateTime() + "" + err.getMessage());
-            System.out.println();
-            return facade;
-        }
     }
 }

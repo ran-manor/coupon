@@ -63,7 +63,7 @@ public class ConnectionPool {
             connections.push(connection);
         }
     }
-//TODO: ask zeev where try/catch needs to be
+
     public void closeAllConnection() throws InterruptedException{
         synchronized (connections){
             while (connections.size()<NUM_OF_CONS){
