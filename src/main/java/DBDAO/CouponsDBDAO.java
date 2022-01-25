@@ -39,9 +39,9 @@ public class CouponsDBDAO implements CouponDAO {
 
     private final String DELETE_COUPON_PURCHASE_BY_CUSTOMER_ID = "DELETE FROM `CouponMania`.`customers_coupons` " +
             "WHERE customer_id=?";
-    
 
-private final String GET_ALL_COUPON_PURCHASES = "SELECT * FROM `CouponMania`.`customers_coupons`";
+
+    private final String GET_ALL_COUPON_PURCHASES = "SELECT * FROM `CouponMania`.`customers_coupons`";
 
     @Override
     public boolean addCoupon(Coupon coupon) {
@@ -55,13 +55,13 @@ private final String GET_ALL_COUPON_PURCHASES = "SELECT * FROM `CouponMania`.`cu
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
-       return DBUtils.runQueryGetId(ADD_COUPON, params);
+        return DBUtils.runQueryGetId(ADD_COUPON, params);
     }
 
     @Override
     public void deleteCoupon(long couponID) {
-        Map<Integer , Object> params = new HashMap<Integer,Object>();
-        params.put(1 , couponID);
+        Map<Integer, Object> params = new HashMap<Integer, Object>();
+        params.put(1, couponID);
         DBUtils.runQuery(DELETE_COUPON_BY_ID, params);
     }
 
@@ -96,8 +96,8 @@ private final String GET_ALL_COUPON_PURCHASES = "SELECT * FROM `CouponMania`.`cu
     @Override
     public Coupon getOneCoupon(long couponID) {
         ResultSet resultSet;
-        Map<Integer , Object> params = new HashMap<Integer,Object>();
-        params.put(1 , couponID);
+        Map<Integer, Object> params = new HashMap<Integer, Object>();
+        params.put(1, couponID);
         try {
             resultSet = DBUtils.runQueryForResultSet(GET_ONE_COUPON, params);
             if (resultSet.next()) {
@@ -133,9 +133,9 @@ private final String GET_ALL_COUPON_PURCHASES = "SELECT * FROM `CouponMania`.`cu
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
-        params.put(10,coupon.getId());
+        params.put(10, coupon.getId());
 
-            DBUtils.runQuery(UPDATE_COUPON, params);
+        DBUtils.runQuery(UPDATE_COUPON, params);
 
 
     }
@@ -157,7 +157,7 @@ private final String GET_ALL_COUPON_PURCHASES = "SELECT * FROM `CouponMania`.`cu
         DBUtils.runQuery(DELETE_COUPON_PURCHASE, params);
     }
 
-    public void deleteCouponPurchaseByCouponID( long couponID) {
+    public void deleteCouponPurchaseByCouponID(long couponID) {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, couponID);
         DBUtils.runQuery(DELETE_COUPON_PURCHASE_BY_COUPON_ID, params);
@@ -170,19 +170,20 @@ private final String GET_ALL_COUPON_PURCHASES = "SELECT * FROM `CouponMania`.`cu
         DBUtils.runQuery(DELETE_COUPON_PURCHASE_BY_CUSTOMER_ID, params);
     }
 
+    //TODO: check if valid
     @Override
     public HashMap<Long, ArrayList<Long>> getAllCouponPurchases() {
         ResultSet results = DBUtils.runQueryForResult(GET_ALL_COUPON_PURCHASES);
         HashMap<Long, ArrayList<Long>> resultMap = new HashMap<>();
 
         try {
-            while (results.next()){
-                if (!resultMap.containsKey(results.getLong("customer_id"))){
-                    resultMap.put(results.getLong("customer_id") , new ArrayList<Long>());
+            while (results.next()) {
+                if (!resultMap.containsKey(results.getLong("customer_id"))) {
+                    resultMap.put(results.getLong("customer_id"), new ArrayList<Long>());
                 }
                 resultMap.get(results.getLong("customer_id")).add(results.getLong("coupon_id"));
             }
-        }catch (SQLException err){
+        } catch (SQLException err) {
             err.printStackTrace();
         }
         return resultMap;

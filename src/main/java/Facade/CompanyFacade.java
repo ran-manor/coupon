@@ -11,6 +11,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Data
@@ -63,19 +64,27 @@ public class CompanyFacade extends ClientFacade {
 
     }
 
+    //region delete coupon
     public void deleteCoupon(Coupon coupon) throws CouponSystemExceptions {
-        loginCheck();
         deleteCoupon(coupon.getId());
     }
 
     public void deleteCoupon(long id) throws CouponSystemExceptions {
         loginCheck();
 
+        if (!couponDAO.getAllCoupons().stream().anyMatch(coupon -> id == coupon.getId())) {
+            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_DELETE_FAILED_COUPON_DOESNT_EXIST);
+        }
+        if (couponDAO.getOneCoupon(id).getCompanyId() != getCompanyId()) {
+            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_DELETEE_FAILED_COUPON_OF_OTHER_COMPANY);
+        }
+
         couponDAO.deleteCoupon(id);
         couponDAO.deleteCouponPurchaseByCouponID(id);
     }
-    //...
+    //endregion
 
+    //region get company coupons
     public ArrayList<Coupon> getCompanyCoupons() throws CouponSystemExceptions {
         loginCheck();
 
@@ -84,14 +93,12 @@ public class CompanyFacade extends ClientFacade {
                 .collect(Collectors.toList()));
 
     }
-
     public ArrayList<Coupon> getCompanyCoupons(Category category) throws CouponSystemExceptions {
         loginCheck();
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
                 .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getCategory().value == category.value)
                 .collect(Collectors.toList()));
     }
-
     public ArrayList<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemExceptions {
         loginCheck();
 
@@ -99,6 +106,7 @@ public class CompanyFacade extends ClientFacade {
                 .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getPrice() < maxPrice)
                 .collect(Collectors.toList()));
     }
+    //endregion
 
     public Company getCompanyDetails() throws CouponSystemExceptions {
         loginCheck();
