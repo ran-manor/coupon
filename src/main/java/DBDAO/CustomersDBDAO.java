@@ -96,7 +96,7 @@ public class CustomersDBDAO implements CustomerDAO {
         }
         return customers;
     }
-
+    //TODO: add customer coupons to this method
     @Override
     public Customer getOneCustomer(long customerID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();

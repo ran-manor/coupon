@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Data
 public class CompanyFacade extends ClientFacade{
 
     //TODO: make checks if the companyId has a valid value
-    private long companyId = 0;
+    private long companyId = -1; //0-admin
     private void setCompanyId(long companyId){
         this.companyId = companyId;
     }
@@ -37,7 +38,7 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public void addCoupon(Coupon coupon){
-        if (!loginCheck()) return;
+        if (!loginCheck()) {return;}
 
 //        if (companyId < 1) return;
 //        Company company = companiesDAO.getOneCompany(this.getCompanyId());
@@ -58,7 +59,7 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public void updateCoupon(Coupon coupon){
-        if (!loginCheck()) return;
+        if (!loginCheck()) {return;}
 
 
         List<Coupon> allCoupons = getCompanyCoupons();
@@ -75,13 +76,13 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public void deleteCoupon(Coupon coupon){
-        if (!loginCheck()) return;
+        if (!loginCheck()) {return;}
 
 
         deleteCoupon(coupon.getId());
     }
     public void deleteCoupon(long id){
-        if (!loginCheck()) return;
+        if (!loginCheck()) {return;}
 
         couponDAO.deleteCoupon(id);
         couponDAO.deleteCouponPurchaseByCouponID(id);
@@ -89,7 +90,7 @@ public class CompanyFacade extends ClientFacade{
     //...
 
     public ArrayList<Coupon> getCompanyCoupons(){
-        if (!loginCheck()) return null;
+        if (!loginCheck()) {return null;}
 
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
                         .filter(coupon -> coupon.getCompanyId() == companyId)
@@ -99,13 +100,13 @@ public class CompanyFacade extends ClientFacade{
 
     public ArrayList<Coupon> getCompanyCoupons(Category category){
 
-        if (!loginCheck()) return null;
+        if (!loginCheck()) {return null;}
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
                 .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getCategory().value == category.value)
                 .collect(Collectors.toList()));
     }
     public ArrayList<Coupon> getCompanyCoupons(double maxPrice){
-        if (!loginCheck()) return null;
+        if (!loginCheck()) {return null;}
 
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
                 .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getPrice() < maxPrice)
@@ -113,7 +114,7 @@ public class CompanyFacade extends ClientFacade{
     }
 
     public Company getCompanyDetails(){
-        if (!loginCheck()) return null;
+        if (!loginCheck()) {return null;}
 
         return companiesDAO.getOneCompany(companyId);
     }
@@ -122,7 +123,7 @@ public class CompanyFacade extends ClientFacade{
 
         boolean isOK = true;
         try {
-            if (companyId < 1){
+            if (companyId < 0){
                 throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
             }
         } catch (CouponSystemExceptions err){

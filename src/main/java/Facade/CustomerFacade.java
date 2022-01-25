@@ -10,13 +10,15 @@ import exceptions.LoginErrorMsg;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Data
 public class CustomerFacade extends ClientFacade {
-    private long customerId;
+    private long customerId = -1;
 
     @Override
     public boolean login(String email, String password) throws CouponSystemExceptions {
@@ -33,7 +35,7 @@ public class CustomerFacade extends ClientFacade {
         purchaseCoupon(passCoupon.getId());
     }
     public void purchaseCoupon(long couponId){
-        if (!loginCheck()) return;
+        if (!loginCheck()) {return;}
 
         Coupon coupon = couponDAO.getOneCoupon(couponId);
 //        Customer customer = customerDAO.getOneCustomer((int) customerId);
@@ -69,7 +71,7 @@ public class CustomerFacade extends ClientFacade {
     }
 
     public ArrayList<Coupon> getCustomersCoupons() {
-        if (!loginCheck()) return null;
+        if (!loginCheck()) {return null;}
 
 
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
@@ -84,7 +86,7 @@ public class CustomerFacade extends ClientFacade {
     }
 
     public ArrayList<Coupon> getCustomersCoupons(Category category) {
-        if (!loginCheck()) return null;
+        if (!loginCheck()) {return null;}
 
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
@@ -100,7 +102,7 @@ public class CustomerFacade extends ClientFacade {
     }
 //
     public ArrayList<Coupon> getCustomersCoupons(double maxPrice) {
-        if (!loginCheck()) return null;
+        if (!loginCheck()) {return null;}
 
         ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
 
@@ -115,17 +117,24 @@ public class CustomerFacade extends ClientFacade {
     }
 
     public Customer getCustomerDetails() {
-        if (!loginCheck()) return null;
+        if (!loginCheck()) {return null;}
 
         Customer customer = customerDAO.getOneCustomer(customerId);
         try {
             if (customer == null) {
                 throw new CouponSystemExceptions(CustomerErrorMsg.CUSTOMER_NOT_EXIST);
             }
+            //TODO: add exeption for non existing key
+           // ArrayList<Long> couponPurchaseIDs = couponDAO.getAllCouponPurchases().get(this.customerId);
+            customer.setCoupons(couponDAO.getAllCouponPurchases()
+                    .get(this.customerId).stream()
+                    .map(id-> couponDAO.getOneCoupon(id))
+                    .collect(Collectors.toList()));
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
 
         }
+
         return customer;
     }
 
@@ -134,7 +143,7 @@ public class CustomerFacade extends ClientFacade {
     private boolean loginCheck(){
         boolean isOK = true;
         try {
-            if (customerId < 1){
+            if (customerId < 0){
                     throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
             }
         } catch (CouponSystemExceptions err){
