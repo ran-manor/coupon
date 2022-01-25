@@ -65,7 +65,8 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", coupons:\n" + couponPrinter() +
-                '}';
+                '}'+
+                "\n===========================================================================================\n";
     }
 
     private String couponPrinter(){
