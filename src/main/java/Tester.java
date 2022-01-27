@@ -33,6 +33,9 @@ public class Tester {
             CustomerFacade customerFacade = LoginManager.getInstance().login("alon@mintz.com", "34567", ClientType.CUSTOMER);
             CompanyFacade companyFacade = LoginManager.getInstance().login("all@in.com", "4567", ClientType.COMPANY);
             customerFacade.purchaseCoupon(10);
+
+
+            TablePrinter.print(companyFacade.getCompanyCoupons(Category.Cars));
 //            customerFacade.purchaseCoupon(16);
 //            customerFacade.purchaseCoupon(22);
 //            //System.out.println(adminFacade.getOneCustomer(3));
@@ -46,7 +49,7 @@ public class Tester {
 //            for (Company company:adminFacade.getAllCompanies()) {
 //                System.out.println(company);
 //            }
-        System.out.println(adminFacade.getAllCompanies());
+//        System.out.println(adminFacade.getAllCompanies());
 
             //System.out.println(adminFacade.getAllCustomers());
 

@@ -10,8 +10,8 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Data
@@ -85,27 +85,23 @@ public class CompanyFacade extends ClientFacade {
     }
     //endregion
 
-    //TODO: make one fucntion
     //region get company coupons
     public ArrayList<Coupon> getCompanyCoupons() throws CouponSystemExceptions {
-        loginCheck();
-
-        return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
-                .filter(coupon -> coupon.getCompanyId() == companyId)
-                .collect(Collectors.toList()));
-
+        return getCompanyCouponsFilter(coupon -> coupon.getCompanyId() == companyId);
     }
-    public ArrayList<Coupon> getCompanyCoupons(Category category) throws CouponSystemExceptions {
-        loginCheck();
-        return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
-                .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getCategory().value == category.value)
-                .collect(Collectors.toList()));
-    }
+
     public ArrayList<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemExceptions {
-        loginCheck();
+        return getCompanyCouponsFilter(coupon -> coupon.getCompanyId() == companyId && coupon.getPrice() <= maxPrice);
+    }
 
+    public ArrayList<Coupon> getCompanyCoupons(Category category) throws CouponSystemExceptions {
+        return getCompanyCouponsFilter(coupon -> coupon.getCompanyId() == companyId && coupon.getCategory().value == category.value);
+    }
+
+    private ArrayList<Coupon> getCompanyCouponsFilter(Predicate<Coupon> predicate) throws CouponSystemExceptions {
+        loginCheck();
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
-                .filter(coupon -> coupon.getCompanyId() == companyId && coupon.getPrice() < maxPrice)
+                .filter(predicate)
                 .collect(Collectors.toList()));
     }
     //endregion
