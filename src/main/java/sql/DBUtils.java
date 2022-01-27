@@ -11,23 +11,6 @@ import java.util.function.Function;
 public class DBUtils {
     public static final String SCHEMA_PATH = "`CouponMania`";
 
-//    public static void runQuery(String query, Map<Integer, Object> params) {
-//        Connection connection = null;
-//        try {
-//            connection = ConnectionPool.getInstance().getConnection();
-//            PreparedStatement statement = connection.prepareStatement(query);
-//            if (params != null) {
-//                prepareStatementFromParams(statement, params);
-//            }
-//            statement.execute();
-//
-//        } catch (InterruptedException | SQLException err) {
-//            err.printStackTrace();
-//        } finally {
-//            ConnectionPool.getInstance().returnConnection(connection);
-//        }
-//    }
-
     public static void runQuery(String sql) {
         runQuery(sql, null);
     }
@@ -77,22 +60,11 @@ public class DBUtils {
     }
 
     //TODO: what is the purpose of this?
-    //TODO: merge this with runQuery
     public static boolean runQueryGetId(String query, Map<Integer, Object> params) {
-        //bool isUsinggetid
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
-            //TODO: Merge using this implementtion (or with lambda functions)
-            /*
-             * if (usinggetid)){
-             * PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-             * }
-             * else (
-             * PreparedStatement statement = connection.prepareStatement(query);
-             * )
-             *
-             *  */
+
             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             if (params != null) {
                 prepareStatementFromParams(statement, params);
@@ -118,25 +90,6 @@ public class DBUtils {
         return false;
     }
 
-//    public static ResultSet runQueryForResultSet(String query, Map<Integer, Object> params) {
-//        Connection connection = null;
-//        ResultSet resultSet = null;
-//        try {
-//            connection = ConnectionPool.getInstance().getConnection();
-//            PreparedStatement statement = connection.prepareStatement(query);
-//            if (params != null) {
-//                prepareStatementFromParams(statement, params);
-//            }
-//            resultSet = statement.executeQuery();
-//
-//        } catch (InterruptedException | SQLException err) {
-//            System.out.println(err.getMessage());
-//            err.printStackTrace();
-//        } finally {
-//            ConnectionPool.getInstance().returnConnection(connection);
-//        }
-//        return resultSet;
-//    }
     private static void prepareStatementFromParams(PreparedStatement statement, Map<Integer, Object> params) {
         params.forEach((key, value) -> {
             try {
