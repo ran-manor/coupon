@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import utils.ArtUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,13 +59,13 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", coupons:\n" + couponPrinter() +
+        return ArtUtils.ANSI_YELLOW +"Customer: " +
+                "\nid: " + id +
+                "\nfirstName: " + firstName +
+                "\nlastName: " + lastName +
+                "\nemail: " + email +
+                "\npassword: " + password  +
+                ArtUtils.ANSI_RESET+"\ncoupons: \n" + couponPrinter() +
                 '}'+
                 "\n===========================================================================================\n";
     }

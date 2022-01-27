@@ -37,7 +37,7 @@ public class Tester {
 
             TablePrinter.print(companyFacade.getCompanyCoupons(Category.Cars));
 
-            System.out.println(adminFacade.getAllCompanies());
+            System.out.println(adminFacade.getAllCustomers());
 //            customerFacade.purchaseCoupon(16);
 //            customerFacade.purchaseCoupon(22);
 //            //System.out.println(adminFacade.getOneCustomer(3));
@@ -73,7 +73,7 @@ public class Tester {
     }
 
     private static void applicationStart() {
-        System.out.println(ArtUtils.banner);
+        System.out.println(ArtUtils.YELLOW_BRIGHT+ArtUtils.banner+ArtUtils.ANSI_RESET);
         DataBaseManager.dropDataBase();
         DataBaseManager.createDataBase();
 
