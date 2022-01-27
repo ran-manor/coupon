@@ -7,7 +7,9 @@ import exceptions.CompanyErrorMsg;
 import exceptions.CouponSystemExceptions;
 import exceptions.LoginErrorMsg;
 import lombok.Data;
+import utils.DateUtils;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -38,11 +40,16 @@ public class CompanyFacade extends ClientFacade {
 
         for (Coupon item : getCompanyCoupons()) {
             if (item.getTitle().equals(coupon.getTitle())) {
-                throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_NAME_EXISTS);
+                throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_ADDING_FAILED_NAME_EXISTS);
             }
         }
+
+        if (coupon.getEndDate().before(DateUtils.localDateToSqlDate(LocalDate.now()))){
+            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_ADDING_FAILED_EXPIRED_DATE);
+        }
+
         if (coupon.getCompanyId() != companyId) {
-            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_WRONG_COMPANYID);
+            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_ADDING_FAILED_WRONG_COMPANYID);
         }
         couponDAO.addCoupon(coupon);
         System.out.println("Coupon was added successfully");
@@ -77,7 +84,7 @@ public class CompanyFacade extends ClientFacade {
         }
 
         if (couponDAO.getOneCoupon(id).getCompanyId() != getCompanyId()) {
-            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_DELETEE_FAILED_COUPON_OF_OTHER_COMPANY);
+            throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_DELETE_FAILED_COUPON_OF_OTHER_COMPANY);
         }
 
         couponDAO.deleteCoupon(id);

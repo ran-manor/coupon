@@ -20,7 +20,9 @@ import utils.DateUtils;
 import utils.TablePrinter;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Tester {
     public static void main(String[] args) {
@@ -29,6 +31,7 @@ public class Tester {
             CouponExpirationDailyJob job = new CouponExpirationDailyJob();
             Thread dailyJob = new Thread(job);
             dailyJob.start();
+
             AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com", "admin", ClientType.ADMINISTRATOR);
             CustomerFacade customerFacade = LoginManager.getInstance().login("alon@mintz.com", "34567", ClientType.CUSTOMER);
             CompanyFacade companyFacade = LoginManager.getInstance().login("all@in.com", "4567", ClientType.COMPANY);
@@ -36,6 +39,7 @@ public class Tester {
 
 
             TablePrinter.print(companyFacade.getCompanyCoupons(Category.Cars));
+
 
             System.out.println(adminFacade.getAllCustomers());
 //            customerFacade.purchaseCoupon(16);

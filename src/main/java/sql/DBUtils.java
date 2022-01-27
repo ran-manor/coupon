@@ -29,6 +29,7 @@ public class DBUtils {
         return runQueryForResultSet(query, null);
     }
     public static ResultSet runQueryForResultSet(String query, Map<Integer, Object> params){
+        //todo: ask zeev if there is a way to remove try catch here
         return  (ResultSet) runQueryProcess(query, params, statement -> {
             try {
                 return statement.executeQuery();
