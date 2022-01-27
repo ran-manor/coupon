@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -110,11 +111,19 @@ public class CustomerFacade extends ClientFacade {
 
     private ArrayList<Coupon> getCustomerCouponsFilter(Predicate<Coupon> predicate) throws CouponSystemExceptions {
         loginCheck();
-        ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
-        return new ArrayList<>(ownedCouponsId.stream()
-                .map(id -> couponDAO.getOneCoupon(id))
-                .filter(predicate == null ? coupon -> true : predicate)
-                .collect(Collectors.toList()));
+//        ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
+//        return new ArrayList<>(ownedCouponsId.stream()
+//                .map(id -> couponDAO.getOneCoupon(id))
+//                .filter(predicate == null ? coupon -> true : predicate)
+//                .collect(Collectors.toList()));
+        Function<Stream<Coupon> , List<Coupon>> filterFunc = couponStream ->
+                predicate == null ? couponStream.collect(Collectors.toList()) :
+                couponStream.filter(predicate).collect(Collectors.toList());
+
+        return new ArrayList<>(filterFunc.apply(
+                couponDAO.getAllCouponPurchases().get(customerId)
+                        .stream().map(id -> couponDAO.getOneCoupon(id))
+        ));
     }
 
 }
