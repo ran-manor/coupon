@@ -7,6 +7,7 @@ import exceptions.AdminErrorMsg;
 import exceptions.CouponSystemExceptions;
 import exceptions.CustomerErrorMsg;
 import exceptions.LoginErrorMsg;
+import utils.ArtUtils;
 import utils.DateUtils;
 
 import java.util.ArrayList;
@@ -73,6 +74,7 @@ public class AdminFacade extends ClientFacade {
             }
         }
         companiesDAO.deleteCompany(companyId);
+        System.out.println(ArtUtils.ANSI_RED+"Company number "+companyId+" was successfully deleted"+ArtUtils.ANSI_RESET);
     }
 
     public ArrayList<Company> getAllCompanies() throws CouponSystemExceptions {
@@ -131,6 +133,7 @@ public class AdminFacade extends ClientFacade {
 
         couponDAO.deleteCouponPurchaseByCustomerID(customerId);
         customerDAO.deleteCustomer(customerId);
+        System.out.println(ArtUtils.ANSI_RED+"Customer number "+customerId+" was successfully deleted"+ArtUtils.ANSI_RESET);
     }
 
     public ArrayList<Customer> getAllCustomers() throws CouponSystemExceptions {

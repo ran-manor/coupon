@@ -59,10 +59,11 @@ public class CompaniesDBDAO implements CompaniesDAO {
                         .name(result.getString("name"))
                         .email(result.getString("email"))
                         .password(result.getString("password"))
+                        .coupons(new ArrayList<>())
                         .build());
             }
         } catch (SQLException err) {
-        System.out.println(err.getMessage());
+            System.out.println(err.getMessage());
             err.printStackTrace();
         }
         return companies;
@@ -88,19 +89,21 @@ public class CompaniesDBDAO implements CompaniesDAO {
         try {
             result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID, params);
             if (result.next()) {
-                    return Company.builder()
-                            .id(result.getLong("id"))
-                            .name(result.getString("name"))
-                            .email(result.getString("email"))
-                            .password(result.getString("password"))
-                            .build();
+                return Company.builder()
+                        .id(result.getLong("id"))
+                        .name(result.getString("name"))
+                        .email(result.getString("email"))
+                        .password(result.getString("password"))
+                        .coupons(new ArrayList<>())
+                        .build();
             }
         } catch (SQLException err) {
-           System.out.println(err.getMessage());
+            System.out.println(err.getMessage());
             err.printStackTrace();
         }
         return null;
     }
+
     @Override
     public Company isCompanyExists(String email, String password) {
         Map<Integer, Object> params = new HashMap<>();
@@ -116,6 +119,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
                         .name(result.getString("name"))
                         .email(result.getString("email"))
                         .password(result.getString("password"))
+                        .coupons(new ArrayList<>())
                         .build();
             }
         } catch (SQLException err) {

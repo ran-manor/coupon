@@ -35,49 +35,105 @@ public class Tester {
             AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com", "admin", ClientType.ADMINISTRATOR);
             CustomerFacade customerFacade = LoginManager.getInstance().login("alon@mintz.com", "34567", ClientType.CUSTOMER);
             CompanyFacade companyFacade = LoginManager.getInstance().login("all@in.com", "4567", ClientType.COMPANY);
-            customerFacade.purchaseCoupon(10);
+            //region admin facade in action
+            adminFacade.addCompany(Company.builder()
+                    .password("1111")
+                    .name("Tester Company")
+                    .coupons(new ArrayList<Coupon>())
+                    .email("Tester@test.com")
+                    .build());
+            System.out.println("Add company method:");
+            System.out.println(adminFacade.getOneCompany(6));
 
+            Company companyToUpdate = adminFacade.getOneCompany(1);
+            System.out.println("Company to update is:");
+            System.out.println(companyToUpdate);
+            companyToUpdate.setEmail("New Email");
+            adminFacade.updateCompany(companyToUpdate);
+            System.out.println("Update company method (email update):");
+            System.out.println(adminFacade.getOneCompany(1));
+            System.out.println("Get all companies method:");
+            System.out.println(adminFacade.getAllCompanies());
+            System.out.println("Company to delete:\n" +
+                    adminFacade.getOneCompany(6));
+            adminFacade.deleteCompany(6);
+            System.out.println();
+            System.out.println("Add customer method:");
+            adminFacade.addCustomer(Customer.builder()
+                    .email("nadav@honig.com")
+                    .firstName("nadav")
+                    .lastName("honig")
+                    .password("22222")
+                    .coupons(new ArrayList<Coupon>())
+                    .build());
+            System.out.println(adminFacade.getOneCustomer(6));
+            System.out.println("All customers:");
+            TablePrinter.print(adminFacade.getAllCustomers());
+            Customer customerToUpdate = adminFacade.getOneCustomer(1);
+            System.out.println("Customer to update: " + customerToUpdate.getFirstName() + " " + customerToUpdate.getLastName());
+            customerToUpdate.setLastName("new last name");
+            adminFacade.updateCustomer(customerToUpdate);
+            System.out.println("All customers after nir's last name was updated:");
+            TablePrinter.print(adminFacade.getAllCustomers());
+            System.out.println("Customer to delete: " +
+                    adminFacade.getOneCustomer(6).getFirstName());
+            adminFacade.deleteCustomer(6);
+            System.out.println("All customers after nadav was deleted");
+            TablePrinter.print(adminFacade.getAllCustomers());
+            //endregion
+            //region company facade in action
 
-            TablePrinter.print(companyFacade.getCompanyCoupons(Category.Cars));
-
-
-            System.out.println(adminFacade.getAllCustomers());
-//            customerFacade.purchaseCoupon(16);
-//            customerFacade.purchaseCoupon(22);
-//            //System.out.println(adminFacade.getOneCustomer(3));
-//            adminFacade.deleteCompany(2);
-//            //System.out.println(adminFacade.getOneCustomer(3));
-//
-////            TablePrinter.print(customerFacade.getCustomersCoupons());
-////            TablePrinter.print(customerFacade.getCustomersCoupons(Category.Xtreme));
-//            System.out.println(customerFacade.getCustomerDetails());
-
-//            for (Company company:adminFacade.getAllCompanies()) {
-//                System.out.println(company);
-//            }
-//        System.out.println(adminFacade.getAllCompanies());
-
-            //System.out.println(adminFacade.getAllCustomers());
+            Company showCompany = companyFacade.getCompanyDetails();
+            System.out.println(showCompany.getName()+ " company details:");
+            System.out.println(showCompany);
+            System.out.println("All of the company coupons:");
+            TablePrinter.print(companyFacade.getCompanyCoupons());
+            System.out.println("Company coupons max price 50:");
+            TablePrinter.print(companyFacade.getCompanyCoupons(50));
+            System.out.println("Company Tattoo coupons:");
+            TablePrinter.print(companyFacade.getCompanyCoupons(Category.Tattoos));
+            companyFacade.addCoupon(Coupon.builder()
+                    .companyId(4)
+                    .description("We love jokers!")
+                    .amount(5)
+                    .startDate(DateUtils.getRandomSqlStartDate())
+                    .endDate(DateUtils.getRandomSqlEndDate())
+                    .category(Category.Tattoos)
+                    .price(75)
+                    .image("url")
+                    .title("Joker tattoo")
+                    .build());
+            System.out.println("All of the company coupons after adding another tattoo coupon:");
+            TablePrinter.print(companyFacade.getCompanyCoupons());
+            Coupon couponToUpdate = companyFacade.getCompanyCoupons().get(4);
+            couponToUpdate.setTitle("New and better LIMOUSINE");
+            companyFacade.updateCoupon(couponToUpdate);
+            System.out.println("All of the company coupons after updating limousine coupon:");
+            TablePrinter.print(companyFacade.getCompanyCoupons());
+            companyFacade.deleteCoupon(26);
+            System.out.println("All of the company coupons after deleting Joker tattoo coupon:");
+            TablePrinter.print(companyFacade.getCompanyCoupons());
+            //endregion
 
             applicationEnd();
             dailyJob.interrupt();
-        } catch (CouponSystemExceptions  err) {
+        } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
         }
 
     }
 
-    private static void applicationEnd () {
+    private static void applicationEnd() {
         try {
             ConnectionPool.getInstance().closeAllConnection();
-        } catch (InterruptedException err){
+        } catch (InterruptedException err) {
             System.out.println(err.getMessage());
         }
 
     }
 
     private static void applicationStart() {
-        System.out.println(ArtUtils.YELLOW_BRIGHT+ArtUtils.banner+ArtUtils.ANSI_RESET);
+        System.out.println(ArtUtils.YELLOW_BRIGHT + ArtUtils.banner + ArtUtils.ANSI_RESET);
         DataBaseManager.dropDataBase();
         DataBaseManager.createDataBase();
 

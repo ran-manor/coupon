@@ -58,16 +58,15 @@ public class CompanyFacade extends ClientFacade {
 
     public void updateCoupon(Coupon coupon) throws CouponSystemExceptions {
         loginCheck();
-
-
         List<Coupon> allCoupons = getCompanyCoupons();
 
-        if (coupon.getId() != companyId) {
+        if (coupon.getCompanyId() != companyId) {
             throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_UDATE_FAILED_DIFFRENT_COMPANY_ID);
         }
         if (!allCoupons.stream().map(c -> c.getId()).collect(Collectors.toList()).contains(coupon.getId())) {
             throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_UDATE_FAILED_NO_ID);
         }
+        couponDAO.updateCoupon(coupon);
 
     }
 

@@ -8,6 +8,7 @@ import utils.ArtUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class Customer {
     private String password;
     private List<Coupon> coupons = new ArrayList<>();
 
-    private void setPassword(String password){
+    private void setPassword(String password) {
     }
 
     public Customer(String firstName, String lastName, String email, String password, List<Coupon> coupons) {
@@ -59,22 +60,24 @@ public class Customer {
 
     @Override
     public String toString() {
-        return ArtUtils.ANSI_YELLOW +"Customer: " +
+        return ArtUtils.ANSI_YELLOW + "Customer: " +
                 "\nid: " + id +
                 "\nfirstName: " + firstName +
                 "\nlastName: " + lastName +
                 "\nemail: " + email +
-                "\npassword: " + password  +
-                ArtUtils.ANSI_RESET+"\ncoupons: \n" + couponPrinter() +
-                '}'+
+                "\npassword: " + password +
+                ArtUtils.ANSI_RESET + "\ncoupons: \n" + couponPrinter() +
+                '}' +
                 "\n===========================================================================================\n";
     }
 
-    private String couponPrinter(){
+    private String couponPrinter() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (Coupon coupon:coupons) {
-            sb.append(coupon+"\n");
+        if (!coupons.isEmpty()) {
+            for (Coupon coupon : coupons) {
+                sb.append(coupon + "\n");
+            }
         }
         sb.append("]");
         return sb.toString();

@@ -48,6 +48,7 @@ public class CustomersDBDAO implements CustomerDAO {
                         .lastName(resultSet.getString("last_name"))
                         .email(resultSet.getString("email"))
                         .password(resultSet.getString("password"))
+                        .coupons(new ArrayList<>())
                         .build();
                 return customer;
             }
@@ -88,6 +89,7 @@ public class CustomersDBDAO implements CustomerDAO {
                         .lastName(resultSet.getString("last_name"))
                         .email(resultSet.getString("email"))
                         .password(resultSet.getString("password"))
+                        .coupons(new ArrayList<>())
                         .build();
                 customers.add(customer);
             }
@@ -111,6 +113,7 @@ public class CustomersDBDAO implements CustomerDAO {
                         .lastName(resultSet.getString("last_name"))
                         .email(resultSet.getString("email"))
                         .password(resultSet.getString("password"))
+                        .coupons(new ArrayList<>())
                         .build();
                 return customer;
             }
