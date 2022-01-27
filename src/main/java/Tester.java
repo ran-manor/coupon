@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Tester {
+    //todo: check if we need to create a Program class that calls for "testAll" (this class), and then surround each method with it's own try/catch, so the app won't shut down when a exception is thrown.
     public static void main(String[] args) {
         try {
             applicationStart();
@@ -129,7 +130,7 @@ public class Tester {
             System.out.println("Logged in customer tattoo coupons:");
             TablePrinter.print(customerFacade.getCustomersCoupons(Category.Tattoos));
 
-            adminFacade.deleteCompany(4);
+            adminFacade.deleteCompany(10);
             System.out.println("Logged in coupons after erasing company id 4:");
             TablePrinter.print(customerFacade.getCustomersCoupons());
             //endregion

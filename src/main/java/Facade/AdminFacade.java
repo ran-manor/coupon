@@ -66,6 +66,12 @@ public class AdminFacade extends ClientFacade {
     public void deleteCompany(long companyId) throws CouponSystemExceptions {
         loginCheck();
 
+        Company company = companiesDAO.getOneCompany(companyId);
+
+        if (company == null) {
+            throw new CouponSystemExceptions(AdminErrorMsg.COMPANY_NOT_EXISTS);
+        }
+
         ArrayList<Coupon> coupons = couponDAO.getAllCoupons();
         for (Coupon item : coupons) {
             if (item.getCompanyId() == companyId) {
@@ -130,6 +136,11 @@ public class AdminFacade extends ClientFacade {
 
     public void deleteCustomer(long customerId) throws CouponSystemExceptions {
         loginCheck();
+
+        Customer customer = customerDAO.getOneCustomer(customerId);
+        if (customer == null) {
+            throw new CouponSystemExceptions(AdminErrorMsg.CUSTOMER_NOT_EXIST);
+        }
 
         couponDAO.deleteCouponPurchaseByCustomerID(customerId);
         customerDAO.deleteCustomer(customerId);
