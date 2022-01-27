@@ -114,6 +114,25 @@ public class Tester {
             System.out.println("All of the company coupons after deleting Joker tattoo coupon:");
             TablePrinter.print(companyFacade.getCompanyCoupons());
             //endregion
+            //region customer facade in action
+            System.out.println("Logged in customer details:");
+            TablePrinter.print(customerFacade.getCustomerDetails());
+            customerFacade.purchaseCoupon(customerFacade.getAllAvailableCoupons().get(7));
+            customerFacade.purchaseCoupon(3);
+            customerFacade.purchaseCoupon(13);
+            customerFacade.purchaseCoupon(17);
+            customerFacade.purchaseCoupon(20);
+            System.out.println("Logged in customer coupons after purchasing:");
+            TablePrinter.print(customerFacade.getCustomersCoupons());
+            System.out.println("Logged in customer coupons max price 60:");
+            TablePrinter.print(customerFacade.getCustomersCoupons(60));
+            System.out.println("Logged in customer tattoo coupons:");
+            TablePrinter.print(customerFacade.getCustomersCoupons(Category.Tattoos));
+
+            adminFacade.deleteCompany(4);
+            System.out.println("Logged in coupons after erasing company id 4:");
+            TablePrinter.print(customerFacade.getCustomersCoupons());
+            //endregion
 
             applicationEnd();
             dailyJob.interrupt();

@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 //@AllArgsConstructor
@@ -63,49 +65,23 @@ public class CustomerFacade extends ClientFacade {
         couponDAO.updateCoupon(c);
     }
 
+    public ArrayList<Coupon> getAllAvailableCoupons() throws CouponSystemExceptions {
+        return couponDAO.getAllCoupons();
+    }
+
     public ArrayList<Coupon> getCustomersCoupons() throws CouponSystemExceptions {
-        loginCheck();
 
-        ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
-
-        ArrayList<Coupon> ownedCoupons = new ArrayList<>();
-        for (Long id : ownedCouponsId) {
-            ownedCoupons.add(couponDAO.getOneCoupon(id));
-        }
-        return ownedCoupons;
-
-
+        return getCustomerCouponsFilter(null);
     }
 
     public ArrayList<Coupon> getCustomersCoupons(Category category) throws CouponSystemExceptions {
-        loginCheck();
 
-        ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
-
-        ArrayList<Coupon> ownedCoupons = new ArrayList<>();
-        for (Long id : ownedCouponsId) {
-//            ownedCoupons.add(couponDAO.getOneCoupon(id));
-            if (couponDAO.getOneCoupon(id).getCategory() == category) {
-                ownedCoupons.add(couponDAO.getOneCoupon(id));
-            }
-        }
-        return ownedCoupons;
-
+        return getCustomerCouponsFilter(coupon -> coupon.getCategory().equals(category));
     }
 
     public ArrayList<Coupon> getCustomersCoupons(double maxPrice) throws CouponSystemExceptions {
-        loginCheck();
 
-        ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
-
-        ArrayList<Coupon> ownedCoupons = new ArrayList<>();
-        for (Long id : ownedCouponsId) {
-//            ownedCoupons.add(couponDAO.getOneCoupon(id));
-            if (couponDAO.getOneCoupon(id).getPrice() < maxPrice) {
-                ownedCoupons.add(couponDAO.getOneCoupon(id));
-            }
-        }
-        return ownedCoupons;
+        return getCustomerCouponsFilter(coupon -> coupon.getPrice() <= maxPrice);
     }
 
     public Customer getCustomerDetails() throws CouponSystemExceptions {
@@ -131,4 +107,15 @@ public class CustomerFacade extends ClientFacade {
             throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
         }
     }
+
+    private ArrayList<Coupon> getCustomerCouponsFilter(Predicate<Coupon> predicate) throws CouponSystemExceptions {
+        loginCheck();
+        ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
+        return new ArrayList<>(ownedCouponsId.stream()
+                .map(id -> couponDAO.getOneCoupon(id))
+                .filter(predicate == null ? coupon -> true : predicate)
+                .collect(Collectors.toList()));
+    }
+
 }
+
