@@ -3,7 +3,6 @@ package DBDAO;
 import Beans.Company;
 import DAO.CompaniesDAO;
 import sql.DBUtils;
-import sql.db;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         ArrayList<Company> companies = new ArrayList<>();
         ResultSet result = null;
         try {
-            result = DBUtils.runQueryForResult(GET_COMPANIES_ALL);
+            result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL);
             while (result.next()) {
                 companies.add(Company.builder()
                         .id(result.getLong("id"))

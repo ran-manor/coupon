@@ -80,7 +80,7 @@ public class CustomersDBDAO implements CustomerDAO {
         ArrayList<Customer> customers = new ArrayList<>();
         ResultSet resultSet;
         try {
-            resultSet = DBUtils.runQueryForResult(GET_ALL_CUSTOMERS);
+            resultSet = DBUtils.runQueryForResultSet(GET_ALL_CUSTOMERS);
             while (resultSet.next()) {
                 Customer customer = Customer.builder()
                         .id(resultSet.getLong("id"))

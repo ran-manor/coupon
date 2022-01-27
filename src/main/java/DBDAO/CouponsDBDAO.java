@@ -70,7 +70,7 @@ public class CouponsDBDAO implements CouponDAO {
         ArrayList<Coupon> coupons = new ArrayList<>();
         ResultSet resultSet;
         try {
-            resultSet = DBUtils.runQueryForResult(GET_ALL_COUPONS);
+            resultSet = DBUtils.runQueryForResultSet(GET_ALL_COUPONS);
             while (resultSet.next()) {
                 Coupon coupon = Coupon.builder()
                         .id(resultSet.getLong("id"))
@@ -172,7 +172,7 @@ public class CouponsDBDAO implements CouponDAO {
 
     @Override
     public HashMap<Long, ArrayList<Long>> getAllCouponPurchases() {
-        ResultSet results = DBUtils.runQueryForResult(GET_ALL_COUPON_PURCHASES);
+        ResultSet results = DBUtils.runQueryForResultSet(GET_ALL_COUPON_PURCHASES);
         HashMap<Long, ArrayList<Long>> resultMap = new HashMap<>();
 
         try {
