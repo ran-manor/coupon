@@ -66,7 +66,7 @@ public class CustomersDBDAO implements CustomerDAO {
         parmas.put(2, customer.getLastName());
         parmas.put(3, customer.getEmail());
         parmas.put(4, customer.getPassword());
-        return DBUtils.runQueryGetId(ADD_CUSTOMER, parmas);
+        return DBUtils.runQuery(ADD_CUSTOMER, parmas);
     }
 
     @Override

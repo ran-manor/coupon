@@ -55,7 +55,7 @@ public class CouponsDBDAO implements CouponDAO {
         params.put(7, coupon.getAmount());
         params.put(8, coupon.getPrice());
         params.put(9, coupon.getImage());
-        return DBUtils.runQueryGetId(ADD_COUPON, params);
+        return DBUtils.runQuery(ADD_COUPON, params);
     }
 
     @Override

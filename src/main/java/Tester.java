@@ -130,7 +130,7 @@ public class Tester {
             System.out.println("Logged in customer tattoo coupons:");
             TablePrinter.print(customerFacade.getCustomersCoupons(Category.Tattoos));
 
-            adminFacade.deleteCompany(10);
+            adminFacade.deleteCompany(4);
             System.out.println("Logged in coupons after erasing company id 4:");
             TablePrinter.print(customerFacade.getCustomersCoupons());
             //endregion

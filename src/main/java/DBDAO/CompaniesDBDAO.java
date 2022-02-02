@@ -8,7 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * class that implements CompaniesDAO, holding all the sql queries to the corresponding table in sql.
+ */
 public class CompaniesDBDAO implements CompaniesDAO {
 
     private final String TABLE_PATH = DBUtils.SCHEMA_PATH + ".`companies`";
@@ -37,7 +39,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         params.put(1, company.getName());
         params.put(2, company.getEmail());
         params.put(3, company.getPassword());
-        return DBUtils.runQueryGetId(ADD_COMPANY, params);
+        return DBUtils.runQuery(ADD_COMPANY, params);
     }
 
     @Override

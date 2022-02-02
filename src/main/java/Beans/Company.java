@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+/** Data bean representing a company*/
 public class Company {
     private long id;
     private String name;
@@ -20,32 +21,38 @@ public class Company {
     private String password;
     private ArrayList<Coupon> coupons = new ArrayList<>();
 
+    /** Sets the company email and returns this company after the update, allows updates inline.
+     * @return returns this to use inline updates.*/
     public Company setEmail(String email){
         this.email = email;
         return this;
     }
 
+    /** Override's lomboks @Data so password could not be changed. */
     private void setPassword(String password){
     }
 
+    /** uses the default constructor and updates coupons. */
     public Company(String name, String email, String password, ArrayList<Coupon> coupons) {
         this(name , email , password);
         this.coupons = coupons;
     }
+
+    /** Default constructor.*/
     public Company(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
-
+    /** Override's lomboks @Data so id could not be changed. */
     private void setId(long id) {
         this.id = id;
     }
-
+    /** Override's lomboks @Data so name could not be changed. */
     private void setName(String name) {
         this.name = name;
     }
-
+    /** Sets the company coupons and returns this company after the update, allows updates inline. */
     public Company setCoupons(ArrayList<Coupon> coupons){
         this.coupons = coupons;
         return this;
