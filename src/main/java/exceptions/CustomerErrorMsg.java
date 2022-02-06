@@ -18,15 +18,18 @@ public enum CustomerErrorMsg {
 
     private String msg;
 
+    /**
+     * sets message to message contained in the enum.
+     * @param msg the message to set.
+     */
     CustomerErrorMsg(String msg) {
         this.msg = msg;
     }
 
+    /**
+     * @return message contained in the error value.
+     */
     public String getMsg() {
         return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 }

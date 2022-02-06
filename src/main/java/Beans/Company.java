@@ -58,6 +58,10 @@ public class Company {
         return this;
     }
 
+    /**
+     * overides default toString() method to be more readable.
+     * @return the finalized string.
+     */
     @Override
     public String toString() {
         return ArtUtils.ANSI_CYAN+ "Company: " +
@@ -70,6 +74,10 @@ public class Company {
                 "\n===========================================================================================\n";
     }
 
+    /**
+     * readable format to read all the company's coupons.
+     * @return the finalized string.
+     */
     private String couponPrinter(){
         StringBuilder sb = new StringBuilder();
         sb.append("[");

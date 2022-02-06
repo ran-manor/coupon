@@ -10,18 +10,20 @@ public enum CompanyErrorMsg {
     COUPON_DELETE_FAILED_COUPON_DOESNT_EXIST("Can't delete coupon - this coupon does not exist."),
     COUPON_DELETE_FAILED_COUPON_OF_OTHER_COMPANY("Can't delete coupon - this coupon is owned by another company.");
 
-    //aa
     private String msg;
 
+    /**
+     * sets message to message contained in the enum.
+     * @param msg the message to set.
+     */
     CompanyErrorMsg(String msg) {
         this.msg = msg;
     }
 
+    /**
+     * @return message contained in the error value.
+     */
     public String getMsg() {
         return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 }
