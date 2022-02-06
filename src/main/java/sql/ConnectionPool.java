@@ -22,8 +22,7 @@ public class ConnectionPool {
 
     /**
      * double checks if the instance isn't null, also by locking the entire class after first check.
-     * if so, creates a new ConnectionPool./
-     *
+     * if so, creates a new ConnectionPool and sets it to this instance.
      * @return this instance.
      */
     public static ConnectionPool getInstance() {
@@ -44,6 +43,11 @@ public class ConnectionPool {
         return instance;
     }
 
+    /**
+     * gets an available connection from the stack, awaits if there is no connection available.
+     * @return (Connection) a connection from the stack.
+     * @throws InterruptedException throws this if theres an exception in the synchronized process.
+     */
     public Connection getConnection() throws InterruptedException{
         synchronized (connections){
             if (connections.isEmpty()){
@@ -54,6 +58,10 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * returns a connection to the available connections stack.
+     * @param connection the connection to return to the stack.
+     */
     public void returnConnection(Connection connection){
         synchronized (connections){
             connections.push(connection);
@@ -67,6 +75,10 @@ public class ConnectionPool {
         @throws SQLException
      */
 
+    /**
+     * Opens connections to the Database, adds all opened connections to the availible connections stack.
+     * @throws SQLException error in the connection to the DataBase.
+     */
     private void openAllConnections() throws SQLException{
         for (int index=0;index < NUM_OF_CONS;index+=1){
             Connection connection = DriverManager.getConnection(DataBaseManager.URL,DataBaseManager.USER_NAME,DataBaseManager.USER_PASS);
@@ -74,6 +86,10 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * removes all connections from the stack (closes connection to the DataBase)
+     * @throws InterruptedException exception from the synchronized process
+     */
     public void closeAllConnection() throws InterruptedException{
         synchronized (connections){
             while (connections.size()<NUM_OF_CONS){
