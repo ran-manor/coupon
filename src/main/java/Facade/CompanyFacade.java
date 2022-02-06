@@ -21,10 +21,21 @@ public class CompanyFacade extends ClientFacade {
 
     private long companyId = -1; //0-admin
 
+    /**
+     * sets this company id in the facade.
+     * @param companyId value to set.
+     */
     private void setCompanyId(long companyId) {
         this.companyId = companyId;
     }
 
+    /**
+     * searches for company with corresponding email and password and sets the companyid in the facade to the id from the DataBase.
+     * @param email client email.
+     * @param password client password.
+     * @return was the login successful.
+     * @throws CouponSystemExceptions login error.
+     */
     @Override
     public boolean login(String email, String password) throws CouponSystemExceptions {
         Company result = companiesDAO.isCompanyExists(email, password);
@@ -35,6 +46,11 @@ public class CompanyFacade extends ClientFacade {
         return true;
     }
 
+    /**
+     * gets a coupon to add to the DataBase, checks if it passes the conditions and adds it.
+     * @param coupon coupon to add.
+     * @throws CouponSystemExceptions coupon dont pass conditions.
+     */
     public void addCoupon(Coupon coupon) throws CouponSystemExceptions {
         loginCheck();
 
@@ -56,6 +72,11 @@ public class CompanyFacade extends ClientFacade {
 
     }
 
+    /**
+     * gets a coupon with updated values to update in the DataBase, checks if it passes the conditions and updates it.
+     * @param coupon coupon to update.
+     * @throws CouponSystemExceptions coupon dont pass conditions.
+     */
     public void updateCoupon(Coupon coupon) throws CouponSystemExceptions {
         loginCheck();
         List<Coupon> allCoupons = getCompanyCoupons();
@@ -71,19 +92,30 @@ public class CompanyFacade extends ClientFacade {
     }
 
     //region delete coupon
+    /**
+     * gets a coupon to delete from the DataBase, checks if it passes the conditions and deletes it.
+     * @param coupon coupon to delete.
+     * @throws CouponSystemExceptions coupon doesn't pass conditions.
+     */
     public void deleteCoupon(Coupon coupon) throws CouponSystemExceptions {
         deleteCoupon(coupon.getId());
     }
 
+    /**
+     * gets a couponID to delete from the DataBase, checks if it passes the conditions and deletes it.
+     * @param id couponID to delete.
+     * @throws CouponSystemExceptions coupon doesn't pass conditions.
+     */
     public void deleteCoupon(long id) throws CouponSystemExceptions {
         loginCheck();
 
-        //todo: check if can be changes to getonecoupon
-        if (!couponDAO.getAllCoupons().stream().anyMatch(coupon -> id == coupon.getId())) {
+        Coupon checkCoupon = couponDAO.getOneCoupon(id);
+
+        if (checkCoupon == null) {
             throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_DELETE_FAILED_COUPON_DOESNT_EXIST);
         }
 
-        if (couponDAO.getOneCoupon(id).getCompanyId() != getCompanyId()) {
+        if (checkCoupon.getCompanyId() != this.getCompanyId()) {
             throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_DELETE_FAILED_COUPON_OF_OTHER_COMPANY);
         }
 
@@ -93,18 +125,44 @@ public class CompanyFacade extends ClientFacade {
     //endregion
 
     //region get company coupons
+
+    /**
+     * gets all the coupons of the facade's company.
+     * @return arraylist containing all the company's coupons.
+     * @throws CouponSystemExceptions no login exception.
+     */
     public ArrayList<Coupon> getCompanyCoupons() throws CouponSystemExceptions {
-        return getCompanyCouponsFilter(coupon -> coupon.getCompanyId() == companyId);
+        return getCompanyCouponsFilter(coupon ->
+                coupon.getCompanyId() == companyId);
     }
 
+    /**
+     * gets all the coupons of the facade's company under a max price.
+     * @param maxPrice maxPrice for the coupons.
+     * @return arraylist containing all the company's coupons under the price.
+     * @throws CouponSystemExceptions no login exception.
+     */
     public ArrayList<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemExceptions {
-        return getCompanyCouponsFilter(coupon -> coupon.getCompanyId() == companyId && coupon.getPrice() <= maxPrice);
+        return getCompanyCouponsFilter(coupon ->
+                coupon.getCompanyId() == companyId && coupon.getPrice() <= maxPrice);
     }
-
+    /**
+     * gets all the coupons of the facade's company of specific category.
+     * @param category category for the coupons.
+     * @return arraylist containing all the company's coupons of the category.
+     * @throws CouponSystemExceptions no login exception.
+     */
     public ArrayList<Coupon> getCompanyCoupons(Category category) throws CouponSystemExceptions {
-        return getCompanyCouponsFilter(coupon -> coupon.getCompanyId() == companyId && coupon.getCategory().value == category.value);
+        return getCompanyCouponsFilter(coupon ->
+                coupon.getCompanyId() == companyId && coupon.getCategory().value == category.value);
     }
 
+    /**
+     * gets all coupons from the dbdao and filters them by a given predicate. collects relevent coupons to an arraaylist.
+     * @param predicate the predicate to filter the array by.
+     * @return the arraylist of coupons.
+     * @throws CouponSystemExceptions no login exception.
+     */
     private ArrayList<Coupon> getCompanyCouponsFilter(Predicate<Coupon> predicate) throws CouponSystemExceptions {
         loginCheck();
         return new ArrayList<Coupon>(couponDAO.getAllCoupons().stream()
@@ -113,12 +171,21 @@ public class CompanyFacade extends ClientFacade {
     }
     //endregion
 
+    /**
+     * gets the facade's company detail from teh database.
+     * @return the company's details.
+     * @throws CouponSystemExceptions no login exception.
+     */
     public Company getCompanyDetails() throws CouponSystemExceptions {
         loginCheck();
 
         return companiesDAO.getOneCompany(companyId).setCoupons(getCompanyCoupons());
     }
 
+    /**
+     * this method locks all functions for use if they have no login. checks by id.
+     * @throws CouponSystemExceptions no login exception.
+     */
     private void loginCheck() throws CouponSystemExceptions {
         if (companyId < 0) {
             throw new CouponSystemExceptions(LoginErrorMsg.CANT_ACCESS_FUNCTION_BAD_LOGIN);
