@@ -32,7 +32,12 @@ public class CustomersDBDAO implements CustomerDAO {
     private Connection connection;
     private boolean isOK;
 
-    //TODO: make is customer exists and getonecustomer one function
+    /**
+     * searches for a customer in the DataBase by email and password, returns null if not found.
+     * @param email the email of the customer to find.
+     * @param password the password of the customer to find.
+     * @return the found customer.
+     */
     @Override
     public Customer isCustomerExists(String email, String password) {
         Map<Integer, Object> params = new HashMap<>();
@@ -58,6 +63,11 @@ public class CustomersDBDAO implements CustomerDAO {
         return null;
     }
 
+    /**
+     * adds a customer to the DataBase.
+     * @param customer the customer to add.
+     * @return was the adding successful.
+     */
     @Override
     public boolean addCustomer(Customer customer) {
         Map<Integer, Object> parmas = new HashMap<>();
@@ -69,6 +79,10 @@ public class CustomersDBDAO implements CustomerDAO {
         return DBUtils.runQuery(ADD_CUSTOMER, parmas);
     }
 
+    /**
+     * delets a customer form the DataBase.
+     * @param customerID the id of the customer to add.
+     */
     @Override
     public void deleteCustomer(long customerID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();
@@ -76,6 +90,10 @@ public class CustomersDBDAO implements CustomerDAO {
         DBUtils.runQuery(DELETE_CUSTOMER, params);
     }
 
+    /**
+     * gets ana arraylist of all customers in the DataBase.
+     * @return arraylist of all customers.
+     */
     @Override
     public ArrayList<Customer> getAllCustomers() {
         ArrayList<Customer> customers = new ArrayList<>();
@@ -99,6 +117,11 @@ public class CustomersDBDAO implements CustomerDAO {
         return customers;
     }
 
+    /**
+     * searches for a customer in the DataBase by Id. returns null if not found.
+     * @param customerID the id of the customer to search.
+     * @return the customer found.
+     */
     @Override
     public Customer getOneCustomer(long customerID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();
@@ -123,7 +146,10 @@ public class CustomersDBDAO implements CustomerDAO {
         return null;
     }
 
-
+    /**
+     * updates a customer in the DataBase.
+     * @param customer the customer to update, with updated details.
+     */
     @Override
     public void updateCustomer(Customer customer) {
         Map<Integer, Object> parmas = new HashMap<>();

@@ -43,6 +43,11 @@ public class CouponsDBDAO implements CouponDAO {
 
     private final String GET_ALL_COUPON_PURCHASES = "SELECT * FROM `CouponMania`.`customers_coupons`";
 
+    /**
+     *  adds a coupon to the Database.
+     * @param coupon the coupon to add.
+     * @return was adding successful.
+     */
     @Override
     public boolean addCoupon(Coupon coupon) {
         Map<Integer, Object> params = new HashMap<>();
@@ -58,6 +63,10 @@ public class CouponsDBDAO implements CouponDAO {
         return DBUtils.runQuery(ADD_COUPON, params);
     }
 
+    /**
+     * delets
+     * @param couponID
+     */
     @Override
     public void deleteCoupon(long couponID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();
@@ -92,7 +101,11 @@ public class CouponsDBDAO implements CouponDAO {
         return coupons;
     }
 
-
+    /**
+     * gets one coupon by coupon id , returns null if coupon not found.
+     * @param couponID the couponid to search for.
+     * @return the coupon found.
+     */
     @Override
     public Coupon getOneCoupon(long couponID) {
         ResultSet resultSet;
@@ -121,6 +134,10 @@ public class CouponsDBDAO implements CouponDAO {
         return null;
     }
 
+    /**
+     * updates a coupon details in the database.
+     * @param coupon the coupon with updated details.
+     */
     @Override
     public void updateCoupon(Coupon coupon) {
         Map<Integer, Object> params = new HashMap<>();
@@ -140,6 +157,11 @@ public class CouponsDBDAO implements CouponDAO {
 
     }
 
+    /**
+     * adds a new coupon purchase with the corresponding customerid to custumer_coupons table.
+     * @param customerID the customerId of the purchase.
+     * @param couponID the bought coupon.
+     */
     @Override
     public void addCouponPurchase(long customerID, long couponID) {
         Map<Integer, Object> params = new HashMap<>();
@@ -149,6 +171,11 @@ public class CouponsDBDAO implements CouponDAO {
 
     }
 
+    /**
+     * deletes a coupon purchase by couponid and customerid from custumer_coupons table.
+     * @param customerID the customerId of the purchase.
+     * @param couponID the bought coupon.
+     */
     @Override
     public void deleteCouponPurchase(long customerID, long couponID) {
         Map<Integer, Object> params = new HashMap<>();
@@ -157,19 +184,32 @@ public class CouponsDBDAO implements CouponDAO {
         DBUtils.runQuery(DELETE_COUPON_PURCHASE, params);
     }
 
+    /**
+     * deletes a coupon purchase by couponid from custumer_coupons table.
+     * @param couponID the bought coupon.
+     */
     public void deleteCouponPurchaseByCouponID(long couponID) {
         Map<Integer, Object> params = new HashMap<>();
         params.put(1, couponID);
         DBUtils.runQuery(DELETE_COUPON_PURCHASE_BY_COUPON_ID, params);
     }
 
+    /**
+     * deletes a coupon purchase by customerid from custumer_coupons table.
+     * @param customerID the customerId of the purchase.
+     */
     @Override
-    public void deleteCouponPurchaseByCustomerID(long couponID) {
+    public void deleteCouponPurchaseByCustomerID(long customerID) {
         Map<Integer, Object> params = new HashMap<>();
-        params.put(1, couponID);
+        params.put(1, customerID);
         DBUtils.runQuery(DELETE_COUPON_PURCHASE_BY_CUSTOMER_ID, params);
     }
 
+    /**
+     * creates a hashmap representing all coupon purchases -
+     * the key is the customer id, the value is an arraylist of all the couponId's of coupons he owns.
+     * @return the map of all purchases.
+     */
     @Override
     public HashMap<Long, ArrayList<Long>> getAllCouponPurchases() {
         ResultSet results = DBUtils.runQueryForResultSet(GET_ALL_COUPON_PURCHASES);

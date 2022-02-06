@@ -78,6 +78,7 @@ public class CompanyFacade extends ClientFacade {
     public void deleteCoupon(long id) throws CouponSystemExceptions {
         loginCheck();
 
+        //todo: check if can be changes to getonecoupon
         if (!couponDAO.getAllCoupons().stream().anyMatch(coupon -> id == coupon.getId())) {
             throw new CouponSystemExceptions(CompanyErrorMsg.COUPON_DELETE_FAILED_COUPON_DOESNT_EXIST);
         }
