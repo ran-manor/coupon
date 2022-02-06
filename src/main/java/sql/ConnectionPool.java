@@ -22,7 +22,8 @@ public class ConnectionPool {
 
     /**
      * double checks if the instance isn't null, also by locking the entire class after first check.
-     * if so, creates a new ConnectionPool.
+     * if so, creates a new ConnectionPool./
+     *
      * @return this instance.
      */
     public static ConnectionPool getInstance() {
