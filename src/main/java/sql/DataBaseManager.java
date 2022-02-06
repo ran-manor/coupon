@@ -81,15 +81,24 @@ public class DataBaseManager {
             "    ON DELETE NO ACTION\n" +
             "    ON UPDATE NO ACTION)";
 
+    /**
+     * create database.
+     */
     public static void createDataBase()  {
         DBUtils.runQuery(CREATE_SCHEMA);
         createTables();//
     }
 
+    /**
+     * deletes the database.
+     */
     public static void dropDataBase()  {
        DBUtils.runQuery(DROP_SCHEMA);
     }
 
+    /**
+     * inserts into the "categories" table the categories.
+     */
     public static void initCategories() {
         Map<Integer, Object> params = new HashMap<>();
         for (Category item : Category.values()) {
@@ -99,6 +108,10 @@ public class DataBaseManager {
 
     }
 
+    /**
+     * creates the tables of the schema, by using DBUtils.runQuery().
+     * inserts categories to "categories" table by using initCategories().
+     */
     public static void createTables()  {
         DBUtils.runQuery(CREATE_TABLE_COMPANIES);
        DBUtils.runQuery(CREATE_TABLE_CUSTOMERS);

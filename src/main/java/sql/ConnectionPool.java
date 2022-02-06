@@ -11,11 +11,20 @@ public class ConnectionPool {
     private static ConnectionPool instance = null;
     private final Stack<Connection> connections = new Stack<>();
 
+    /**
+     * private c'tor to make it singleton.
+     * @throws SQLException
+     */
     private ConnectionPool() throws SQLException {
         //open all connections
         openAllConnections();
     }
 
+    /**
+     * double checks if the instance isn't null, also by locking the entire class after first check.
+     * if so, creates a new ConnectionPool.
+     * @return this instance.
+     */
     public static ConnectionPool getInstance() {
         //before locking the critical code...
         if (instance == null) {

@@ -43,10 +43,22 @@ public class DBUtils {
             }
         });
     }
-
+    /**
+     * take a query and params to insert into it,
+     * passes to the other runQueryForResultSet() the query and a null params map.
+     * @param query the query (before params insertion) that will be passed to sql database
+     * @return boolean- whether the process was successful.
+     */
     public static ResultSet runQueryForResultSet(String query) {
         return runQueryForResultSet(query, null);
     }
+    /**
+     * take a query and params to insert into it, defines the Function that will be applied on the PreparedStatement made by the query and params.
+     (executes PreparedStatement.executeQuery)
+     * @param query the query (before params insertion) that will be passed to sql database
+     * @param params the params that will be inserted to the query
+     * @return boolean- whether the process was successful.
+     */
     public static ResultSet runQueryForResultSet(String query, Map<Integer, Object> params){
         return  (ResultSet) runQueryProcess(query, params, statement -> {
             try {
@@ -58,6 +70,16 @@ public class DBUtils {
         });
     }
 
+    /**
+     * handles the connection to mysql
+     * makes PreparedStatement using the query and the params map.
+     * applies a function on the statement using that connection.
+     after thus, returns connection to the stack.
+     * @param query string sql query, un-parsed.
+     * @param params map of params to be inserted to the statement.
+     * @param function function to be applied to the final statement.
+     * @return (Object) Result from sendig the query. (ResultSet / boolean)
+     */
     private static Object runQueryProcess(String query, Map<Integer, Object> params,Function<PreparedStatement , Object> function){
         Connection connection = null;
         try {
@@ -112,6 +134,11 @@ public class DBUtils {
 //        return false;
 //    }
 
+    /**
+     * gets an un-parsed PreparedStatement and inserts into it params from map.
+     * @param statement the un-parsed PreparedStatement.
+     * @param params the params map.
+     */
     private static void prepareStatementFromParams(PreparedStatement statement, Map<Integer, Object> params) {
         params.forEach((key, value) -> {
             try {
