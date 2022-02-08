@@ -29,7 +29,9 @@ public enum Category {
 //            }
 //
 //        }
-        if (Category.values()[category_id -1] == null) {return null;}
+        if (Category.values()[category_id -1] == null) {
+            return null;
+        }
         return Category.values()[category_id - 1];
     }
 }

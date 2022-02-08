@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * class that implements CouponDAO, holding all the sql queries to the corresponding table in sql.
  */
@@ -193,7 +194,7 @@ public class CouponsDBDAO implements CouponDAO {
                 resultMap.get(results.getLong("customer_id")).add(results.getLong("coupon_id"));
             }
         } catch (SQLException err) {
-            err.printStackTrace();
+            System.out.println(err.getMessage());
         }
         return resultMap;
     }

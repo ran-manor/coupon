@@ -64,7 +64,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
             }
         } catch (SQLException err) {
             System.out.println(err.getMessage());
-            err.printStackTrace();
         }
         return companies;
     }
@@ -101,7 +100,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
             }
         } catch (SQLException err) {
             System.out.println(err.getMessage());
-            err.printStackTrace();
         }
         return null;
     }
@@ -127,7 +125,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
             }
         } catch (SQLException err) {
             System.out.println(err.getMessage());
-            err.printStackTrace();
         }
         return returnCompany;
     }

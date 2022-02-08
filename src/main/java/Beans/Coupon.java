@@ -2,9 +2,8 @@ package Beans;
 
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.Date;
-//todo: try to remove allargsconstructor (check where builder is used)
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,7 +44,7 @@ public class Coupon {
         this.image = image;
     }
     /**
-     * Override's lomboks @Data id setter from public to private.
+     * Override's lombok's @Data id setter from public to private.
      * by so, coupon's id could not be changed.
      * @param id the coupon's id.
      */
