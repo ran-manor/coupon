@@ -20,7 +20,7 @@ public class AdminFacade extends ClientFacade {
      * checks if login credentials matches admin login credentials.
      * @param email client email.
      * @param password client password.
-     * @return was the login successful.
+     * @return true if the login was successful.
      * @throws CouponSystemExceptions login error.
      */
     @Override
@@ -28,10 +28,7 @@ public class AdminFacade extends ClientFacade {
         //admin true details
         final String adminEmail = "admin@admin.com";
         final String adminPassword = "admin";
-//        return email.equals(adminEmail) && password.equals(adminPassword);
-
         if (!(email.equals(adminEmail) && password.equals(adminPassword))) {
-
             throw new CouponSystemExceptions(LoginErrorMsg.ADMIN_NO_MATCHING_INFO);
         }
         isOK = true;
@@ -81,9 +78,9 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * delet's a company from the DataBase by companyID.
+     * deletes a company from the DataBase by companyID.
      * @param companyId the id of the company to delete.
-     * @throws CouponSystemExceptions company doesnt exist.
+     * @throws CouponSystemExceptions if company doesn't exist.
      */
     public void deleteCompany(long companyId) throws CouponSystemExceptions {
         loginCheck();
@@ -241,7 +238,8 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * this method locks all functions for use if they have no login. checks by id.
+     * this method locks all functions for use if they have no login.
+     * checks by id.
      * @throws CouponSystemExceptions no login exception.
      */
     private void loginCheck() throws CouponSystemExceptions {

@@ -17,7 +17,7 @@ public abstract class ClientFacade {
      * login method of the client.
      * @param email client email.
      * @param password client password.
-     * @return (boolean) was the login successful.
+     * @return true if the login was successful, false is not.
      * @throws CouponSystemExceptions login error.
      */
     public abstract boolean login(String email, String password) throws CouponSystemExceptions;

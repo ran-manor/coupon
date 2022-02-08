@@ -82,7 +82,7 @@ public class DataBaseManager {
             "    ON UPDATE NO ACTION)";
 
     /**
-     * create database.
+     * creates the database.
      */
     public static void createDataBase()  {
         DBUtils.runQuery(CREATE_SCHEMA);

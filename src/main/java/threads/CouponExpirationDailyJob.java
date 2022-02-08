@@ -14,7 +14,7 @@ public class CouponExpirationDailyJob implements Runnable {
     private boolean quit;
 
     /**
-     * sets the thread to not quit and the coupons dbdao.
+     * c'tor that sets the thread to not quit and the coupons dbdao.
      */
     public CouponExpirationDailyJob() {
         this.couponDAO = new CouponsDBDAO();

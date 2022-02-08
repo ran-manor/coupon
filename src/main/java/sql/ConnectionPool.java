@@ -16,7 +16,7 @@ public class ConnectionPool {
      * @throws SQLException
      */
     private ConnectionPool() throws SQLException {
-        //open all connections
+
         openAllConnections();
     }
 
@@ -34,8 +34,8 @@ public class ConnectionPool {
                 if (instance == null) {
                     try {
                         instance = new ConnectionPool();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
+                    } catch (SQLException err) {
+                        System.out.println(err.getMessage());
                     }
                 }
             }
@@ -45,7 +45,7 @@ public class ConnectionPool {
 
     /**
      * gets an available connection from the stack, awaits if there is no connection available.
-     * @return (Connection) a connection from the stack.
+     * @return Connection- the last connection to enter the stack.
      * @throws InterruptedException throws this if theres an exception in the synchronized process.
      */
     public Connection getConnection() throws InterruptedException{
@@ -69,11 +69,6 @@ public class ConnectionPool {
             connections.notify();
         }
     }
-
-    /*
-        this method will open 10 connection in advanced
-        @throws SQLException
-     */
 
     /**
      * Opens connections to the Database, adds all opened connections to the availible connections stack.

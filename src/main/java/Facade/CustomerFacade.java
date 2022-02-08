@@ -136,18 +136,15 @@ public class CustomerFacade extends ClientFacade {
      */
     private ArrayList<Coupon> getCustomerCouponsFilter(Predicate<Coupon> predicate) throws CouponSystemExceptions {
         loginCheck();
-//        ArrayList<Long> ownedCouponsId = couponDAO.getAllCouponPurchases().get(customerId);
-//        return new ArrayList<>(ownedCouponsId.stream()
-//                .map(id -> couponDAO.getOneCoupon(id))
-//                .filter(predicate == null ? coupon -> true : predicate)
-//                .collect(Collectors.toList()));
         Function<Stream<Coupon> , List<Coupon>> filterFunc = couponStream ->
                 predicate == null ? couponStream.collect(Collectors.toList()) :
                 couponStream.filter(predicate).collect(Collectors.toList());
 
         return new ArrayList<>(filterFunc.apply(
-                couponDAO.getAllCouponPurchases().get(this.customerId)
-                        .stream().map(id -> couponDAO.getOneCoupon(id))
+                couponDAO.getAllCouponPurchases()
+                        .get(this.customerId)
+                        .stream()
+                        .map(id -> couponDAO.getOneCoupon(id))
         ));
     }
 

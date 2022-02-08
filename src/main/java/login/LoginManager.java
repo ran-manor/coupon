@@ -11,7 +11,7 @@ public class LoginManager {
     private static LoginManager instance = null;
 
     /**
-     * private constructor apllies the singleton design pattern.
+     * private constructor that applies the singleton design pattern.
      */
     private LoginManager() {
     }
