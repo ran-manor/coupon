@@ -24,10 +24,11 @@ public class CustomerFacade extends ClientFacade {
     private long customerId = -1;
 
     /**
-     * searches for customer with corresponding email and password and sets the customerid in the facade to the id from the DataBase.
-     * @param email client email.
+     * searches for customer with corresponding email and password.
+     * sets the customerID in the facade to the id from the DataBase.
+     * @param email    client email.
      * @param password client password.
-     * @return was the login successful.
+     * @return true if the login was successful.
      * @throws CouponSystemExceptions login error.
      */
     @Override
@@ -41,7 +42,8 @@ public class CustomerFacade extends ClientFacade {
     }
 
     /**
-     * adds a coupon from the database to purchases table if the coupon passes conditions, and decreases coupon amount by 1.
+     * adds a coupon from the database to purchases table if the coupon passes conditions.
+     * decreases coupon amount by 1.
      * @param coupon the coupon to purchase.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -50,7 +52,8 @@ public class CustomerFacade extends ClientFacade {
     }
 
     /**
-     * adds a coupon by couponID from the database to purchases table if the coupon passes conditions, and decreases coupon amount by 1.
+     * adds a coupon by couponID from the database to purchases table if the coupon passes conditions.
+     * decreases coupon amount by 1.
      * @param couponId the id of coupon to purchase.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -94,7 +97,7 @@ public class CustomerFacade extends ClientFacade {
         loginCheck();
 
         return new ArrayList<>(couponDAO.getAllCoupons().stream()
-                .filter(coupon -> coupon.getAmount() >0).collect(Collectors.toList()));
+                .filter(coupon -> coupon.getAmount() > 0).collect(Collectors.toList()));
     }
 
     /**
@@ -129,16 +132,17 @@ public class CustomerFacade extends ClientFacade {
     }
 
     /**
-     * returns all the facade's customer coupons, filters by a given predicate (the predicate can be null.)
-      * @param predicate the filter to apply.
+     * returns all the facade's customer coupons.
+     * filters by a given predicate (the predicate can be null.)
+     * @param predicate the filter to apply.
      * @return an arraylist of coupons filtered by the predicate if not null.
      * @throws CouponSystemExceptions login error.
      */
     private ArrayList<Coupon> getCustomerCouponsFilter(Predicate<Coupon> predicate) throws CouponSystemExceptions {
         loginCheck();
-        Function<Stream<Coupon> , List<Coupon>> filterFunc = couponStream ->
+        Function<Stream<Coupon>, List<Coupon>> filterFunc = couponStream ->
                 predicate == null ? couponStream.collect(Collectors.toList()) :
-                couponStream.filter(predicate).collect(Collectors.toList());
+                        couponStream.filter(predicate).collect(Collectors.toList());
 
         return new ArrayList<>(filterFunc.apply(
                 couponDAO.getAllCouponPurchases()
@@ -150,6 +154,7 @@ public class CustomerFacade extends ClientFacade {
 
     /**
      * gets the facade's customer Details.
+     *
      * @return this facade's customer.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -172,7 +177,8 @@ public class CustomerFacade extends ClientFacade {
     }
 
     /**
-     * this method locks all functions for use if they have no login. checks by id.
+     * this method locks all functions for use if they have no login.
+     * checks by id.
      * @throws CouponSystemExceptions no login exception.
      */
     private void loginCheck() throws CouponSystemExceptions {

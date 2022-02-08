@@ -30,11 +30,12 @@ public class CompanyFacade extends ClientFacade {
     }
 
     /**
-     * searches for company with corresponding email and password and sets the companyid in the facade to the id from the DataBase.
+     * searches for company with corresponding email and password.
+     * sets the companyID in the facade to the id from the DataBase.
      * @param email client email.
      * @param password client password.
-     * @return was the login successful.
-     * @throws CouponSystemExceptions login error.
+     * @return true is the login was successful.
+     * @throws CouponSystemExceptions login error- no matching info.
      */
     @Override
     public boolean login(String email, String password) throws CouponSystemExceptions {
@@ -47,9 +48,10 @@ public class CompanyFacade extends ClientFacade {
     }
 
     /**
-     * gets a coupon to add to the DataBase, checks if it passes the conditions and adds it.
+     * gets a coupon to add to the DataBase.
+     * checks if it passes the conditions and adds it if so.
      * @param coupon coupon to add.
-     * @throws CouponSystemExceptions coupon dont pass conditions.
+     * @throws CouponSystemExceptions if coupon doesn't pass conditions.
      */
     public void addCoupon(Coupon coupon) throws CouponSystemExceptions {
         loginCheck();
@@ -73,8 +75,9 @@ public class CompanyFacade extends ClientFacade {
     }
 
     /**
-     * gets a coupon with updated values to update in the DataBase, checks if it passes the conditions and updates it.
-     * @param coupon coupon to update.
+     * gets a coupon with updated values to update in the DataBase.
+     * checks if it passes the conditions and updates it.
+     * @param coupon coupon with updated details.
      * @throws CouponSystemExceptions coupon dont pass conditions.
      */
     public void updateCoupon(Coupon coupon) throws CouponSystemExceptions {
@@ -93,7 +96,8 @@ public class CompanyFacade extends ClientFacade {
 
     //region delete coupon
     /**
-     * gets a coupon to delete from the DataBase, checks if it passes the conditions and deletes it.
+     * gets a coupon to delete from the DataBase.
+     * if it passes the conditions- deletes it.
      * @param coupon coupon to delete.
      * @throws CouponSystemExceptions coupon doesn't pass conditions.
      */
@@ -102,9 +106,10 @@ public class CompanyFacade extends ClientFacade {
     }
 
     /**
-     * gets a couponID to delete from the DataBase, checks if it passes the conditions and deletes it.
-     * @param id couponID to delete.
-     * @throws CouponSystemExceptions coupon doesn't pass conditions.
+     * gets a couponID to delete from the DataBase.
+     * if the coupon passes the conditions - deletes it.
+     * @param id couponID to delete coupon by it.
+     * @throws CouponSystemExceptions if coupon doesn't pass conditions.
      */
     public void deleteCoupon(long id) throws CouponSystemExceptions {
         loginCheck();
@@ -147,9 +152,9 @@ public class CompanyFacade extends ClientFacade {
                 coupon.getCompanyId() == companyId && coupon.getPrice() <= maxPrice);
     }
     /**
-     * gets all the coupons of the facade's company of specific category.
+     * gets all the coupons of the facade's company of a specific category.
      * @param category category for the coupons.
-     * @return arraylist containing all the company's coupons of the category.
+     * @return arraylist containing all the company's coupons under the given category.
      * @throws CouponSystemExceptions no login exception.
      */
     public ArrayList<Coupon> getCompanyCoupons(Category category) throws CouponSystemExceptions {
@@ -158,9 +163,10 @@ public class CompanyFacade extends ClientFacade {
     }
 
     /**
-     * gets all coupons from the dbdao and filters them by a given predicate. collects relevent coupons to an arraaylist.
+     * gets all coupons from the dbdao and filters them by a given predicate.
+     * collects relevant coupons to an arraaylist.
      * @param predicate the predicate to filter the array by.
-     * @return the arraylist of coupons.
+     * @return the arraylist of filtered coupons.
      * @throws CouponSystemExceptions no login exception.
      */
     private ArrayList<Coupon> getCompanyCouponsFilter(Predicate<Coupon> predicate) throws CouponSystemExceptions {
@@ -172,7 +178,7 @@ public class CompanyFacade extends ClientFacade {
     //endregion
 
     /**
-     * gets the facade's company detail from teh database.
+     * gets the facade's company detail from the database.
      * @return the company's details.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -183,7 +189,8 @@ public class CompanyFacade extends ClientFacade {
     }
 
     /**
-     * this method locks all functions for use if they have no login. checks by id.
+     * this method locks all functions for use if they have no login.
+     * checks by id.
      * @throws CouponSystemExceptions no login exception.
      */
     private void loginCheck() throws CouponSystemExceptions {

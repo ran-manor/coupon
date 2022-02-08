@@ -21,7 +21,7 @@ public class AdminFacade extends ClientFacade {
      * @param email client email.
      * @param password client password.
      * @return true if the login was successful.
-     * @throws CouponSystemExceptions login error.
+     * @throws CouponSystemExceptions login error if the login credentials doesn't match.
      */
     @Override
     public boolean login(String email, String password) throws CouponSystemExceptions {
@@ -38,7 +38,7 @@ public class AdminFacade extends ClientFacade {
     /**
      * adds a company to the database if the new company passes conditions.
      * @param company the company to add.
-     * @throws CouponSystemExceptions company doesnt pass conditions.
+     * @throws CouponSystemExceptions if the company doesn't pass the conditions.
      */
     public void addCompany(Company company) throws CouponSystemExceptions {
         loginCheck();
@@ -61,9 +61,9 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * update a company in the database by id.
+     * update a company in the database if the given company's id exists in the database.
      * @param company the company to update with updated info.
-     * @throws CouponSystemExceptions no login exception.
+     * @throws CouponSystemExceptions if the company doesn't exist.
      */
     public void updateCompany(Company company) throws CouponSystemExceptions {
         loginCheck();
@@ -103,7 +103,7 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * gets all companies from teh database.
+     * gets all companies from the database.
      * @return arraylist of all companies.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -119,10 +119,10 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * gets one company from the database by passed ID.
+     * gets one company from the database by given companyID.
      * @param companyId the id of the company to get.
-     * @return company found.
-     * @throws CouponSystemExceptions company doesn't exist.
+     * @return the company that was found.
+     * @throws CouponSystemExceptions if the company doesn't exist.
      */
     public Company getOneCompany(long companyId) throws CouponSystemExceptions {
         loginCheck();
@@ -141,7 +141,7 @@ public class AdminFacade extends ClientFacade {
     /**
      * adds a customer to the database if passes conditions.
      * @param customer the customer to add.
-     * @throws CouponSystemExceptions new customer doesn't pass conditions.
+     * @throws CouponSystemExceptions if the new customer doesn't pass conditions.
      */
     public void addCustomer(Customer customer) throws CouponSystemExceptions {
         loginCheck();
@@ -159,7 +159,7 @@ public class AdminFacade extends ClientFacade {
     /**
      * updates a customer in the database.
      * @param customer the customer to update with updated details.
-     * @throws CouponSystemExceptions customer doesn't exist.
+     * @throws CouponSystemExceptions if the customer doesn't exist.
      */
     public void updateCustomer(Customer customer) throws CouponSystemExceptions {
         loginCheck();
@@ -175,9 +175,9 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * deletes a customer from the database.
+     * deletes a customer from the database by a given customerID.
      * @param customerId the id of the customer to delete.
-     * @throws CouponSystemExceptions customer doesn't exist.
+     * @throws CouponSystemExceptions if the customer doesn't exist.
      */
     public void deleteCustomer(long customerId) throws CouponSystemExceptions {
         loginCheck();
@@ -193,7 +193,7 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * gets all customer from the database.
+     * gets all customers from the database.
      * @return arraylist of all customers.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -218,7 +218,7 @@ public class AdminFacade extends ClientFacade {
     /**
      * get's one customer by id from the database.
      * @param customerId customer id to search for.
-     * @return the customer found.
+     * @return the customer that was found.
      * @throws CouponSystemExceptions customer doesn't exist.
      */
     public Customer getOneCustomer(long customerId) throws CouponSystemExceptions {
@@ -239,7 +239,6 @@ public class AdminFacade extends ClientFacade {
 
     /**
      * this method locks all functions for use if they have no login.
-     * checks by id.
      * @throws CouponSystemExceptions no login exception.
      */
     private void loginCheck() throws CouponSystemExceptions {
