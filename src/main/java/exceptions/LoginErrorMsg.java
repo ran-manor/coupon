@@ -11,7 +11,7 @@ public enum LoginErrorMsg {
     private String msg;
 
     /**
-     * sets message to message contained in the enum.
+     * c'tor that sets message to message contained in the enum.
      * @param msg the message to set.
      */
     LoginErrorMsg(String msg) {
@@ -19,7 +19,8 @@ public enum LoginErrorMsg {
     }
 
     /**
-     * @return message contained in the error value.
+     * get the error message.
+     * @return string message contained in the error value.
      */
     public String getMsg() {
         return msg;

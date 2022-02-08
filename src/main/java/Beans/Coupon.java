@@ -21,7 +21,18 @@ public class Coupon {
     private double price;
     private String image;
 
-    /** Constructor without setting id. */
+    /**
+     * Coupon Constructor without setting an id.
+     * @param companyId coupon's companyID.
+     * @param category coupon's category.
+     * @param title coupon's title.
+     * @param description coupon's description.
+     * @param startDate coupon's start date.
+     * @param endDate coupon's expiry date.
+     * @param amount coupon's amount.
+     * @param price coupon's price.
+     * @param image coupon's image.
+     */
     public Coupon(long companyId, Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
         this.companyId = companyId;
         this.category = category;
@@ -33,11 +44,19 @@ public class Coupon {
         this.price = price;
         this.image = image;
     }
-    /** overrides lombok's setter so id couldnt be set directly.*/
+    /**
+     * Override's lomboks @Data id setter from public to private.
+     * by so, coupon's id could not be changed.
+     * @param id the coupon's id.
+     */
     private void setId(long id) {
         this.id = id;
     }
-    /** overrides lombok's setter so companyid couldnt be set directly.*/
+    /**
+     * Override's lombok's @Data companyID setter from public to private.
+     * by so, coupon's companyID could not be changed.
+     * @param companyId the coupon's companyID.
+     */
     private void setCompanyId(int companyId) {
         this.companyId = companyId;
     }

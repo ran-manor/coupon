@@ -13,9 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-/**
- * Data bean representing a company.
- */
+
 public class Company {
     private long id;
     private String name;
@@ -23,19 +21,13 @@ public class Company {
     private String password;
     private ArrayList<Coupon> coupons = new ArrayList<>();
 
-    /** Sets the company email and returns this company after the update, allows updates inline.
-     * @return returns this to use inline updates.*/
+    /** Sets the company email.
+     * allows update inline.
+     * @param email company's email to be set.
+     * @return  this company to use inline updates.*/
     public Company setEmail(String email){
         this.email = email;
         return this;
-    }
-
-    /**
-     * Override's lomboks @Data password setter from public to private.
-     * by so, password could not be changed.
-     * @param password the company's password.
-     */
-    private void setPassword(String password){
     }
 
     /**
@@ -63,6 +55,15 @@ public class Company {
     }
 
     /**
+     * Override's lomboks @Data password setter from public to private.
+     * by so, password could not be changed.
+     * @param password the company's password.
+     */
+    private void setPassword(String password){
+        this.password = password;
+    }
+
+    /**
      * Override's lomboks @Data id setter from public to private.
      * by so, id could not be changed.
      * @param id company's id.
@@ -79,7 +80,12 @@ public class Company {
     private void setName(String name) {
         this.name = name;
     }
-    /** Sets the company coupons and returns this company after the update, allows updates inline. */
+
+    /**
+     * Sets the company coupons and returns this company after the update, allows updates inline.
+     * @param coupons the arraylist of the company's coupons.
+     * @return this company after it's coupons were set.
+     */
     public Company setCoupons(ArrayList<Coupon> coupons){
         this.coupons = coupons;
         return this;

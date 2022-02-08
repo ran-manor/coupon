@@ -18,7 +18,7 @@ public interface CouponDAO {
     boolean addCoupon(Coupon coupon);
     /**
      * deletes coupon from the database by couponID.
-     * @param couponID
+     * @param couponID the coupon's id.
      */
     void deleteCoupon(long couponID);
     /**

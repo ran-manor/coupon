@@ -21,16 +21,28 @@ public class Customer {
     private String password;
     private List<Coupon> coupons = new ArrayList<>();
 
-    /** Override's lomboks @Data so password could not be changed. */
-    private void setPassword(String password) {
-    }
-    /** Overrides default constructor so id could not be set through it and also sets coupons. */
+
+    /**
+     * Overrides default constructor so id could not be set through it
+     * also, sets his coupons.
+     * @param firstName customer's first name.
+     * @param lastName customer's last name.
+     * @param email customer's email.
+     * @param password customer's password.
+     * @param coupons customer's coupons.
+     */
     public Customer(String firstName, String lastName, String email, String password, List<Coupon> coupons) {
         this(firstName, lastName, email, password);
         this.coupons = coupons;
     }
 
-    /** Constructor without setting id. */
+    /**
+     * Overrides default constructor so id could not be set through it.
+     * @param firstName customer's first name.
+     * @param lastName customer's last name.
+     * @param email customer's email.
+     * @param password customer's password.
+     */
     public Customer(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,33 +50,55 @@ public class Customer {
         this.password = password;
     }
 
-    /** Sets the customer first name and returns this customer after the update, allows updates inline. */
+    /**
+     * Sets the customer's first name.
+     * allows update inline.
+     * @param firstName customer's first name to be set.
+     * @return this customer after the update.
+     */
     public Customer setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
 
     }
 
-    /** Sets the customer last name and returns this customer after the update, allows updates inline. */
+    /**
+     * Sets the customer's last name.
+     * allows update inline.
+     * @param lastName customer's last name to be set.
+     * @return this customer after the update.
+     */
     public Customer setLastName(String lastName) {
         this.lastName = lastName;
         return this;
 
     }
 
-
     /**
-     * Sets the customer email and returns this customer after the update, allows updates inline.
-     * @param email
-     * @return
+     * Sets the customer's email.
+     * allows update inline.
+     * @param email customer's email to be set.
+     * @return this customer after the update.
      */
     public Customer setEmail(String email) {
         this.email = email;
         return this;
     }
 
+    /**
+     * Override's lomboks @Data password setter from public to private.
+     * by so, password could not be changed.
+     * @param password the customer's password.
+     */
+    private void setPassword(String password) {
+        this.password = password;
+    }
 
-    /** Override's lomboks @Data so id could not be changed. */
+    /**
+     * Override's lombok's @Data id setter from public to private.
+     * by so, id could not be changed.
+     * @param id the customer's id.
+     */
     private void setId(long id) {
         this.id = id;
     }

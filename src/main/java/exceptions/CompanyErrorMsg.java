@@ -13,7 +13,7 @@ public enum CompanyErrorMsg {
     private String msg;
 
     /**
-     * sets message to message contained in the enum.
+     * c'tor that sets message to message contained in the enum.
      * @param msg the message to set.
      */
     CompanyErrorMsg(String msg) {
@@ -21,7 +21,8 @@ public enum CompanyErrorMsg {
     }
 
     /**
-     * @return message contained in the error value.
+     * get the error message.
+     * @return string message contained in the error value.
      */
     public String getMsg() {
         return msg;

@@ -59,7 +59,11 @@ public class DateUtils {
         return localDateToSqlDate(randomEndDate());
     }
 
-
+    /**
+     * * generates a formatted string from a LocalDate.
+     * @param localDate the date to be formatted to string.
+     * @return string format of the date.
+     */
 
     public static String beautifyLocalDate(LocalDate localDate){
         return String.format("%02d/%02d/%04d",
@@ -67,7 +71,9 @@ public class DateUtils {
     }
 
     /**
-     * generates a formatted string from a LocalDate.
+     * * generates a formatted string from a LocalDate.
+     * @param localDate the date to be formatted to string.
+     * @return string format of the date and time.
      */
     public static String beautifyDateTime(LocalDateTime localDate){
         return String.format("%02d/%02d/%04d %02d:%02d:%02d",

@@ -18,12 +18,10 @@ public enum AdminErrorMsg {
 
 
 
-//hhh
-
     private String msg;
 
     /**
-     * sets message to message contained in the enum.
+     * c'tor that sets message to message contained in the enum.
      * @param msg the message to set.
      */
     AdminErrorMsg(String msg) {
@@ -31,7 +29,8 @@ public enum AdminErrorMsg {
     }
 
     /**
-     * @return message contained in the error value.
+     * get the error message.
+     * @return string message contained in the error value.
      */
     public String getMsg() {
         return msg;
