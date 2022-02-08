@@ -27,11 +27,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
             "SET name=?, email=? ,password=?" +
             "WHERE id=?";
 
-    /**
-     * adds company to the database.
-     * @param company company to add.
-     * @return was adding successful.
-     */
+
     @Override
     public boolean addCompany(Company company) {
         Map<Integer, Object> params = new HashMap<>();
@@ -42,10 +38,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         return DBUtils.runQuery(ADD_COMPANY, params);
     }
 
-    /**
-     * deletes company from the database.
-     * @param companyID company to deleteby companyID.
-     */
+
     @Override
     public void deleteCompany(long companyID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();
@@ -53,10 +46,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         DBUtils.runQuery(DELETE_COMPANY, params);
     }
 
-    /**
-     * get an arraylist of all companies from the DateBase.
-     * @return the companies arraylist.
-     */
+
     @Override
     public ArrayList<Company> getAllCompanies() {
         ArrayList<Company> companies = new ArrayList<>();
@@ -79,10 +69,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         return companies;
     }
 
-    /**
-     * update a company details in the database. find the company to update by id.
-     * @param company company with updated details.
-     */
+
     @Override
     public void updateCompany(Company company) {
         Map<Integer, Object> parmas = new HashMap<>();
@@ -93,11 +80,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         DBUtils.runQuery(UPDATE_COMPANY, parmas);
     }
 
-    /**
-     * get one company from the database by companyID. returns null if company was not found.
-     * @param companyID the id to search for.
-     * @return the company retrieved by the query, null if no company was found.
-     */
+
     @Override
     public Company getOneCompany(long companyID) {
         Map<Integer, Object> params = new HashMap<Integer, Object>();
@@ -123,12 +106,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         return null;
     }
 
-    /**
-     * tries to get a company by email and password to use with login. returns the company if a company was found, else returns null.
-     * @param email company client email.
-     * @param password company client password.
-     * @return the company found.
-     */
+
     @Override
     public Company isCompanyExists(String email, String password) {
         Map<Integer, Object> params = new HashMap<>();

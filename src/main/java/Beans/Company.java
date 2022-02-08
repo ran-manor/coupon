@@ -13,7 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-/** Data bean representing a company*/
+/**
+ * Data bean representing a company.
+ */
 public class Company {
     private long id;
     private String name;
@@ -28,27 +30,52 @@ public class Company {
         return this;
     }
 
-    /** Override's lomboks @Data so password could not be changed. */
+    /**
+     * Override's lomboks @Data password setter from public to private.
+     * by so, password could not be changed.
+     * @param password the company's password.
+     */
     private void setPassword(String password){
     }
 
-    /** uses the default constructor and updates coupons. */
+    /**
+     * constructor that uses the default constructor and setting company's coupons.
+     * @param name company's name.
+     * @param email company's email.
+     * @param password company's password.
+     * @param coupons company's coupons.
+     */
     public Company(String name, String email, String password, ArrayList<Coupon> coupons) {
         this(name , email , password);
         this.coupons = coupons;
     }
 
-    /** Default constructor.*/
+    /**
+     * Default Company constructor.
+     * @param name company's name.
+     * @param email company's email.
+     * @param password company's password.
+     */
     public Company(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
-    /** Override's lomboks @Data so id could not be changed. */
+
+    /**
+     * Override's lomboks @Data id setter from public to private.
+     * by so, id could not be changed.
+     * @param id company's id.
+     */
     private void setId(long id) {
         this.id = id;
     }
-    /** Override's lomboks @Data so name could not be changed. */
+
+    /**
+     * Override's lomboks @Data name setter from public to private.
+     * by so, name could not be changed.
+     * @param name compny's name.
+     */
     private void setName(String name) {
         this.name = name;
     }

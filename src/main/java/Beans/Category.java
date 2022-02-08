@@ -1,6 +1,8 @@
 package Beans;
 
-/** Category enum used in the coupons' category param. */
+/**
+ * Category enum used in the coupons' category param.
+ */
 public enum Category {
     Food,
     Xtreme,
@@ -8,7 +10,9 @@ public enum Category {
     Vacation,
     Tattoos;
 
-   /** This field is to get the enum value that corresponds to the sql category id. */
+    /**
+     * This field is to get the enum value that corresponds to the sql category id.
+     */
     public final int value = 1 + ordinal();
 
     /**

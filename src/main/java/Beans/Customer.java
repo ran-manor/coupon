@@ -52,7 +52,12 @@ public class Customer {
 
     }
 
-    /** Sets the customer email and returns this customer after the update, allows updates inline. */
+
+    /**
+     * Sets the customer email and returns this customer after the update, allows updates inline.
+     * @param email
+     * @return
+     */
     public Customer setEmail(String email) {
         this.email = email;
         return this;
