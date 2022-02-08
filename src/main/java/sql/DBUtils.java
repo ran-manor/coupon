@@ -1,8 +1,5 @@
 package sql;
 
-import Beans.Company;
-import Beans.Coupon;
-import Beans.Customer;
 
 import java.sql.*;
 import java.util.Map;
