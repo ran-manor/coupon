@@ -1,14 +1,12 @@
 package threads;
 
-import Beans.Coupon;
+
 import DAO.CouponDAO;
 import DBDAO.CouponsDBDAO;
 import utils.DateUtils;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 public class CouponExpirationDailyJob implements Runnable {
 

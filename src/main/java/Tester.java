@@ -5,7 +5,7 @@ import Beans.Customer;
 import DBDAO.CompaniesDBDAO;
 import DBDAO.CouponsDBDAO;
 import DBDAO.CustomersDBDAO;
-import DBDAO.TesterDBDAO;
+
 import Facade.AdminFacade;
 import Facade.CompanyFacade;
 import Facade.CustomerFacade;
@@ -18,11 +18,8 @@ import threads.CouponExpirationDailyJob;
 import utils.ArtUtils;
 import utils.DateUtils;
 import utils.TablePrinter;
-
-import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class Tester {
     //todo: check if we need to create a Program class that calls for "testAll" (this class), and then surround each method with it's own try/catch, so the app won't shut down when a exception is thrown.

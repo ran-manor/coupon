@@ -2,7 +2,7 @@ package sql;
 
 import Beans.Category;
 
-import java.sql.SQLException;
+
 import java.util.HashMap;
 import java.util.Map;
 

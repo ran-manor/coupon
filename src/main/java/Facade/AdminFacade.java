@@ -5,13 +5,12 @@ import Beans.Coupon;
 import Beans.Customer;
 import exceptions.AdminErrorMsg;
 import exceptions.CouponSystemExceptions;
-import exceptions.CustomerErrorMsg;
 import exceptions.LoginErrorMsg;
 import utils.ArtUtils;
 import utils.DateUtils;
 
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.stream.Collectors;
 
 public class AdminFacade extends ClientFacade {
