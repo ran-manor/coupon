@@ -115,7 +115,7 @@ public class AdminFacade extends ClientFacade {
                 .stream()
                         .filter(coupon -> coupon.getCompanyId() == company.getId())
                         .collect(Collectors.toList()))))
-                .collect(Collectors.toList()));
+                        .collect(Collectors.toList()));
     }
 
     /**
@@ -137,7 +137,7 @@ public class AdminFacade extends ClientFacade {
                 .collect(Collectors.toList())));
         return company;
     }
-
+//todo: format indent in all file
     /**
      * adds a customer to the database if passes conditions.
      * @param customer the customer to add.

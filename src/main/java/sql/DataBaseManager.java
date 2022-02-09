@@ -13,7 +13,7 @@ public class DataBaseManager {
 
     public static final int MAX_CONNECTION = 10;
 
-    private static final String DROP_SCHEMA = "DROP SCHEMA  `CouponMania`";
+    private static final String DROP_SCHEMA = "DROP SCHEMA IF EXISTS `CouponMania`";
     private static final String CREATE_SCHEMA = "CREATE SCHEMA IF NOT EXISTS `CouponMania`";
 
     private static final String CREATE_TABLE_COMPANIES = "CREATE TABLE IF NOT EXISTS `CouponMania`.`companies` (\n" +
