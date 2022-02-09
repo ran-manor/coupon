@@ -16,6 +16,7 @@ public class DBUtils {
 
     /**
      * a method that sends the query to the runQuery method that accepts map as null.
+     *
      * @param query the query (before params insertion) that will be passed to sql database
      * @return true if process was successful, false if not.
      */
@@ -25,13 +26,14 @@ public class DBUtils {
 
     /**
      * take a query and params to insert into it, defines the Function that will be applied on the PreparedStatement made by the query and params.
-     (executes PreparedStatement.execute)
-     * @param query the query (before params insertion) that will be passed to sql database
+     * (executes PreparedStatement.execute)
+     *
+     * @param query  the query (before params insertion) that will be passed to sql database
      * @param params the params that will be inserted to the query
      * @return true if process was successful, false if not.
      */
-    public static boolean runQuery(String query, Map<Integer, Object> params){
-        return (boolean) runQueryProcess(query , params , statement -> {
+    public static boolean runQuery(String query, Map<Integer, Object> params) {
+        return (boolean) runQueryProcess(query, params, statement -> {
             try {
                 return statement.execute();
             } catch (SQLException err) {
@@ -40,24 +42,28 @@ public class DBUtils {
             }
         });
     }
+
     /**
      * take a query and params to insert into it,
      * passes to the other runQueryForResultSet() the query and a null params map.
+     *
      * @param query the query (before params insertion) that will be passed to sql database
      * @return ResultSet- the resultSet of the query.
      */
     public static ResultSet runQueryForResultSet(String query) {
         return runQueryForResultSet(query, null);
     }
+
     /**
      * take a query and params to insert into it, defines the Function that will be applied on the PreparedStatement made by the query and params.
-     (executes PreparedStatement.executeQuery)
-     * @param query the query (before params insertion) that will be passed to sql database
+     * (executes PreparedStatement.executeQuery)
+     *
+     * @param query  the query (before params insertion) that will be passed to sql database
      * @param params the params that will be inserted to the query
-     * @return  ResultSet- the resultSet of the query.
+     * @return ResultSet- the resultSet of the query.
      */
-    public static ResultSet runQueryForResultSet(String query, Map<Integer, Object> params){
-        return  (ResultSet) runQueryProcess(query, params, statement -> {
+    public static ResultSet runQueryForResultSet(String query, Map<Integer, Object> params) {
+        return (ResultSet) runQueryProcess(query, params, statement -> {
             try {
                 return statement.executeQuery();
             } catch (SQLException err) {
@@ -71,13 +77,14 @@ public class DBUtils {
      * handles the connection to mysql
      * makes PreparedStatement using the query and the params map.
      * applies a function on the statement using that connection.
-     after thus, returns connection to the stack.
-     * @param query string sql query, un-parsed.
-     * @param params map of params to be inserted to the statement.
+     * after thus, returns connection to the stack.
+     *
+     * @param query    string sql query, un-parsed.
+     * @param params   map of params to be inserted to the statement.
      * @param function function to be applied to the final statement.
      * @return Object- Result from sending the query. (ResultSet / boolean)
      */
-    private static Object runQueryProcess(String query, Map<Integer, Object> params,Function<PreparedStatement , Object> function){
+    private static Object runQueryProcess(String query, Map<Integer, Object> params, Function<PreparedStatement, Object> function) {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
@@ -86,7 +93,7 @@ public class DBUtils {
             if (params != null) {
                 prepareStatementFromParams(statement, params);
             }
-            return function.apply(statement );
+            return function.apply(statement);
 
         } catch (InterruptedException | SQLException err) {
             System.out.println(err.getMessage());
@@ -98,8 +105,9 @@ public class DBUtils {
 
     /**
      * gets an un-parsed PreparedStatement and inserts into it params from map.
+     *
      * @param statement the un-parsed PreparedStatement.
-     * @param params the params map.
+     * @param params    the params map.
      */
     private static void prepareStatementFromParams(PreparedStatement statement, Map<Integer, Object> params) {
         params.forEach((key, value) -> {

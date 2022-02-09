@@ -17,10 +17,11 @@ public enum Category {
 
     /**
      * Getter that matches sql category id to the matching enum value.
+     *
      * @param category_id id in sql.
      * @return returns the matching Category.
-     * */
-    public static Category getCategoryById (int category_id){
+     */
+    public static Category getCategoryById(int category_id) {
 //       Category returnCategory = null;
 //        for (Category item : Category.values()){
 //            if (item.value == category_id){
@@ -29,7 +30,7 @@ public enum Category {
 //            }
 //
 //        }
-        if (Category.values()[category_id -1] == null) {
+        if (Category.values()[category_id - 1] == null) {
             return null;
         }
         return Category.values()[category_id - 1];

@@ -25,11 +25,12 @@ public class Customer {
     /**
      * Overrides default constructor so id could not be set through it
      * also, sets his coupons.
+     *
      * @param firstName customer's first name.
-     * @param lastName customer's last name.
-     * @param email customer's email.
-     * @param password customer's password.
-     * @param coupons customer's coupons.
+     * @param lastName  customer's last name.
+     * @param email     customer's email.
+     * @param password  customer's password.
+     * @param coupons   customer's coupons.
      */
     public Customer(String firstName, String lastName, String email, String password, List<Coupon> coupons) {
         this(firstName, lastName, email, password);
@@ -38,10 +39,11 @@ public class Customer {
 
     /**
      * Overrides default constructor so id could not be set through it.
+     *
      * @param firstName customer's first name.
-     * @param lastName customer's last name.
-     * @param email customer's email.
-     * @param password customer's password.
+     * @param lastName  customer's last name.
+     * @param email     customer's email.
+     * @param password  customer's password.
      */
     public Customer(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -53,6 +55,7 @@ public class Customer {
     /**
      * Sets the customer's first name.
      * allows update inline.
+     *
      * @param firstName customer's first name to be set.
      * @return this customer after the update.
      */
@@ -65,6 +68,7 @@ public class Customer {
     /**
      * Sets the customer's last name.
      * allows update inline.
+     *
      * @param lastName customer's last name to be set.
      * @return this customer after the update.
      */
@@ -77,6 +81,7 @@ public class Customer {
     /**
      * Sets the customer's email.
      * allows update inline.
+     *
      * @param email customer's email to be set.
      * @return this customer after the update.
      */
@@ -88,6 +93,7 @@ public class Customer {
     /**
      * Override's lomboks @Data password setter from public to private.
      * by so, password could not be changed.
+     *
      * @param password the customer's password.
      */
     private void setPassword(String password) {
@@ -97,6 +103,7 @@ public class Customer {
     /**
      * Override's lombok's @Data id setter from public to private.
      * by so, id could not be changed.
+     *
      * @param id the customer's id.
      */
     private void setId(long id) {
@@ -105,6 +112,7 @@ public class Customer {
 
     /**
      * overides default toString() method to be more readable.
+     *
      * @return the finalized string.
      */
     @Override
@@ -122,6 +130,7 @@ public class Customer {
 
     /**
      * makes a more organized string representing a coupon.
+     *
      * @return the finalized string.
      */
     private String couponPrinter() {

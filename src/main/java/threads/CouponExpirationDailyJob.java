@@ -26,14 +26,14 @@ public class CouponExpirationDailyJob implements Runnable {
      */
     @Override
     public void run() {
-        while (!quit){
-                System.out.println("==================== DailyJob Thread is running ====================");
-                couponDAO.getAllCoupons().stream()
-                        .filter(coupon -> coupon.getEndDate().before(DateUtils.localDateToSqlDate(LocalDate.now())))
-                        .forEach(coupon -> couponDAO.deleteCoupon(coupon.getId()));
+        while (!quit) {
+            System.out.println("==================== DailyJob Thread is running ====================");
+            couponDAO.getAllCoupons().stream()
+                    .filter(coupon -> coupon.getEndDate().before(DateUtils.localDateToSqlDate(LocalDate.now())))
+                    .forEach(coupon -> couponDAO.deleteCoupon(coupon.getId()));
 
             try {
-                Thread.sleep(1000*60*60*24);
+                Thread.sleep(1000 * 60 * 60 * 24);
             } catch (InterruptedException err) {
                 System.out.println(err.getMessage());
                 stop();

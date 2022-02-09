@@ -9,6 +9,7 @@ import utils.ArtUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,31 +22,36 @@ public class Company {
     private String password;
     private ArrayList<Coupon> coupons = new ArrayList<>();
 
-    /** Sets the company email.
+    /**
+     * Sets the company email.
      * allows update inline.
+     *
      * @param email company's email to be set.
-     * @return  this company to use inline updates.*/
-    public Company setEmail(String email){
+     * @return this company to use inline updates.
+     */
+    public Company setEmail(String email) {
         this.email = email;
         return this;
     }
 
     /**
      * constructor that uses the default constructor and setting company's coupons.
-     * @param name company's name.
-     * @param email company's email.
+     *
+     * @param name     company's name.
+     * @param email    company's email.
      * @param password company's password.
-     * @param coupons company's coupons.
+     * @param coupons  company's coupons.
      */
     public Company(String name, String email, String password, ArrayList<Coupon> coupons) {
-        this(name , email , password);
+        this(name, email, password);
         this.coupons = coupons;
     }
 
     /**
      * Default Company constructor.
-     * @param name company's name.
-     * @param email company's email.
+     *
+     * @param name     company's name.
+     * @param email    company's email.
      * @param password company's password.
      */
     public Company(String name, String email, String password) {
@@ -57,15 +63,17 @@ public class Company {
     /**
      * Override's lomboks @Data password setter from public to private.
      * by so, password could not be changed.
+     *
      * @param password the company's password.
      */
-    private void setPassword(String password){
+    private void setPassword(String password) {
         this.password = password;
     }
 
     /**
      * Override's lomboks @Data id setter from public to private.
      * by so, id could not be changed.
+     *
      * @param id company's id.
      */
     private void setId(long id) {
@@ -75,6 +83,7 @@ public class Company {
     /**
      * Override's lomboks @Data name setter from public to private.
      * by so, name could not be changed.
+     *
      * @param name compny's name.
      */
     private void setName(String name) {
@@ -83,21 +92,23 @@ public class Company {
 
     /**
      * Sets the company coupons and returns this company after the update, allows updates inline.
+     *
      * @param coupons the arraylist of the company's coupons.
      * @return this company after it's coupons were set.
      */
-    public Company setCoupons(ArrayList<Coupon> coupons){
+    public Company setCoupons(ArrayList<Coupon> coupons) {
         this.coupons = coupons;
         return this;
     }
 
     /**
      * overides default toString() method to be more readable.
+     *
      * @return the finalized string.
      */
     @Override
     public String toString() {
-        return ArtUtils.ANSI_CYAN+ "Company: " +
+        return ArtUtils.ANSI_CYAN + "Company: " +
                 "\nid: " + id +
                 "\nname:'" + name + '\'' +
                 "\nemail:" + email + '\'' +
@@ -109,13 +120,14 @@ public class Company {
 
     /**
      * readable format to read all the company's coupons.
+     *
      * @return the finalized string.
      */
-    private String couponPrinter(){
+    private String couponPrinter() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (Coupon coupon:coupons) {
-            sb.append(coupon+"\n");
+        for (Coupon coupon : coupons) {
+            sb.append(coupon + "\n");
         }
         sb.append("]");
         return sb.toString();

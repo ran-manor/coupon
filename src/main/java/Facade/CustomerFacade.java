@@ -26,6 +26,7 @@ public class CustomerFacade extends ClientFacade {
     /**
      * searches for customer with corresponding email and password.
      * sets the customerID in the facade to the id from the DataBase.
+     *
      * @param email    client email.
      * @param password client password.
      * @return true if the login was successful.
@@ -44,6 +45,7 @@ public class CustomerFacade extends ClientFacade {
     /**
      * adds a coupon from the database to purchases table if the coupon passes conditions.
      * decreases coupon amount by 1.
+     *
      * @param coupon the coupon to purchase.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -54,6 +56,7 @@ public class CustomerFacade extends ClientFacade {
     /**
      * adds a coupon by couponID from the database to purchases table if the coupon passes conditions.
      * decreases coupon amount by 1.
+     *
      * @param couponId the id of coupon to purchase.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -90,6 +93,7 @@ public class CustomerFacade extends ClientFacade {
 
     /**
      * gets all the available coupons from the database.
+     *
      * @return arraylist containing all the available coupons.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -102,6 +106,7 @@ public class CustomerFacade extends ClientFacade {
 
     /**
      * gets all coupons the facade's customer owns.
+     *
      * @return an arraylist containing all coupons the facade's customer owns.
      * @throws CouponSystemExceptions no login error.
      */
@@ -111,6 +116,7 @@ public class CustomerFacade extends ClientFacade {
 
     /**
      * gets all coupons the facade's customer owns filtered by category.
+     *
      * @param category the category to filter by.
      * @return an arraylist containing all coupons the facade's customer owns filtered by category.
      * @throws CouponSystemExceptions no login error.
@@ -122,6 +128,7 @@ public class CustomerFacade extends ClientFacade {
 
     /**
      * gets all coupons the facade's customer owns under a max price.
+     *
      * @param maxPrice maxprice to filter by.
      * @return an arraylist containing all coupons the facade's customer owns under a max price.
      * @throws CouponSystemExceptions no login error.
@@ -134,6 +141,7 @@ public class CustomerFacade extends ClientFacade {
     /**
      * returns all the facade's customer coupons.
      * filters by a given predicate (the predicate can be null.)
+     *
      * @param predicate the filter to apply.
      * @return an arraylist of coupons filtered by the predicate if not null.
      * @throws CouponSystemExceptions login error.
@@ -179,6 +187,7 @@ public class CustomerFacade extends ClientFacade {
     /**
      * this method locks all functions for use if they have no login.
      * checks by id.
+     *
      * @throws CouponSystemExceptions no login exception.
      */
     private void loginCheck() throws CouponSystemExceptions {

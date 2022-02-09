@@ -1,16 +1,19 @@
 package exceptions;
 
 
-public class CouponSystemExceptions extends Exception{
+public class CouponSystemExceptions extends Exception {
     /**
      * Constructs a CouponSystemExceptions object with a given reason.
+     *
      * @param msg reason.
      */
-    public CouponSystemExceptions(String msg){
+    public CouponSystemExceptions(String msg) {
         super(msg);
     }
+
     /**
      * Constructs a CouponSystemExceptions object with a given Company error.
+     *
      * @param errors error from enum.
      */
     public CouponSystemExceptions(CompanyErrorMsg errors) {
@@ -19,6 +22,7 @@ public class CouponSystemExceptions extends Exception{
 
     /**
      * Constructs a CouponSystemExceptions object with a given Admin error.
+     *
      * @param errors error from enum.
      */
     public CouponSystemExceptions(AdminErrorMsg errors) {
@@ -28,6 +32,7 @@ public class CouponSystemExceptions extends Exception{
 
     /**
      * Constructs a CouponSystemExceptions object with a given customer error.
+     *
      * @param errors error from enum.
      */
     public CouponSystemExceptions(CustomerErrorMsg errors) {
@@ -37,6 +42,7 @@ public class CouponSystemExceptions extends Exception{
 
     /**
      * Constructs a CouponSystemExceptions object with a given login error.
+     *
      * @param errors error from enum.
      */
     public CouponSystemExceptions(LoginErrorMsg errors) {

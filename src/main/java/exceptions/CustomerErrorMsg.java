@@ -12,7 +12,7 @@ public enum CustomerErrorMsg {
     CUSTOMER_UPDATE_COUPON_ID("cannot update coupon id"),
     CUSTOMER_UPDATE_COMPANY_ID("cannot update coupon's company id"),
     AMOUNT_EQUAL_ZERO("The coupon can not be purchased. The amount has reached 0"),
-    EXPIRED_DATE ("cannot purchase an expired coupon"),
+    EXPIRED_DATE("cannot purchase an expired coupon"),
     CUSTOMER_NOT_EXIST("The customer doesn't exist");
 
 
@@ -20,6 +20,7 @@ public enum CustomerErrorMsg {
 
     /**
      * c'tor that sets message to message contained in the enum.
+     *
      * @param msg the message to set.
      */
     CustomerErrorMsg(String msg) {
@@ -28,6 +29,7 @@ public enum CustomerErrorMsg {
 
     /**
      * get the error message.
+     *
      * @return string message contained in the error value.
      */
     public String getMsg() {

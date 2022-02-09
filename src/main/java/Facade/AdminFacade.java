@@ -18,7 +18,8 @@ public class AdminFacade extends ClientFacade {
 
     /**
      * checks if login credentials matches admin login credentials.
-     * @param email client email.
+     *
+     * @param email    client email.
      * @param password client password.
      * @return true if the login was successful.
      * @throws CouponSystemExceptions login error if the login credentials doesn't match.
@@ -37,13 +38,16 @@ public class AdminFacade extends ClientFacade {
 
     /**
      * adds a company to the database if the new company passes conditions.
+     *
      * @param company the company to add.
      * @throws CouponSystemExceptions if the company doesn't pass the conditions.
      */
     public void addCompany(Company company) throws CouponSystemExceptions {
         loginCheck();
 
-        if (company == null){throw new CouponSystemExceptions("Cant add null company.");}
+        if (company == null) {
+            throw new CouponSystemExceptions("Cant add null company.");
+        }
 
         ArrayList<Company> companies = companiesDAO.getAllCompanies();
         for (Company item : companies) {
@@ -62,6 +66,7 @@ public class AdminFacade extends ClientFacade {
 
     /**
      * update a company in the database if the given company's id exists in the database.
+     *
      * @param company the company to update with updated info.
      * @throws CouponSystemExceptions if the company doesn't exist.
      */
@@ -79,6 +84,7 @@ public class AdminFacade extends ClientFacade {
 
     /**
      * deletes a company from the DataBase by companyID.
+     *
      * @param companyId the id of the company to delete.
      * @throws CouponSystemExceptions if company doesn't exist.
      */
@@ -99,11 +105,12 @@ public class AdminFacade extends ClientFacade {
             }
         }
         companiesDAO.deleteCompany(companyId);
-        System.out.println(ArtUtils.ANSI_RED+"Company number "+companyId+" was successfully deleted"+ArtUtils.ANSI_RESET);
+        System.out.println(ArtUtils.ANSI_RED + "Company number " + companyId + " was successfully deleted" + ArtUtils.ANSI_RESET);
     }
 
     /**
      * gets all companies from the database.
+     *
      * @return arraylist of all companies.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -112,14 +119,15 @@ public class AdminFacade extends ClientFacade {
 
         return new ArrayList<>(companiesDAO.getAllCompanies().stream()
                 .map(company -> company.setCoupons(new ArrayList<>(couponDAO.getAllCoupons()
-                .stream()
+                        .stream()
                         .filter(coupon -> coupon.getCompanyId() == company.getId())
                         .collect(Collectors.toList()))))
-                        .collect(Collectors.toList()));
+                .collect(Collectors.toList()));
     }
 
     /**
      * gets one company from the database by given companyID.
+     *
      * @param companyId the id of the company to get.
      * @return the company that was found.
      * @throws CouponSystemExceptions if the company doesn't exist.
@@ -137,9 +145,10 @@ public class AdminFacade extends ClientFacade {
                 .collect(Collectors.toList())));
         return company;
     }
-//todo: format indent in all file
+
     /**
      * adds a customer to the database if passes conditions.
+     *
      * @param customer the customer to add.
      * @throws CouponSystemExceptions if the new customer doesn't pass conditions.
      */
@@ -158,6 +167,7 @@ public class AdminFacade extends ClientFacade {
 
     /**
      * updates a customer in the database.
+     *
      * @param customer the customer to update with updated details.
      * @throws CouponSystemExceptions if the customer doesn't exist.
      */
@@ -176,6 +186,7 @@ public class AdminFacade extends ClientFacade {
 
     /**
      * deletes a customer from the database by a given customerID.
+     *
      * @param customerId the id of the customer to delete.
      * @throws CouponSystemExceptions if the customer doesn't exist.
      */
@@ -189,11 +200,12 @@ public class AdminFacade extends ClientFacade {
 
         couponDAO.deleteCouponPurchaseByCustomerID(customerId);
         customerDAO.deleteCustomer(customerId);
-        System.out.println(ArtUtils.ANSI_RED+"Customer number "+customerId+" was successfully deleted"+ArtUtils.ANSI_RESET);
+        System.out.println(ArtUtils.ANSI_RED + "Customer number " + customerId + " was successfully deleted" + ArtUtils.ANSI_RESET);
     }
 
     /**
      * gets all customers from the database.
+     *
      * @return arraylist of all customers.
      * @throws CouponSystemExceptions no login exception.
      */
@@ -207,8 +219,7 @@ public class AdminFacade extends ClientFacade {
                 customer.setCoupons(couponPurchaseIDs.stream()
                         .map(id -> couponDAO.getOneCoupon(id))
                         .collect(Collectors.toList()));
-            }
-            else {
+            } else {
                 customer.setCoupons(new ArrayList<>());
             }
         }
@@ -217,6 +228,7 @@ public class AdminFacade extends ClientFacade {
 
     /**
      * get's one customer by id from the database.
+     *
      * @param customerId customer id to search for.
      * @return the customer that was found.
      * @throws CouponSystemExceptions customer doesn't exist.
@@ -239,6 +251,7 @@ public class AdminFacade extends ClientFacade {
 
     /**
      * this method locks all functions for use if they have no login.
+     *
      * @throws CouponSystemExceptions no login exception.
      */
     private void loginCheck() throws CouponSystemExceptions {

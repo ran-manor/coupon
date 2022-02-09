@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * class that implements CustomerDAO, holding all the sql queries to the corresponding table in sql.
  */

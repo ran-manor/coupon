@@ -13,6 +13,7 @@ public class ConnectionPool {
 
     /**
      * private c'tor to make it singleton.
+     *
      * @throws SQLException
      */
     private ConnectionPool() throws SQLException {
@@ -23,6 +24,7 @@ public class ConnectionPool {
     /**
      * double checks if the instance isn't null, also by locking the entire class after first check.
      * if so, creates a new ConnectionPool and sets it to this instance.
+     *
      * @return this instance.
      */
     public static ConnectionPool getInstance() {
@@ -45,12 +47,13 @@ public class ConnectionPool {
 
     /**
      * gets an available connection from the stack, awaits if there is no connection available.
+     *
      * @return Connection- the last connection to enter the stack.
      * @throws InterruptedException throws this if theres an exception in the synchronized process.
      */
-    public Connection getConnection() throws InterruptedException{
-        synchronized (connections){
-            if (connections.isEmpty()){
+    public Connection getConnection() throws InterruptedException {
+        synchronized (connections) {
+            if (connections.isEmpty()) {
                 //wait until we will get a connection back
                 connections.wait();
             }
@@ -60,10 +63,11 @@ public class ConnectionPool {
 
     /**
      * returns a connection to the available connections stack.
+     *
      * @param connection the connection to return to the stack.
      */
-    public void returnConnection(Connection connection){
-        synchronized (connections){
+    public void returnConnection(Connection connection) {
+        synchronized (connections) {
             connections.push(connection);
             //notify that we got back a connection from the user...
             connections.notify();
@@ -72,22 +76,24 @@ public class ConnectionPool {
 
     /**
      * Opens connections to the Database, adds all opened connections to the availible connections stack.
+     *
      * @throws SQLException error in the connection to the DataBase.
      */
-    private void openAllConnections() throws SQLException{
-        for (int index=0;index < NUM_OF_CONS;index+=1){
-            Connection connection = DriverManager.getConnection(DataBaseManager.URL,DataBaseManager.USER_NAME,DataBaseManager.USER_PASS);
+    private void openAllConnections() throws SQLException {
+        for (int index = 0; index < NUM_OF_CONS; index += 1) {
+            Connection connection = DriverManager.getConnection(DataBaseManager.URL, DataBaseManager.USER_NAME, DataBaseManager.USER_PASS);
             connections.push(connection);
         }
     }
 
     /**
      * removes all connections from the stack (closes connection to the DataBase)
+     *
      * @throws InterruptedException exception from the synchronized process
      */
-    public void closeAllConnection() throws InterruptedException{
-        synchronized (connections){
-            while (connections.size()<NUM_OF_CONS){
+    public void closeAllConnection() throws InterruptedException {
+        synchronized (connections) {
+            while (connections.size() < NUM_OF_CONS) {
                 connections.wait();
             }
             connections.removeAllElements();

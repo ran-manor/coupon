@@ -15,7 +15,8 @@ public abstract class ClientFacade {
 
     /**
      * login method of the client.
-     * @param email client email.
+     *
+     * @param email    client email.
      * @param password client password.
      * @return true if the login was successful, false is not.
      * @throws CouponSystemExceptions login error.

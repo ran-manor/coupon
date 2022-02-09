@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 
 public class Tester {
-    //todo: check if we need to create a Program class that calls for "testAll" (this class), and then surround each method with it's own try/catch, so the app won't shut down when a exception is thrown.
     public static void main(String[] args) {
 
         applicationStart();

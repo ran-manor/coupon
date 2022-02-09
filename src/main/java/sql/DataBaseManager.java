@@ -84,7 +84,7 @@ public class DataBaseManager {
     /**
      * creates the database.
      */
-    public static void createDataBase()  {
+    public static void createDataBase() {
         DBUtils.runQuery(CREATE_SCHEMA);
         createTables();//
     }
@@ -92,8 +92,8 @@ public class DataBaseManager {
     /**
      * deletes the database.
      */
-    public static void dropDataBase()  {
-       DBUtils.runQuery(DROP_SCHEMA);
+    public static void dropDataBase() {
+        DBUtils.runQuery(DROP_SCHEMA);
     }
 
     /**
@@ -112,13 +112,13 @@ public class DataBaseManager {
      * creates the tables of the schema, by using DBUtils.runQuery().
      * inserts categories to "categories" table by using initCategories().
      */
-    public static void createTables()  {
+    public static void createTables() {
         DBUtils.runQuery(CREATE_TABLE_COMPANIES);
-       DBUtils.runQuery(CREATE_TABLE_CUSTOMERS);
+        DBUtils.runQuery(CREATE_TABLE_CUSTOMERS);
         DBUtils.runQuery(CREATE_TABLE_CATEGORIES);
-       initCategories();
-       DBUtils.runQuery(CREATE_TABLE_COUPONS);
-       DBUtils.runQuery(CREATE_TABLE_CUSTOMERS_COUPONS);
+        initCategories();
+        DBUtils.runQuery(CREATE_TABLE_COUPONS);
+        DBUtils.runQuery(CREATE_TABLE_CUSTOMERS_COUPONS);
     }
 
 //    public static void dropTable() throws SQLException{
