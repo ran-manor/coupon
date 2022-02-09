@@ -18,31 +18,58 @@ import threads.CouponExpirationDailyJob;
 import utils.ArtUtils;
 import utils.DateUtils;
 import utils.TablePrinter;
+
 import java.util.ArrayList;
 
 
 public class Tester {
     //todo: check if we need to create a Program class that calls for "testAll" (this class), and then surround each method with it's own try/catch, so the app won't shut down when a exception is thrown.
     public static void main(String[] args) {
-        try {
-            applicationStart();
-            CouponExpirationDailyJob job = new CouponExpirationDailyJob();
-            Thread dailyJob = new Thread(job);
-            dailyJob.start();
 
-            AdminFacade adminFacade = LoginManager.getInstance().login("admin@admin.com", "admin", ClientType.ADMINISTRATOR);
-            CustomerFacade customerFacade = LoginManager.getInstance().login("alon@mintz.com", "34567", ClientType.CUSTOMER);
-            CompanyFacade companyFacade = LoginManager.getInstance().login("all@in.com", "4567", ClientType.COMPANY);
-            //region admin facade in action
+        applicationStart();
+        CouponExpirationDailyJob job = new CouponExpirationDailyJob();
+        Thread dailyJob = new Thread(job);
+        dailyJob.start();
+
+        AdminFacade adminFacade = null;
+        try {
+            adminFacade = LoginManager.getInstance().login("admin@admin.com", "admin", ClientType.ADMINISTRATOR);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+
+        CustomerFacade customerFacade = null;
+        try {
+            customerFacade = LoginManager.getInstance().login("alon@mintz.com", "34567", ClientType.CUSTOMER);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        CompanyFacade companyFacade = null;
+        try {
+            companyFacade = LoginManager.getInstance().login("all@in.com", "4567", ClientType.COMPANY);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //region admin facade in action
+        //add company method
+        try {
             adminFacade.addCompany(Company.builder()
                     .password("1111")
                     .name("Tester Company")
                     .coupons(new ArrayList<Coupon>())
                     .email("Tester@test.com")
                     .build());
-            System.out.println("Add company method:");
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        System.out.println("Add company method:");
+        try {
             System.out.println(adminFacade.getOneCompany(6));
-
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //update company method, get one company method
+        try {
             Company companyToUpdate = adminFacade.getOneCompany(1);
             System.out.println("Company to update is:");
             System.out.println(companyToUpdate);
@@ -50,13 +77,28 @@ public class Tester {
             adminFacade.updateCompany(companyToUpdate);
             System.out.println("Update company method (email update):");
             System.out.println(adminFacade.getOneCompany(1));
-            System.out.println("Get all companies method:");
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //get all companies method
+        System.out.println("Get all companies method:");
+        try {
             System.out.println(adminFacade.getAllCompanies());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //delete company method
+        try {
             System.out.println("Company to delete:\n" +
                     adminFacade.getOneCompany(6));
             adminFacade.deleteCompany(6);
-            System.out.println();
-            System.out.println("Add customer method:");
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        System.out.println();
+        System.out.println("Add customer method:");
+        //add customer method
+        try {
             adminFacade.addCustomer(Customer.builder()
                     .email("nadav@honig.com")
                     .firstName("nadav")
@@ -64,32 +106,76 @@ public class Tester {
                     .password("22222")
                     .coupons(new ArrayList<Coupon>())
                     .build());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //get one customer method
+        try {
             System.out.println(adminFacade.getOneCustomer(6));
-            System.out.println("All customers:");
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        System.out.println("All customers:");
+        //get all customers method
+        try {
             TablePrinter.print(adminFacade.getAllCustomers());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //update customer method
+        try {
             Customer customerToUpdate = adminFacade.getOneCustomer(1);
             System.out.println("Customer to update: " + customerToUpdate.getFirstName() + " " + customerToUpdate.getLastName());
             customerToUpdate.setLastName("new last name");
             adminFacade.updateCustomer(customerToUpdate);
             System.out.println("All customers after nir's last name was updated:");
             TablePrinter.print(adminFacade.getAllCustomers());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //delete customer method
+        try {
             System.out.println("Customer to delete: " +
                     adminFacade.getOneCustomer(6).getFirstName());
             adminFacade.deleteCustomer(6);
             System.out.println("All customers after nadav was deleted");
             TablePrinter.print(adminFacade.getAllCustomers());
-            //endregion
-            //region company facade in action
-
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //endregion
+        //region company facade in action
+        //get company details method
+        try {
             Company showCompany = companyFacade.getCompanyDetails();
-            System.out.println(showCompany.getName()+ " company details:");
+            System.out.println(showCompany.getName() + " company details:");
             System.out.println(showCompany);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //get all company's coupons method
+        try {
             System.out.println("All of the company coupons:");
             TablePrinter.print(companyFacade.getCompanyCoupons());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //get all company's coupons under max price method
+        try {
             System.out.println("Company coupons max price 50:");
             TablePrinter.print(companyFacade.getCompanyCoupons(50));
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //get all company's coupons by category method
+        try {
             System.out.println("Company Tattoo coupons:");
             TablePrinter.print(companyFacade.getCompanyCoupons(Category.Tattoos));
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //add coupon method
+        try {
             companyFacade.addCoupon(Coupon.builder()
                     .companyId(4)
                     .description("We love jokers!")
@@ -101,42 +187,111 @@ public class Tester {
                     .image("url")
                     .title("Joker tattoo")
                     .build());
-            System.out.println("All of the company coupons after adding another tattoo coupon:");
-            TablePrinter.print(companyFacade.getCompanyCoupons());
-            Coupon couponToUpdate = companyFacade.getCompanyCoupons().get(4);
-            couponToUpdate.setTitle("New and better LIMOUSINE");
-            companyFacade.updateCoupon(couponToUpdate);
-            System.out.println("All of the company coupons after updating limousine coupon:");
-            TablePrinter.print(companyFacade.getCompanyCoupons());
-            companyFacade.deleteCoupon(26);
-            System.out.println("All of the company coupons after deleting Joker tattoo coupon:");
-            TablePrinter.print(companyFacade.getCompanyCoupons());
-            //endregion
-            //region customer facade in action
-            System.out.println("Logged in customer details:");
-            TablePrinter.print(customerFacade.getCustomerDetails());
-            customerFacade.purchaseCoupon(customerFacade.getAllAvailableCoupons().get(7));
-            customerFacade.purchaseCoupon(3);
-            customerFacade.purchaseCoupon(13);
-            customerFacade.purchaseCoupon(17);
-            customerFacade.purchaseCoupon(20);
-            System.out.println("Logged in customer coupons after purchasing:");
-            TablePrinter.print(customerFacade.getCustomersCoupons());
-            System.out.println("Logged in customer coupons max price 60:");
-            TablePrinter.print(customerFacade.getCustomersCoupons(60));
-            System.out.println("Logged in customer tattoo coupons:");
-            TablePrinter.print(customerFacade.getCustomersCoupons(Category.Tattoos));
-
-            adminFacade.deleteCompany(4);
-            System.out.println("Logged in coupons after erasing company id 4:");
-            TablePrinter.print(customerFacade.getCustomersCoupons());
-            //endregion
-
-            applicationEnd();
-            dailyJob.interrupt();
         } catch (CouponSystemExceptions err) {
             System.out.println(err.getMessage());
         }
+        System.out.println("All of the company coupons after adding another tattoo coupon:");
+        try {
+            TablePrinter.print(companyFacade.getCompanyCoupons());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //update coupon method
+        try {
+            Coupon couponToUpdate = companyFacade.getCompanyCoupons().get(4);
+            couponToUpdate.setTitle("New and better LIMOUSINE");
+            companyFacade.updateCoupon(couponToUpdate);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        try {
+            System.out.println("All of the company coupons after updating limousine coupon:");
+            TablePrinter.print(companyFacade.getCompanyCoupons());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //delete coupon method
+        try {
+            companyFacade.deleteCoupon(26);
+            System.out.println("All of the company coupons after deleting Joker tattoo coupon:");
+            TablePrinter.print(companyFacade.getCompanyCoupons());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //endregion
+        //region customer facade in action
+        System.out.println("Logged in customer details:");
+        //get customer details method
+        try {
+            TablePrinter.print(customerFacade.getCustomerDetails());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //purchase coupon by inserting coupon method
+        try {
+            customerFacade.purchaseCoupon(customerFacade.getAllAvailableCoupons().get(7));
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //purchase coupon by inserting couponID method
+        try {
+            customerFacade.purchaseCoupon(3);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        try {
+            customerFacade.purchaseCoupon(13);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        try {
+            customerFacade.purchaseCoupon(17);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        try {
+            customerFacade.purchaseCoupon(20);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //get all customer's coupons method
+        System.out.println("Logged in customer coupons after purchasing:");
+        try {
+            TablePrinter.print(customerFacade.getCustomersCoupons());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //get all customer's coupons under max price method
+        System.out.println("Logged in customer coupons max price 60:");
+        try {
+            TablePrinter.print(customerFacade.getCustomersCoupons(60));
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //get all customer's coupons by category method
+        System.out.println("Logged in customer tattoo coupons:");
+        try {
+            TablePrinter.print(customerFacade.getCustomersCoupons(Category.Tattoos));
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //showing that after a company was deleted, it's coupons are removed from the customer's purchased coupons
+        try {
+            adminFacade.deleteCompany(4);
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        System.out.println("Logged in customer's coupons after erasing company id 4:");
+        try {
+            TablePrinter.print(customerFacade.getCustomersCoupons());
+        } catch (CouponSystemExceptions err) {
+            System.out.println(err.getMessage());
+        }
+        //endregion
+
+        applicationEnd();
+        dailyJob.interrupt();
+
 
     }
 
