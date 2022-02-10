@@ -3,6 +3,7 @@ package threads;
 
 import DAO.CouponDAO;
 import DBDAO.CouponsDBDAO;
+import sql.DBUtils;
 import utils.DateUtils;
 
 import java.time.LocalDate;
@@ -12,6 +13,8 @@ public class CouponExpirationDailyJob implements Runnable {
 
     private final CouponDAO couponDAO;
     private boolean quit;
+    private final String DELETE_QUERY=
+            "DELETE FROM couponmania.coupons WHERE end_date < CURDATE()";
 
     /**
      * c'tor that sets the thread to not quit and the coupons dbdao.
@@ -28,9 +31,11 @@ public class CouponExpirationDailyJob implements Runnable {
     public void run() {
         while (!quit) {
             System.out.println("==================== DailyJob Thread is running ====================");
-            couponDAO.getAllCoupons().stream()
-                    .filter(coupon -> coupon.getEndDate().before(DateUtils.localDateToSqlDate(LocalDate.now())))
-                    .forEach(coupon -> couponDAO.deleteCoupon(coupon.getId()));
+//            couponDAO.getAllCoupons().stream()
+//                    .filter(coupon -> coupon.getEndDate().before(DateUtils.localDateToSqlDate(LocalDate.now())))
+//                    .forEach(coupon -> couponDAO.deleteCoupon(coupon.getId()));
+
+            DBUtils.runQuery(DELETE_QUERY);
 
             try {
                 Thread.sleep(1000 * 60 * 60 * 24);

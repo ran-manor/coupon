@@ -29,7 +29,7 @@ public class CustomersDBDAO implements CustomerDAO {
     private final String DELETE_CUSTOMER = "DELETE FROM " + TABLE_PATH + " WHERE id=?";
     private final String GET_ALL_CUSTOMERS = "SELECT * FROM " + TABLE_PATH;
 
-    private final String GET_ONE_CUSTOMER_BY_ID = "SELECT * FROM " + TABLE_PATH + " WHERE id LIKE ?";
+    private final String GET_ONE_CUSTOMER_BY_ID = "SELECT * FROM " + TABLE_PATH + " WHERE id= ?";
     private final String IS_CUSTOMER_EXISITS = "SELECT * FROM " + TABLE_PATH + " WHERE email=? AND password=?";
 
     private Connection connection;

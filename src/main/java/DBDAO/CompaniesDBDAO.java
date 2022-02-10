@@ -23,7 +23,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     private final String GET_COMPANIES_ALL = "SELECT * FROM " + TABLE_PATH;
     private final String GET_COMPANIES_SPECIFY_EMAIL_PASSWORD = " WHERE email=? AND password=?";
-    private final String GET_COMPANIES_SPECIFY_ID = " WHERE id=?";
+    private final String FILTER_COMPANIES_SPECIFY_ID = " WHERE id=?";
     private final String UPDATE_COMPANY = "UPDATE `couponmania`.`companies` " +
             "SET name=?, email=? ,password=?" +
             "WHERE id=?";
@@ -89,7 +89,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         ResultSet result = null;
 
         try {
-            result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + GET_COMPANIES_SPECIFY_ID, params);
+            result = DBUtils.runQueryForResultSet(GET_COMPANIES_ALL + FILTER_COMPANIES_SPECIFY_ID, params);
             if (result.next()) {
                 return Company.builder()
                         .id(result.getLong("id"))
